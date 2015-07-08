@@ -3,8 +3,6 @@
 
 exports.Formats = [
 
-	// XY Singles
-	///////////////////////////////////////////////////////////////////
 	 {
 		name: "League Battle",
 		section: "Sora Exclusive",
@@ -96,6 +94,9 @@ exports.Formats = [
 			'Yveltal'
 		]
 	},
+	
+	// XY Singles
+	///////////////////////////////////////////////////////////////////
 	
 	{
 		name: "Random Battle",
