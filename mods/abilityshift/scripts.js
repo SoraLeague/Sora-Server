@@ -16,7 +16,7 @@ exports.BattleScripts = {
                 var abilityIndex = abilityList.indexOf(toId(template.abilities[a]));
                 newAbilities[a] = this.data.Abilities[abilityList[abilityIndex + 1] || abilityList[0]].name;
                 //Meh, too lazy to come up with another way other than the one below.
-                if (toId(newAbilities[a]) == 'shadowtag' || toId(newAbilities[a]) == 'flowergift' || toId(newAbilities[a]) == 'forecast' || toId(newAbilities[a]) == 'stancechange' || toId(newAbilities[a]) == 'zenmode' || toId(newAbilities[a]) == 'moody') {
+                if (toId(newAbilities[a]) === 'shadowtag' || toId(newAbilities[a]) === 'flowergift' || toId(newAbilities[a]) === 'forecast' || toId(newAbilities[a]) === 'stancechange' || toId(newAbilities[a]) === 'zenmode' || toId(newAbilities[a]) === 'moody') {
                     newAbilities[a] = this.data.Abilities[abilityList[abilityIndex + 2] || abilityList[0]].name;
                 }
             }
