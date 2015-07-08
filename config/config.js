@@ -305,6 +305,14 @@ exports.grouplist = [
 		joinbattle: true
 	},
 	{
+		symbol: '$',
+		id: "operator",
+		name: "Operator",
+		inherit: '+',
+		broadcast: true,
+		warn: true
+	},
+	{
 		symbol: '+',
 		id: "voice",
 		name: "Voice",
