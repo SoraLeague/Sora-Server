@@ -5,6 +5,7 @@ var Core = exports.Core = {
 	write: function (fileName, item, value, options, subItem) {
 		//File SHOULD be a .JSON file. This is by far the best kind of file to store data in.
 		fileName = 'storage-files/' + fileName + '.json';
+		if (!existsSync(fileName)) fs.writeFileSync(fileName, '{}');
 		var file = JSON.parse(fs.readFileSync(fileName));
 		if (subItem) {
 			if (!file[item]) file[item] = {};
@@ -25,9 +26,9 @@ var Core = exports.Core = {
 		if (!fs.existsSync(fileName)) return;
 		var file = JSON.parse(fs.readFileSync(fileName));
 		if (subItem) {
-			if (file[item])
-		return file[item];
+			if (file[item]) return file[item][subItem];
 		}
+		return file[item];
 	},
 	getLastSeen: function (user) {
 		user = toId(user);
