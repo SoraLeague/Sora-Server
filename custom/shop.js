@@ -48,10 +48,33 @@ exports.commands = {
         if (!target) return this.sendReply('You need to mention the number of points you want to give ' + targetUser.name);
         if (isNaN(target)) return this.sendReply(target + " isn't a number, you egg.");
         if (target < 1) return this.sendReply('You cannot give ' + targetUser.name + ' anything less than 1 point!');
-        Core.write('money', targetUser.userid, Number(target));
-        var total = (Number(target) == 1) ? 'point' : 'points';
-        var points = (money.checkAmt(targetUser.userid, 'money') == 1) ? 'point' : 'points';
-        targetUser.send('|popup|' + user.name + ' has given you ' + target + ' ' + points + '. You now have ' + money.checkAmt(targetUser.userid, 'money') + ' ' + total + '.');
-        Rooms.rooms.staff.add(user.name + ' has given ' + targetUser.name + ' ' + target + ' ' + points + '. This user now has ' + money.checkAmt(targetUser.userid, 'money') + ' ' + total + '.');
-        return this.sendReply(targetUser.name + ' was given ' + target + ' ' + points + '. This user now has ' + money.checkAmt(targetUser.userid, 'money') + ' ' + total + '.');
+        Core.write('money', targetUser.userid, Number(target), '+');
+        var amt = (Number(target) == 1) ? 'point' : 'points';
+        var points = (Core.read('money', targetUser.userid) == 1) ? 'point' : 'points';
+        targetUser.send('|popup|' + user.name + ' has given you ' + target + ' ' + points + '. You now have ' + Core.read('money', targetUser.userid) + ' ' + amt + '.');
+        Rooms.rooms.staff.add(user.name + ' has given ' + targetUser.name + ' ' + target + ' ' + points + '. This user now has ' + Core.read('money', targetUser.userid) + ' ' + amt + '.');
+        return this.sendReply(targetUser.name + ' was given ' + Number(target) + ' ' + points + '. This user now has ' + Core.read('money', targetUser.userid) + ' ' + amt + '.');
     },
+    
+    removebucks: 'remove',
+    rb: 'remove',
+    tb: 'remove',
+    takebucks: 'remove',
+    take: 'remove',
+    remove: function(target, room, user, connection, cmd) {
+        if (!this.can('hotpatch')) return false;
+        if (!target) return this.sendReply('The proper syntax is /'+cmd+' [user], [amount]');
+        target = this.splitTarget(target);
+        var targetUser = this.targetUser;
+		if (!targetUser) return this.sendReply('User ' + this.targetUsername + ' not found.');
+		if (!target) return this.sendReply('You need to mention the number of points you want to remove from ' + targetUser.name);
+		if (isNaN(target)) return this.sendReply(target + " isn't a number, you egg.");
+		if (Core.read('money', targetUser.userid) < target) return this.sendReply('You can\'t take away more points than what ' + targetUser.name + ' already has!');
+        Core.write('money', targetUser.userid, Number(target), '-');
+        var amt = (money.checkAmt(targetUser.userid, 'money') == 1) ? 'point' : 'points';
+		var points = (target == 1) ? 'point' : 'points';
+        targetUser.send('|popup|'+user.name+' has taken ' + target + ' away ' + points+' from you. You now have ' + Core.read('money', targetUser.userid) + ' '+total+'.');
+        Rooms.rooms.staff.add(user.name + ' has taken away ' + target + ' ' + points + ' from '+targetUser.name+'. This user now has ' + Core.read('money', targetUser.userid) + ' '+total+'.');
+        return this.sendReply('You have taken away '+ target + ' ' + points + ' from ' + targetUser.name + '. This user now has ' + Core.read('money', targetUser.userid) + ' ' + total + '.');
+    }
+};
