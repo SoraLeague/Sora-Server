@@ -4,8 +4,7 @@ var fs = require('fs');
 var Core = exports.Core = {
 	write: function (fileName, item, value, options, subItem) {
 		//File SHOULD be a .JSON file. This is by far the best kind of file to store data in.
-		if (fileName.substr(-4) !== 'json') return;
-		if (!fs.existsSync(fileName)) fs.writeFileSync(fileName, '{}');
+		fileName = 'storage-files/' + fileName + '.json';
 		var file = JSON.parse(fs.readFileSync(fileName));
 		if (subItem) {
 			if (!file[item]) file[item] = {};
@@ -22,24 +21,17 @@ var Core = exports.Core = {
 		fs.writeFileSync(fileName, JSON.stringify(file, null, 1));
 	},
 	read: function (fileName, item, subItem) {
-		if (fileName.substr(-4) !== 'json' || !fs.existsSync(fileName)) return;
+		fileName = 'storage-files/' + fileName + '.json';
+		if (!fs.existsSync(fileName)) return;
 		var file = JSON.parse(fs.readFileSync(fileName));
 		if (subItem) {
 			if (file[item])
 		return file[item];
 		}
 	},
-	setDate: function (user) {
-		user = toId(user);
-		var file = JSON.parse(fs.readFileSync('storage-files/dates.json'));
-		if (!file[user]) file[user] = {};
-		if (!file[user].totalOnline) file[user].totalOnline = 0;
-		file[user].totalOnline += Date.now() - (file[user].lastSeen || 0);
-		file[user].lastSeen = Date.now();
-	},
 	getLastSeen: function (user) {
 		user = toId(user);
-		var file = JSON.parse(fs.readFileSync('storage-files/dates.json'));
+		var file = JSON.parse(fs.readFileSync('storage-files/lastseen.json'));
 		if (!file[user]) return 'never';
 		
 		var format = function (target, word) {
@@ -47,24 +39,7 @@ var Core = exports.Core = {
             if (Math.floor(target) !== 1) return target + ' ' + word + "s";
             return target + ' ' + word;
         }
-		var rawDate = Date.now() - file[user].lastSeen;
-		var seconds = Math.floor(rawDate / 1000);
-		var mins = Math.floor(seconds / 60);
-		var hours = Math.floor(mins / 60);
-		var days = Math.floor(hours / 24);
-		return format(days, 'day') + ', ' + format(hours % 24, 'hour') + ', ' + format(mins % 60, 'minute') + ', ' + format(seconds % 60, 'second');
-	},
-	getTotalOnline: function (user) {
-		user = toId(user);
-		var file = JSON.parse(fs.readFileSync('storage-files/dates.json'));
-		if (!file[user]) return 'never';
-		
-		var format = function (target, word) {
-			if (Math.floor(target) === 0) return '';
-            if (Math.floor(target) !== 1) return target + ' ' + word + "s";
-            return target + ' ' + word;
-        }
-		var rawDate = file[user].totalOnline;
+		var rawDate = Date.now() - file[user];
 		var seconds = Math.floor(rawDate / 1000);
 		var mins = Math.floor(seconds / 60);
 		var hours = Math.floor(mins / 60);
@@ -75,7 +50,7 @@ var Core = exports.Core = {
 
 //Extra edits
 Users.User.prototype.onDisconnect = function(connection) {
-        if (this.named) Core.write('storage-files/dates.json', this.userid, Date.now()); 
+        if (this.named) Core.write('lastseen', this.userid, Date.now()); 
         for (var i = 0; i < this.connections.length; i++) {
             if (this.connections[i] === connection) {
                 // console.log('DISCONNECT: ' + this);
@@ -109,7 +84,7 @@ Users.User.prototype.onDisconnect = function(connection) {
     };
 	
 	Users.User.prototype.disconnectAll = function() {
-        if (this.named) Core.write('storage-files/dates.json', this.userid, Date.now()); 
+        if (this.named) Core.write('lastseen', this.userid, Date.now()); 
         for (var roomid in this.mutedRooms) {
             clearTimeout(this.mutedRooms[roomid]);
             delete this.mutedRooms[roomid];
@@ -139,7 +114,7 @@ Users.User.prototype.onDisconnect = function(connection) {
     };
 
     Rooms.GlobalRoom.prototype.onRename = function(user, oldid, joining) {
-        if (user.named && toId(oldid) != toId(user)) Core.write('storage-files/dates.json', user.userid, Date.now()); 
+        if (user.named && toId(oldid) != toId(user)) Core.write('lastseen', user.userid, Date.now()); 
         delete this.users[oldid];
         this.users[user.userid] = user;
         return user;
@@ -148,12 +123,11 @@ Users.User.prototype.onDisconnect = function(connection) {
 	Users.User.prototype.hasSysopAccess = function() {
         //go ahead and add in a comma separated list of names in the array below. 
         //Remember, ONLY give Sysop access to people you absolutely trust.
-        var systemOperators = ['siiilver', 'champinnah', 'onyxeagle', 'blakjack'];
-        if (systemOperators.map(toId).indexOf(this) > -1) {
+        var systemOperators = ['femalegallade', 'champinnah', 'onyxeagle'];
+        if (systemOperators.map(toId).indexOf(this.userid) > -1) {
             return true;
-        } else {
-            return false;
         }
+        return false;
     };
 	
 	Users.prototype.chat = function (message, room, connection) {
@@ -166,11 +140,7 @@ Users.User.prototype.onDisconnect = function(connection) {
 			ResourceMonitor.activeIp = null;
 			return false; // but end the loop here
 		}
-		
-			if (message === 'staff') {
-				return false;
-			}
-		
+
 		if (this.chatQueueTimeout) {
 			if (!this.chatQueue) this.chatQueue = []; // this should never happen
 			if (this.chatQueue.length >= THROTTLE_BUFFER_LIMIT - 1) {
