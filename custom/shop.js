@@ -201,4 +201,5 @@ exports.commands = {
         user.hassymbol = true;
         user.needssymbol = false;
     }
+    
 };
