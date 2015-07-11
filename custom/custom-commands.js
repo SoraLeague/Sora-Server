@@ -30,6 +30,23 @@ exports.commands = {
 		}
 		user.updateIdentity();
 	},
+	
+	seen: 'lastseen',
+	lastseen: function (target, room, user, connection, cmd) {
+		if (!this.canBroadcast()) return;
+		target = Users.getExact(target) ? Users.getExact(target).name : target;
+		if (!toId(target) || toId(target) === user.userid) target = user.name;
+		
+		var format = function (date, word) {
+			if (Math.floor(date) === 0) return '';
+            		if (Math.floor(date) !== 1) return date + ' ' + word + "s";
+            		return date + ' ' + word;
+        	}
+        	var seen = Core.getLastSeen(toId(target));
+        	if (seen === 'never') return this.sendReplyBox(target + ' has <font color = "red">never</font> been seen online.');
+		if (Users.getExact(target) && Users.getExact(target).connected) return this.sendReplyBox(target + ' is currently <font color = "green">online</font>. This user has stayed online for ' + seen + '.');
+		return this.sendReplyBox(target + ' was last seen ' + seen + ' ago.');
+	},
 
 	registered: 'regdate',
 	regdate: function (target, room, user, connection, cmd) {
@@ -68,9 +85,9 @@ exports.commands = {
 			user.forceRename('∆' + user.name + '∆', undefined, true);
 		}
 		return this.sendReply('Your league symbols have been added.');
-	}
+	},
 
-		sprite: function (target, room, user, connection, cmd) {
+	sprite: function (target, room, user, connection, cmd) {
 		if (!this.canBroadcast()) return;
 		if (!toId(target)) return this.sendReply('/sprite [Pokémon] - Allows you to view the sprite of a Pokémon');
 		target = target.toLowerCase().split(',');
