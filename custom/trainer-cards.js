@@ -161,7 +161,7 @@ exports.commands = {
         },*/
 
 	/////////////
-	//Frontier
+	//Frontiers
 	/////////////
 
 	asch: function (target, room, user) {
@@ -686,35 +686,6 @@ exports.commands = {
 	////////////
 	//Informative Cards
 	//////////////
-	
-	getbucks: function(target, room, user) {
-		if (!this.canBroadcast()) return;
-		this.sendReplyBox('Please check out the Shop page in the link below to see methods of earning money:<br />' +
-			'- <a href="http://soraleague.weebly.com/shop.html">Shop</a><br />' +
-			'</div>');
-	},
-
-	site: 'website',
-	website: function (target, room, user) {
-		if (!this.canBroadcast()) return;
-		this.sendReplyBox('Here is The Sora League Website:<br />' +
-			'- <a href="http://soraleague.weebly.com/index.html">Sora League Site</a><br />' +
-			'</div>');
-	},
-
-	ipl: function (target, room, user) {
-		if (!this.canBroadcast()) return;
-		this.sendReplyBox('Here is a link to the International Pokemon League Tournament (IPL):<br />' +
-			'- <a href="http://sorapremierleague.weebly.com/">IPL Tournament Web Site</a><br />' +
-			'</div>');
-	},
-
-	events: function (target, room, user) {
-		if (!this.canBroadcast()) return;
-		this.sendReplyBox('Here is a list of events held in The Sora League:<br />' +
-			'- <a href="http://soraleague.weebly.com/events.html">Sora League Events</a><br />' +
-			'</div>');
-	},
 
 	leaderranks: 'ranks',
 	ranks: function (target, room, user) {
@@ -759,21 +730,5 @@ exports.commands = {
 			' <br />' +
 			'<center> All Admin team Members will be identifiable by having this badge on their cards:<center> <br />' +
 			'<center><img src="http://oi62.tinypic.com/14cfyh0.jpg"></center> <br />');
-	},
-
-	gymtrainers: 'gym trainers',
-	gymtrainers: function (target, room, user) {
-		if (!this.canBroadcast()) return;
-		this.sendReplyBox('Here is a list of Sora League Gym Trainers:<br />' +
-			'- <a href="http://soraleague.weebly.com/gym-trainers.html">Sora League Gym Trainers</a><br />' +
-			'</div>');
-	},
-
-	champion: 'champions',
-	champions: function (target, room, user) {
-		if (!this.canBroadcast()) return;
-		this.sendReplyBox('Here is a list of Sora League Champions:<br />' +
-			'- <a href="http://soraleague.weebly.com/champions.html">Sora League Champions</a><br />' +
-			'</div>');
 	}
 };
