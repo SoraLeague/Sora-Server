@@ -499,7 +499,7 @@ exports.commands = {
 			'<details><summary><b>Badges: (Click here to open)</b></summary><br />' +
 			'<a href="http://soraleague.weebly.com/badges.html#ldr"><img src="http://i.imgur.com/ELFPzW8.png" title="Achieved Gym Leader Status"></a><a href="http://soraleague.weebly.com/badges.html#frontier"><img src="http://i.imgur.com/7jbhEJC.png" title="Achieved Frontier Status"></a><a href="http://soraleague.weebly.com/badges.html#starly"><img src="http://i.imgur.com/zaLhq1k.png" title="Starly Badge: One  Year on Sora"></a><a href="http://soraleague.weebly.com/badges.html#smeargle"><img src="http://i.imgur.com/A8h3FJN.png" title="Assisted in feedback and polishing of the badges"></details></a><br />');
 	},
-	
+
 	bamdee: function (target, room, user) {
 		if (!this.canBroadcast()) return;
 		this.sendReplyBox('<a><font size= 4><center><b><font color = ff00b6>Bamdee</font></b></center></a><br />' +
@@ -508,7 +508,7 @@ exports.commands = {
 			'<a href="http://soraleague.weebly.com/badges.html#ldr"><img src="http://i.imgur.com/ELFPzW8.png" title="Achieved Gym Leader Status"></a><a href="http://soraleague.weebly.com/badges.html#e4"><img src="http://i.imgur.com/QtECCD9.png" title="Achieved Elite 4 Status"></a><a href="http://soraleague.weebly.com/badges.html#starly"><img src="http://i.imgur.com/zaLhq1k.png" title="Starly Badge: One  Year on Sora"></a><a href="http://soraleague.weebly.com/badges.html#meme"><img src="http://i.imgur.com/XWAudeE.gif" title="Yee"></a><a href="http://soraleague.weebly.com/badges.html#smeargle"><img src="http://i.imgur.com/A8h3FJN.png" title="Created the Official breAdminTeam Background"></a><a href="http://soraleague.weebly.com/badges.html#bertha"><img src="http://i.imgur.com/MDcdCka.png" title="Bertha Badge: 5 E4 Defends"></a><a href="http://soraleague.weebly.com/badges.html#koga"><img src="http://i.imgur.com/2eC21HT.png" title="Koga Badge: 10 E4 Defends"></a><br />' +
 			'<center><img src="http://oi62.tinypic.com/14cfyh0.jpg"></center></details> <br />');
 	},
-	
+
 	edgy: function (target, room, user) {
 		if (!this.canBroadcast()) return;
 		this.sendReplyBox('<a><font size= 4><center><b><font color = 00CCFF>Edgy</font></b></center></a><br />' +
@@ -517,7 +517,7 @@ exports.commands = {
 			'<details><summary><font size= 1><b>Badges: (Click here to open)</b></font></summary><br />' +
 			'<a href="http://soraleague.weebly.com/badges.html#ldr"><img src="http://i.imgur.com/ELFPzW8.png" title="Achieved Gym Leader Status"></a><a href="http://soraleague.weebly.com/badges.html#e4"><img src="http://i.imgur.com/QtECCD9.png" title="Achieved Elite 4 Status"></a><a href="http://soraleague.weebly.com/badges.html#aegislash"><img src="http://i.imgur.com/aJY3eKg.png" title="Winner of Sora\'s first major Monotype Round Robin Tour"></a></details> <br />');
 	},
-	
+
 	gasp: function (target, room, user) {
 		if (!this.canBroadcast()) return;
 		this.sendReplyBox('Trainer <b>gasp</b><br />' +
@@ -529,7 +529,7 @@ exports.commands = {
 			'<b>Badges:</b><br />' +
 			'<a href="http://oi60.tinypic.com/2itps9k.jpg"><img src="http://oi62.tinypic.com/xgmjhc.jpg" title="Golduck the Meta Breaker: Defeated the League"></a><br />');
 	},
-	
+
 	ignatius: function (target, room, user) {
 		if (!this.canBroadcast()) return;
 		this.sendReplyBox('<b><font color = 55dbe8><a><font size= 4><center>∆Gym Ldr Meows∆</font></center></b><br />' +
@@ -542,7 +542,7 @@ exports.commands = {
 			'<details><summary><b>Badges: (Click here to open)</b></summary><br />' +
 			'<a href="http://soraleague.weebly.com/badges.html#ldr"><img src="http://i.imgur.com/ELFPzW8.png" title="Achieved Gym Leader Status"></a><a href="http://soraleague.weebly.com/badges.html#frontier"><img src="http://i.imgur.com/7jbhEJC.png" title="Achieved Frontier Status"></a><a href="http://soraleague.weebly.com/badges.html#efrontier"><img src="http://i.imgur.com/2iZp7Mi.png" title="Achieved Elite Frontier Status"></a><a href="http://soraleague.weebly.com/badges.html#starly"><img src="http://i.imgur.com/zaLhq1k.png" title="Starly Badge: One  Year on Sora"></a></details> <br />');
 	},
-	
+
 	jaddu: function (target, room, user) {
 		if (!this.canBroadcast()) return;
 		this.sendReplyBox('<center><img src="http://i.imgur.com/GHnqgjH.png"></center><br />' +
@@ -594,93 +594,186 @@ exports.commands = {
 			'- Ex-Balanced Hackmons Frontier of Yagagadrazeel<br />' +
 			'<img src="http://play.pokemonshowdown.com/sprites/xyani-shiny/greninja.gif"><img src="http://play.pokemonshowdown.com/sprites/xyani/ferrothorn.gif"><img src="http://play.pokemonshowdown.com/sprites/xyani-shiny/sharpedo.gif"><img src="http://play.pokemonshowdown.com/sprites/xyani/garchomp.gif">');
 	},
-	
+
 	//////////
 	//Priomons Cards
 	/////////////
-	
+
 	incweather: 'incweather',
-		incweather: function(target, room, user) {
-			if (!this.canBroadcast()) return;
-			this.sendReplyBox('Here is a detailed explanation of the format Inclement Weather:<br />' +
-				'- <a href="http://soraleague.weebly.com/inclement-weather.html">Inclement Weather</a><br />' +
-				'</div>');
+	incweather: function (target, room, user) {
+		if (!this.canBroadcast()) return;
+		this.sendReplyBox('Here is a detailed explanation of the format Inclement Weather:<br />' +
+			'- <a href="http://soraleague.weebly.com/inclement-weather.html">Inclement Weather</a><br />' +
+			'</div>');
 	},
+
+	nervepulse: 'priomonsnervepulse',
+	priomonsnervepulse: function (target, room, user) {
+		if (!this.canBroadcast()) return;
+		this.sendReplyBox('<img src="http://oi58.tinypic.com/ayw0aq.jpg"> <br />');
+
+	},
+
+	tremorshock: 'priomonstremorshock',
+	priomonstremorshock: function (target, room, user) {
+		if (!this.canBroadcast()) return;
+		this.sendReplyBox('<img src="http://oi58.tinypic.com/14u8e2s.jpg"> <br />');
+
+	},
+
+	fairywind: 'priomonsfairywind',
+	priomonsfairywind: function (target, room, user) {
+		if (!this.canBroadcast()) return;
+		this.sendReplyBox('<img src="http://oi60.tinypic.com/33z7ndf.jpg"> <br />');
+
+	},
+
+	twineedle: 'priomonstwineedle',
+	priomonstwineedle: function (target, room, user) {
+		if (!this.canBroadcast()) return;
+		this.sendReplyBox('<img src="http://oi58.tinypic.com/9h6i5z.jpg"> <br />');
+
+	},
+
+	dracocrash: 'priomonsdracocrash',
+	priomonsdracocrash: function (target, room, user) {
+		if (!this.canBroadcast()) return;
+		this.sendReplyBox('<img src="http://oi59.tinypic.com/dyvvw2.jpg"> <br />');
+
+	},
+
+	flameshot: 'priomonsflameshot',
+	priomonsflameshot: function (target, room, user) {
+		if (!this.canBroadcast()) return;
+		this.sendReplyBox('<img src="http://oi62.tinypic.com/29m6j5e.jpg"> <br />');
+
+	},
+
+	venomstrike: 'priomonsvenomstrike',
+	priomonsvenomstrike: function (target, room, user) {
+		if (!this.canBroadcast()) return;
+		this.sendReplyBox('<img src="http://oi60.tinypic.com/2wf761w.jpg"> <br />');
+
+	},
+
+	divingcharge: 'priomonsdivingcharge',
+	priomonsdivingcharge: function (target, room, user) {
+		if (!this.canBroadcast()) return;
+		this.sendReplyBox('<img src="http://oi58.tinypic.com/ezj4pl.jpg"> <br />');
+
+	},
+
+	stonespine: 'priomonsstonespine',
+	priomonsstonespine: function (target, room, user) {
+		if (!this.canBroadcast()) return;
+		this.sendReplyBox('<img src="http://oi62.tinypic.com/2moy06e.jpg"> <br />');
+
+	},
+
+	sapblast: 'priomonssapblast',
+	priomonssapblast: function (target, room, user) {
+		if (!this.canBroadcast()) return;
+		this.sendReplyBox('<img src="http://oi62.tinypic.com/23rk9oz.jpg"> <br />');
+
+	},
+
+	kineticforce: 'priomonskineticforce',
+	priomonskineticforce: function (target, room, user) {
+		if (!this.canBroadcast()) return;
+		this.sendReplyBox('<img src="http://oi60.tinypic.com/1ptn36.jpg"> <br />');
+	},
+
+	////////////
+	//Informative Cards
+	//////////////
 	
-        nervepulse: 'priomonsnervepulse',
-        priomonsnervepulse: function(target, room, user) {
+	getbucks: function(target, room, user) {
 		if (!this.canBroadcast()) return;
-		this.sendReplyBox( '<img src="http://oi58.tinypic.com/ayw0aq.jpg"> <br />');
-		
-        },
-        
-        tremorshock: 'priomonstremorshock',
-        priomonstremorshock: function(target, room, user) {
+		this.sendReplyBox('Please check out the Shop page in the link below to see methods of earning money:<br />' +
+			'- <a href="http://soraleague.weebly.com/shop.html">Shop</a><br />' +
+			'</div>');
+	},
+
+	site: 'website',
+	website: function (target, room, user) {
 		if (!this.canBroadcast()) return;
-		this.sendReplyBox( '<img src="http://oi58.tinypic.com/14u8e2s.jpg"> <br />');
-		
-        },
-        
-        fairywind: 'priomonsfairywind',
-        priomonsfairywind: function(target, room, user) {
+		this.sendReplyBox('Here is The Sora League Website:<br />' +
+			'- <a href="http://soraleague.weebly.com/index.html">Sora League Site</a><br />' +
+			'</div>');
+	},
+
+	ipl: function (target, room, user) {
 		if (!this.canBroadcast()) return;
-		this.sendReplyBox( '<img src="http://oi60.tinypic.com/33z7ndf.jpg"> <br />');
-		
-        },
-        
-        twineedle: 'priomonstwineedle',
-        priomonstwineedle: function(target, room, user) {
+		this.sendReplyBox('Here is a link to the International Pokemon League Tournament (IPL):<br />' +
+			'- <a href="http://sorapremierleague.weebly.com/">IPL Tournament Web Site</a><br />' +
+			'</div>');
+	},
+
+	events: function (target, room, user) {
 		if (!this.canBroadcast()) return;
-		this.sendReplyBox( '<img src="http://oi58.tinypic.com/9h6i5z.jpg"> <br />');
-		
-        },
-        
-        dracocrash: 'priomonsdracocrash',
-        priomonsdracocrash: function(target, room, user) {
+		this.sendReplyBox('Here is a list of events held in The Sora League:<br />' +
+			'- <a href="http://soraleague.weebly.com/events.html">Sora League Events</a><br />' +
+			'</div>');
+	},
+
+	leaderranks: 'ranks',
+	ranks: function (target, room, user) {
 		if (!this.canBroadcast()) return;
-		this.sendReplyBox( '<img src="http://oi59.tinypic.com/dyvvw2.jpg"> <br />');
-		
-        },
-        
-        flameshot: 'priomonsflameshot',
-        priomonsflameshot: function(target, room, user) {
+		this.sendReplyBox('Listed here are the Top 6 Leaders in The Sora League based on performance in our Monthly Promotional Tournament! Please keep in mind, the number of ranked Leaders may change month to month and the ranking methodology may be changed in the future.<br />' +
+			'-<b>1st <font color= ff00b6>Leaf</font></b> (Psychic)<br />' +
+			'-<b>2nd <font color= 15012b>Darkus</font></b></b> (Dark)<br />' +
+			'-<b>3rd <font color= 472e10>Core</font></b> (Rock)<br />' +
+			'-<b>4th <font color= 7814e2>Connor</font></b> (Ghost)<br />' +
+			'-<b>5th <font color= 0745ff>Terror</font></b> (Water)<br />' +
+			'-<b>6th <font color= aa00ff>Poppy</font></b> (Poison)<br />' +
+			'</div>');
+	},
+
+	badges: 'badge',
+	badge: function (target, room, user) {
 		if (!this.canBroadcast()) return;
-		this.sendReplyBox( '<img src="http://oi62.tinypic.com/29m6j5e.jpg"> <br />');
-		
-        },
-        
-        venomstrike: 'priomonsvenomstrike',
-        priomonsvenomstrike: function(target, room, user) {
+		this.sendReplyBox('<a><font size= 4><marquee><b>Badges</b></marquee></font></a><br />' +
+			'<b>What are Badges:</b><br />' +
+			'Badges are prestigious achievements awarded on the user\'s trainer card and usually come with varying bucks award.<br />' +
+			'They are awarded for league activity and vary in difficulty.<br />' +
+			'A full list of badges can be found <a href="http://soraleague.weebly.com/badges">HERE</a> <br />' +
+			'<br />' +
+			'<details><summary><center><b>Test your skills here</b></center></summary><center><a href="http://soraleague.weebly.com/badges.html#parasect"><img src="http://oi61.tinypic.com/2nkoyyu.jpg" title="Parasect the God Above All"></a><br /></center></details>' +
+			'<br />' +
+			'<blink><font color=#FF0000><b>Notes:</b></font></blink><br />' +
+			'- You MUST have a trainer card<br />' +
+			'<font color=#006600>- <b>Hover over a badge for details<br />' +
+			'- Click on a badge for an enlarged image and further information</b></font><br />' +
+			'- Test your skills above');
+	},
+
+	ateam: 'adminteam',
+	adminteam: function (target, room, user) {
 		if (!this.canBroadcast()) return;
-		this.sendReplyBox( '<img src="http://oi60.tinypic.com/2wf761w.jpg"> <br />');
-		
-        },
-        
-        divingcharge: 'priomonsdivingcharge',
-        priomonsdivingcharge: function(target, room, user) {
+		this.sendReplyBox('<a><font size= 4><center><b><font color = 075ff7>The Admin Team</font></b></center></a><br />' +
+			'FAQ <br />' +
+			'<b>Who are we?</b> The Admin team are a group of senior members who make most of the major league decisions and organize most major league events. <br />' +
+			'<b>Who\'s in the Admin Team?</b> The Admin Team\'s active members consist of: <mark>Champion Noah, Champion Bart, OnyxEagle, Artiste Jeratt, FrontierHead Risu, Neith, Coach Bloodfist, E4 Abadon, Bamdee and Frontier Blade.</mark> <br />' +
+			'<b>What exactly do you guys do?</b> The Admin Team handle or oversee all matters from disputes in the League, to League Challenge Registration <br />' +
+			'<b>How does one join the Admin team?</b> The Admin Team usually invites a select few senior members who\'ve shown to be mature and capable of handling responsibility. <br />' +
+			' <br />' +
+			'<center> All Admin team Members will be identifiable by having this badge on their cards:<center> <br />' +
+			'<center><img src="http://oi62.tinypic.com/14cfyh0.jpg"></center> <br />');
+	},
+
+	gymtrainers: 'gym trainers',
+	gymtrainers: function (target, room, user) {
 		if (!this.canBroadcast()) return;
-		this.sendReplyBox( '<img src="http://oi58.tinypic.com/ezj4pl.jpg"> <br />');
-		
-        },
-        
-        stonespine: 'priomonsstonespine',
-        priomonsstonespine: function(target, room, user) {
+		this.sendReplyBox('Here is a list of Sora League Gym Trainers:<br />' +
+			'- <a href="http://soraleague.weebly.com/gym-trainers.html">Sora League Gym Trainers</a><br />' +
+			'</div>');
+	},
+
+	champion: 'champions',
+	champions: function (target, room, user) {
 		if (!this.canBroadcast()) return;
-		this.sendReplyBox( '<img src="http://oi62.tinypic.com/2moy06e.jpg"> <br />');
-		
-        },
-        
-        sapblast: 'priomonssapblast',
-        priomonssapblast: function(target, room, user) {
-		if (!this.canBroadcast()) return;
-		this.sendReplyBox( '<img src="http://oi62.tinypic.com/23rk9oz.jpg"> <br />');
-		
-        },
-        
-        kineticforce: 'priomonskineticforce',
-        priomonskineticforce: function(target, room, user) {
-		if (!this.canBroadcast()) return;
-		this.sendReplyBox( '<img src="http://oi60.tinypic.com/1ptn36.jpg"> <br />');
-		
-        }
+		this.sendReplyBox('Here is a list of Sora League Champions:<br />' +
+			'- <a href="http://soraleague.weebly.com/champions.html">Sora League Champions</a><br />' +
+			'</div>');
+	}
 };
