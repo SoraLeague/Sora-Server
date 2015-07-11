@@ -1,7 +1,9 @@
 var fs = require('fs');
 var request = require('request');
+var poofoff = false;
 
 exports.commands = {
+	//misc
 	afk: 'away',
 	dindins: 'away',
 	busy: 'away',
@@ -73,22 +75,53 @@ exports.commands = {
 		});
 	},
 
-	addsymbols: 'symbols',
-	symbols: function (target, room, user) {
-		if (!this.can('warn')) {
-			this.sendReply('You need to be a league member to be able to use this command.');
-			return false;
-		}
-		if (user.name.indexOf('∆') === 0 && user.name.lastIndexOf('∆') === (user.name.length - 1)) return this.sendReply("You already have your league symbols on.");
-		if (user.name.indexOf('∆') == 0) {
-			user.forceRename(user.name + '∆', undefined, true);
-		} else if (user.name.lastIndexOf('∆') == (user.name.length - 1)) {
-			user.forceRename('∆' + user.name, undefined, true);
-		} else {
-			user.forceRename('∆' + user.name + '∆', undefined, true);
-		}
-		return this.sendReply('Your league symbols have been added.');
+	poof: function (target, room, user) {
+		if (!this.canTalk()) return;
+		if (poofoff) return this.sendReply("Poof is currently disabled.");
+		var colors = ['9900f2', '4ca2ff', '4cff55', 'e87f00', 'd30007', '8e8080', 'd8b00d', '01776a', '0c4787', '0c870e', '8e892c',
+			'5b5931', '660c60', '9e5a99', 'c43873', '39bf39', '7c5cd6', '76d65c', '38c9c9', '2300af', '1daf00'
+		];
+		var randomColor = colors[Math.floor(Math.random() * colors.length)];
+		var poof = JSON.parse(fs.readFileSync('storage-files/poof.json'));
+		var message = poof[Math.floor(Math.random() * poof.length)];
+		if (message.indexOf('(user)') > -1) message.replace(/(user)/ig, user.name);
+		else message = user.name + ' ' + message;
+		this.add('|html|<center><b><font color = "' + randomcolor + '">~~' + user.name + ' ' + message + '~~');
+		user.disconnectAll();
 	},
+
+	addpoof: function (target, room, user) {
+		if (!this.can('hotpatch') && !user.buypoof) return this.sendReply('You need to buy the ability to add a poof message from the shop!');
+		if (!target) return this.sendReply('/addpoof [message] - Adds a poof message into the list of possible poofs. (No need to include any name at the start, just the message. Adding "(user)" into a poof message replaces "(user)" with the user\'s name.');
+		target = target.replace(/"/g, '\"');
+		if (toId(target.substring(0, 1))) {
+			target = target.substr(0, 1).toLowerCase() + target.substr(1);
+		}
+		if (!fs.existsSync('storage-files/poof.json')) fs.writeFile('storage-files/poof.json', '[]');
+		var poof = JSON.parse(fs.readFileSync('storage-files/poof.json'));
+		for (var i in poof) {
+			if (toId(target) == toId(poof[i])) return this.sendReply('That poof message already exists!');
+		}
+		poof.push(target);
+		fs.writeFile('storage-files/poof.json', JSON.stringify(poof, null, 1));
+		if (target.indexOf('(user)') === -1) target = '(user) ' + target;
+		return this.sendReply('"' + target + '" has been added to the list of poof messages.');
+		user.buypoof = false;
+	},
+	
+	poofoff: function (target, room, user) {
+		if (!this.can('hotpatch')) return false;
+		if (poofoff) return this.sendReply('Poofs have already been disabled.');
+		poofoff = true;
+		this.sendReply("Poofs have been disabled.");
+	},
+	
+	poofon: function (target, room, user) {
+		if (!this.can('hotpatch')) return false;
+		if (!poofoff) return this.sendReply('Poofs have not been disabled.');
+		poofoff = false;
+		this.sendReply("Poofs have been enabled.");
+	}
 
 	sprite: function (target, room, user, connection, cmd) {
 		if (!this.canBroadcast()) return;
@@ -178,6 +211,23 @@ exports.commands = {
 	},
 
 	//League related stuff
+	addsymbols: 'symbols',
+	symbols: function (target, room, user) {
+		if (!this.can('warn')) {
+			this.sendReply('You need to be a league member to be able to use this command.');
+			return false;
+		}
+		if (user.name.indexOf('∆') === 0 && user.name.lastIndexOf('∆') === (user.name.length - 1)) return this.sendReply("You already have your league symbols on.");
+		if (user.name.indexOf('∆') == 0) {
+			user.forceRename(user.name + '∆', undefined, true);
+		} else if (user.name.lastIndexOf('∆') == (user.name.length - 1)) {
+			user.forceRename('∆' + user.name, undefined, true);
+		} else {
+			user.forceRename('∆' + user.name + '∆', undefined, true);
+		}
+		return this.sendReply('Your league symbols have been added.');
+	},
+
 	hos: 'banlist',
 	hallofshame: 'banlist',
 	banlist: function (target, room, user) {
