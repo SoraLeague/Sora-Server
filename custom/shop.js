@@ -3,6 +3,13 @@
 var shopclosed = false;
 
 exports.commands = {
+	
+	getbucks: function(target, room, user) {
+		if (!this.canBroadcast()) return;
+		this.sendReplyBox('Please check out the Shop page in the link below to see methods of earning money:<br />' +
+			'- <a href="http://soraleague.weebly.com/shop.html">Shop</a><br />' +
+			'</div>');
+	},
 
 	shop: function(target, room, user) {
         if (!this.canBroadcast()) return;
