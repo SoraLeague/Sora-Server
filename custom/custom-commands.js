@@ -334,7 +334,6 @@ exports.commands = {
 		});
 	},
 
-	rules: 'rule',
 	rules: function (target, room, user) {
 		if (!this.canBroadcast()) return;
 		this.sendReplyBox('Please follow the rules:<br />' +
@@ -342,16 +341,6 @@ exports.commands = {
 			'</div>');
 	},
 
-
-	battlefrontier: function (target, room, user) {
-		if (!this.canBroadcast()) return;
-		this.sendReplyBox('<b>Sora Battle Frontier</b><br />' +
-			'<i>"Welcome to the Sora Battle Frontier! Challenge us if you Dare."</i> <br />' +
-			'<b>Requirements:</b> 8 Badges<br />' +
-			'<b>Rules:</b> The battle frontier may be challenged after collecting 8 gym badges and is needed to enter the Hall of Fame. You must beat 7 frontiers (Frontier Head needs to be the last Frontier battle and teams may be changed after each game to fit the next Battle Frontiers set of rules). You can not use Super Effective type pokemon against Mono-Type frontier brains. The same frontier may be challenged once every 24 hours.The Challenger must choose a partner Pokemon that must be present in all Frontier challenges.<br/>');
-	},
-
-	site: 'site',
 	site: function (target, room, user) {
 		if (!this.canBroadcast()) return;
 		this.sendReplyBox('Here is The Sora League Website:<br />' +
@@ -359,7 +348,6 @@ exports.commands = {
 			'</div>');
 	},
 
-	incweather: 'incweather',
 	incweather: function (target, room, user) {
 		if (!this.canBroadcast()) return;
 		this.sendReplyBox('Here is a detailed explanation of the format Inclement Weather:<br />' +
@@ -367,7 +355,7 @@ exports.commands = {
 			'</div>');
 	},
 
-	priomons: 'priomons',
+	priomon: 'priomons',
 	priomons: function (target, room, user) {
 		if (!this.canBroadcast()) return;
 		this.sendReplyBox('Here is a detailed explanation of the format Priomons:<br />' +
@@ -375,7 +363,6 @@ exports.commands = {
 			'</div>');
 	},
 
-	pokemonsandbox: 'pokemonsandbox',
 	pokemonsandbox: function (target, room, user) {
 		if (!this.canBroadcast()) return;
 		this.sendReplyBox('Here is a detailed explanation of the format Pokemon Sandbox:<br />' +
@@ -383,11 +370,17 @@ exports.commands = {
 			'</div>');
 	},
 
-	championschallenge: 'championschallenge',
 	championschallenge: function (target, room, user) {
 		if (!this.canBroadcast()) return;
 		this.sendReplyBox('Here is a detailed explanation of the format Champion\'s Challenge:<br />' +
 			'- <a href="http://soraleague.weebly.com/champions-challenge.html">Champion\'s Challenge</a><br />' +
+			'</div>');
+	},
+	
+	ipl: function (target, room, user) {
+		if (!this.canBroadcast()) return;
+		this.sendReplyBox('Here is a link to the International Pokemon League Tournament (IPL):<br />' +
+			'- <a href="http://sorapremierleague.weebly.com/">IPL Tournament Web Site</a><br />' +
 			'</div>');
 	},
 
@@ -399,7 +392,6 @@ exports.commands = {
 			'</div>');
 	},
 
-	gymtrainers: 'gym trainers',
 	gymtrainers: function (target, room, user) {
 		if (!this.canBroadcast()) return;
 		this.sendReplyBox('Here is a list of Sora League Gym Trainers:<br />' +
@@ -407,16 +399,39 @@ exports.commands = {
 			'</div>');
 	},
 
-	gymleaders: 'gym leaders',
 	gymleaders: function (target, room, user) {
 		if (!this.canBroadcast()) return;
 		this.sendReplyBox('Here is a list of Sora League Gym Leaders:<br />' +
 			'- <a href="http://soraleague.weebly.com/gym-leaders.html">Sora League Gym Leaders</a><br />' +
 			'</div>');
 	},
+	
+	frontier: 'battlefrontier',
+	battlefrontier: function(target, room, user) {
+		if (!this.canBroadcast()) return;
+		this.sendReplyBox('<b>Sora Battle Frontier</b><br />'+
+		    '<i>"Welcome to the Sora Battle Frontier! Challenge us if you Dare."</i> <br />'+
+		    '<b>Requirements:</b> 8 Badges<br />'+
+	 	    '<b>Rules:</b> The Battle Frontier must be challenged after collecting 8 gym badges and 2 normal Frontiers must be defeated to gain access to the Elite 4.<br />'+
+                    '- The Elite Frontiers can only be challenged once a challenger has 4 different symbols.<br />'+
+                    '- The Frontier Head can be challenged after deafeating all other Frontier members.<br />'+
+                    '- If a challenger loses to an Elite Frontier or the Frontier Head, they will randomly lose one Elite symbol and one normal symbol.<br />'+
+                    '<blink><b>Notes:</b></blink><br />'+
+                    '- The same frontier may be challenged once every 24 hours.<br />'+
+                    '- You cannot use a super-effective team when challenging a Monotype Tier Frontier<br />'+
+                    '- <a href="http://soraleague.weebly.com/rules.html">Challenging Rules</a><br />'+
+                    '- <a href="http://soraleague.weebly.com/frontier.html">Battle Frontier Members</a><br />');
+        },
+        
+        frontiers: function (target, room, user) {
+		if (!this.canBroadcast()) return;
+		this.sendReplyBox('Here is a list of Sora League Frontier Brains:<br />' +
+			'- <a href="http://soraleague.weebly.com/frontier.html">Sora League Frontier Brains</a><br />' +
+			'</div>');
+	},
 
 	elitefour: 'e4',
-	elitefour: function (target, room, user) {
+	e4: function (target, room, user) {
 		if (!this.canBroadcast()) return;
 		this.sendReplyBox('Here is a list of Sora League Elite Four:<br />' +
 			'- <a href="http://soraleague.weebly.com/elite-four.html">Sora League Elite Four</a><br />' +
@@ -428,14 +443,6 @@ exports.commands = {
 		if (!this.canBroadcast()) return;
 		this.sendReplyBox('Here is a list of Sora League Champions:<br />' +
 			'- <a href="http://soraleague.weebly.com/champions.html">Sora League Champions</a><br />' +
-			'</div>');
-	},
-
-	frontiers: 'frontiers',
-	frontiers: function (target, room, user) {
-		if (!this.canBroadcast()) return;
-		this.sendReplyBox('Here is a list of Sora League Frontier Brains:<br />' +
-			'- <a href="http://soraleague.weebly.com/frontier.html">Sora League Frontier Brains</a><br />' +
 			'</div>');
 	},
 
