@@ -36,17 +36,78 @@ exports.commands = {
 		user.updateIdentity();
 	},
 
+	k: 'kick',
+	kick: function (target, room, user) {
+		if (!target) return;
+		target = this.splitTarget(target);
+		var targetUser = this.targetUser;
+		if (!targetUser || !targetUser.connected) {
+			return this.sendReply("User " + this.targetUsername + " not found.");
+		}
+		if (!this.can('kick', targetUser, room)) return false;
+		var msg = "kicked by " + user.name + (target ? " (" + target + ")" : "") + ".";
+		this.addModCommand("" + targetUser.name + " was " + msg);
+		targetUser.popup("You have been " + msg);
+		targetUser.leaveRoom(room);
+	},
+
+	masspm: 'pmall',
+	pmall: function (target, room, user) {
+		if (!this.can('declare')) return;
+		if (!target) return this.sendReply('/pmall [message] - Sends a message to all users in the server.');
+
+		var pmName = '~Server-Kun [Do not reply]';
+
+		for (var i in Users.users) {
+			var message = '|pm|' + pmName + '|' + Users.users[i].getIdentity() + '|' + target;
+			Users.users[i].send(message);
+		}
+	},
+
+	rmall: function (target, room, user) {
+		if (!this.can('declare')) return;
+		if (!target) return this.sendReply('/rmall [message] - Sends a message to all users in the room');
+
+		var pmName = '~Server-Kun [Do not reply]';
+
+		for (var i in room.users) {
+			var message = '|pm|' + pmName + '|' + room.users[i].getIdentity() + '|' + target;
+			room.users[i].send(message);
+		}
+	},
+
+	roomlist: function (target, room, user) {
+		if (!this.can('declare')) return;
+
+		var rooms = Object.keys(Rooms.rooms),
+			len = rooms.length,
+			official = ['<b><font color="#1a5e00" size="2">Official chat rooms</font></b><br><br>'],
+			nonOfficial = ['<hr><b><font color="#000b5e" size="2">Chat rooms</font></b><br><br>'],
+			privateRoom = ['<hr><b><font color="#5e0019" size="2">Private chat rooms</font></b><br><br>'];
+
+		while (len--) {
+			var _room = Rooms.rooms[rooms[(rooms.length - len) - 1]];
+			if (_room.type === 'chat') {
+				if (_room.isOfficial) {
+					official.push(('<a href="/' + _room.title + '" class="ilink">' + _room.title + '</a>'));
+					continue;
+				}
+				if (_room.isPrivate) {
+					privateRoom.push(('<a href="/' + _room.title + '" class="ilink">' + _room.title + '</a>'));
+					continue;
+				}
+				nonOfficial.push(('<a href="/' + _room.title + '" class="ilink">' + _room.title + '</a>'));
+			}
+		}
+
+		this.sendReplyBox(official.join(' ') + nonOfficial.join(' ') + privateRoom.join(' '));
+	},
+
 	seen: 'lastseen',
 	lastseen: function (target, room, user, connection, cmd) {
 		if (!this.canBroadcast()) return;
 		target = Users.getExact(target) ? Users.getExact(target).name : target;
 		if (!toId(target) || toId(target) === user.userid) target = user.name;
-
-		var format = function (date, word) {
-			if (Math.floor(date) === 0) return '';
-			if (Math.floor(date) !== 1) return date + ' ' + word + "s";
-			return date + ' ' + word;
-		}
 		var seen = Core.getLastSeen(toId(target));
 		if (seen === 'never') return this.sendReplyBox(target + ' has <font color = "red">never</font> been seen online.');
 		if (Users.getExact(target) && Users.getExact(target).connected) return this.sendReplyBox(target + ' is currently <font color = "green">online</font>. This user has stayed online for ' + seen + '.');
@@ -108,14 +169,14 @@ exports.commands = {
 		return this.sendReply('"' + target + '" has been added to the list of poof messages.');
 		user.buypoof = false;
 	},
-	
+
 	poofoff: function (target, room, user) {
 		if (!this.can('hotpatch')) return false;
 		if (poofoff) return this.sendReply('Poofs have already been disabled.');
 		poofoff = true;
 		this.sendReply("Poofs have been disabled.");
 	},
-	
+
 	poofon: function (target, room, user) {
 		if (!this.can('hotpatch')) return false;
 		if (!poofoff) return this.sendReply('Poofs have not been disabled.');
@@ -123,7 +184,7 @@ exports.commands = {
 		this.sendReply("Poofs have been enabled.");
 	}
 
-	sprite: function (target, room, user, connection, cmd) {
+		sprite: function (target, room, user, connection, cmd) {
 		if (!this.canBroadcast()) return;
 		if (!toId(target)) return this.sendReply('/sprite [Pokémon] - Allows you to view the sprite of a Pokémon');
 		target = target.toLowerCase().split(',');
@@ -376,7 +437,7 @@ exports.commands = {
 			'- <a href="http://soraleague.weebly.com/champions-challenge.html">Champion\'s Challenge</a><br />' +
 			'</div>');
 	},
-	
+
 	ipl: function (target, room, user) {
 		if (!this.canBroadcast()) return;
 		this.sendReplyBox('Here is a link to the International Pokemon League Tournament (IPL):<br />' +
@@ -405,25 +466,25 @@ exports.commands = {
 			'- <a href="http://soraleague.weebly.com/gym-leaders.html">Sora League Gym Leaders</a><br />' +
 			'</div>');
 	},
-	
+
 	frontier: 'battlefrontier',
-	battlefrontier: function(target, room, user) {
+	battlefrontier: function (target, room, user) {
 		if (!this.canBroadcast()) return;
-		this.sendReplyBox('<b>Sora Battle Frontier</b><br />'+
-		    '<i>"Welcome to the Sora Battle Frontier! Challenge us if you Dare."</i> <br />'+
-		    '<b>Requirements:</b> 8 Badges<br />'+
-	 	    '<b>Rules:</b> The Battle Frontier must be challenged after collecting 8 gym badges and 2 normal Frontiers must be defeated to gain access to the Elite 4.<br />'+
-                    '- The Elite Frontiers can only be challenged once a challenger has 4 different symbols.<br />'+
-                    '- The Frontier Head can be challenged after deafeating all other Frontier members.<br />'+
-                    '- If a challenger loses to an Elite Frontier or the Frontier Head, they will randomly lose one Elite symbol and one normal symbol.<br />'+
-                    '<blink><b>Notes:</b></blink><br />'+
-                    '- The same frontier may be challenged once every 24 hours.<br />'+
-                    '- You cannot use a super-effective team when challenging a Monotype Tier Frontier<br />'+
-                    '- <a href="http://soraleague.weebly.com/rules.html">Challenging Rules</a><br />'+
-                    '- <a href="http://soraleague.weebly.com/frontier.html">Battle Frontier Members</a><br />');
-        },
-        
-        frontiers: function (target, room, user) {
+		this.sendReplyBox('<b>Sora Battle Frontier</b><br />' +
+			'<i>"Welcome to the Sora Battle Frontier! Challenge us if you Dare."</i> <br />' +
+			'<b>Requirements:</b> 8 Badges<br />' +
+			'<b>Rules:</b> The Battle Frontier must be challenged after collecting 8 gym badges and 2 normal Frontiers must be defeated to gain access to the Elite 4.<br />' +
+			'- The Elite Frontiers can only be challenged once a challenger has 4 different symbols.<br />' +
+			'- The Frontier Head can be challenged after deafeating all other Frontier members.<br />' +
+			'- If a challenger loses to an Elite Frontier or the Frontier Head, they will randomly lose one Elite symbol and one normal symbol.<br />' +
+			'<blink><b>Notes:</b></blink><br />' +
+			'- The same frontier may be challenged once every 24 hours.<br />' +
+			'- You cannot use a super-effective team when challenging a Monotype Tier Frontier<br />' +
+			'- <a href="http://soraleague.weebly.com/rules.html">Challenging Rules</a><br />' +
+			'- <a href="http://soraleague.weebly.com/frontier.html">Battle Frontier Members</a><br />');
+	},
+
+	frontiers: function (target, room, user) {
 		if (!this.canBroadcast()) return;
 		this.sendReplyBox('Here is a list of Sora League Frontier Brains:<br />' +
 			'- <a href="http://soraleague.weebly.com/frontier.html">Sora League Frontier Brains</a><br />' +
