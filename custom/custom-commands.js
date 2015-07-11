@@ -5,22 +5,19 @@ exports.commands = {
 	afk: 'away',
 	dindins: 'away',
 	busy: 'away',
-	away: function(target, room, user, connection, cmd) {
+	away: function (target, room, user, connection, cmd) {
 		if (!this.can('lock')) return false;
 		if (!user.isAway) {
 			var awayMessage, awayName = user.name;
 			switch (cmd) {
-				case: 'dindins':
-					awayMessage = 'is now having din dins.';
-					awayName += ' - ⒹⓘⓝⒹⓘⓝⓢ';
-					break;
-				case: 'busy':
-					awayMessage = 'is now busy.';
-					awayName += ' - ⒷⓊⓈⓎ  ';
-					break;
-				default:
-					awayMessage = 'is now away.';
-					awayName += ' - ⒶⒻⓀ   ';
+				case: 'dindins': awayMessage = 'is now having din dins.';
+				awayName += ' - ⒹⓘⓝⒹⓘⓝⓢ';
+				break;
+				case: 'busy': awayMessage = 'is now busy.';
+				awayName += ' - ⒷⓊⓈⓎ  ';
+				break;
+				default: awayMessage = 'is now away.';
+				awayName += ' - ⒶⒻⓀ   ';
 			}
 			var originalName = user.name;
 			delete Users.get(awayName);
@@ -28,22 +25,21 @@ exports.commands = {
 			this.add('|raw|-- <b><font color="#000000">' + originalName + '</font color></b> ' + awayMessage + ' ' + (target ? " (" + target + ")" : ""));
 			user.isAway = true;
 			user.blockChallenges = true;
-		}
-		else {
+		} else {
 			return this.sendReply('You are already set as away, type /back if you are now back');
 		}
 		user.updateIdentity();
 	},
-	
-    registered: 'regdate',
+
+	registered: 'regdate',
 	regdate: function (target, room, user, connection, cmd) {
 		if (!toId(target)) return this.sendReply("'" + target + "' is not a valid username.");
 		if (!toId(target).length > 18) return this.sendReply('Usernames can only contain 18 characters at the max.');
 		if (!this.canBroadcast()) return;
-		
+
 		var path = "http://pokemonshowdown.com/users/" + toId(target);
 		var self = this;
-		
+
 		request(path, function (error, response, body) {
 			if (error || response.statusCode === 404) {
 				self.sendReplyBox(target + ' is not registered.');
@@ -56,26 +52,26 @@ exports.commands = {
 			room.update();
 		});
 	},
-	
+
 	addsymbols: 'symbols',
-    symbols: function (target, room, user) {
-    	if (!this.can('warn')) {
-        	this.sendReply('You need to be a league member to be able to use this command.');
-        	return false;
-    	}
-    	if (user.name.indexOf('∆') === 0 && user.name.lastIndexOf('∆') === (user.name.length - 1)) return this.sendReply("You already have your league symbols on.");
-    	if (user.name.indexOf('∆') == 0) {
-     		user.forceRename(user.name + '∆', undefined, true);
-    	} else if (user.name.lastIndexOf('∆') == (user.name.length - 1)) {
-        	user.forceRename('∆' + user.name, undefined, true);
-    	} else {
-        	user.forceRename('∆' + user.name + '∆', undefined, true);
-    	}
-    	return this.sendReply('Your league symbols have been added.');
+	symbols: function (target, room, user) {
+		if (!this.can('warn')) {
+			this.sendReply('You need to be a league member to be able to use this command.');
+			return false;
+		}
+		if (user.name.indexOf('∆') === 0 && user.name.lastIndexOf('∆') === (user.name.length - 1)) return this.sendReply("You already have your league symbols on.");
+		if (user.name.indexOf('∆') == 0) {
+			user.forceRename(user.name + '∆', undefined, true);
+		} else if (user.name.lastIndexOf('∆') == (user.name.length - 1)) {
+			user.forceRename('∆' + user.name, undefined, true);
+		} else {
+			user.forceRename('∆' + user.name + '∆', undefined, true);
+		}
+		return this.sendReply('Your league symbols have been added.');
 	}
-	
-	sprite: function (target, room, user, connection, cmd) {
-    	if (!this.canBroadcast()) return;
+
+		sprite: function (target, room, user, connection, cmd) {
+		if (!this.canBroadcast()) return;
 		if (!toId(target)) return this.sendReply('/sprite [Pokémon] - Allows you to view the sprite of a Pokémon');
 		target = target.toLowerCase().split(',');
 		var alt = '';
@@ -86,7 +82,7 @@ exports.commands = {
 		else if (type === 'back') url = 'http://play.pokemonshowdown.com/sprites/xyani-back/';
 		else if (type === 'backshiny' || type === 'shinyback') url = 'http://play.pokemonshowdown.com/sprites/xyani-back-shiny/';
 		else url = 'http://play.pokemonshowdown.com/sprites/xyani/';
-		
+
 		if (Number(sprite[sprite.length - 1]) && !toId(sprite[sprite.length - 2])) {
 			alt = '-' + sprite[sprite.length - 1];
 			sprite = sprite.substr(0, sprite.length - 1);
@@ -116,5 +112,48 @@ exports.commands = {
 			if (response.statusCode == 404) return self.sendReply('The sprite for ' + sprite + alt + ' is currently unavailable.');
 			self.sendReply('|html|<img src = "' + url + sprite + alt + '.gif">');
 		});
+	},
+
+	stafflist: function (target, room, user) {
+		var buffer = {
+			admins: [],
+			leaders: [],
+			mods: [],
+			drivers: [],
+			voices: []
+		};
+
+		var staffList = fs.readFileSync(path.join('./config/usergroups.csv'), 'utf8').split('\n');
+		var numStaff = 0;
+		var staff;
+
+		var len = staffList.length;
+		while (len--) {
+			staff = staffList[len].split(',');
+			if (staff.length >= 2) numStaff++;
+			if (staff[1] === '~') {
+				buffer.admins.push(staff[0]);
+			}
+			if (staff[1] === '&') {
+				buffer.leaders.push(staff[0]);
+			}
+			if (staff[1] === '@') {
+				buffer.mods.push(staff[0]);
+			}
+			if (staff[1] === '%') {
+				buffer.drivers.push(staff[0]);
+			}
+			if (staff[1] === '+') {
+				buffer.voices.push(staff[0]);
+			}
+		}
+
+		buffer.admins = buffer.admins.join(', ');
+		buffer.leaders = buffer.leaders.join(', ');
+		buffer.mods = buffer.mods.join(', ');
+		buffer.drivers = buffer.drivers.join(', ');
+		buffer.voices = buffer.voices.join(', ');
+
+		this.popupReply('Administrators:\n--------------------\n' + buffer.admins + '\n\nLeaders:\n-------------------- \n' + buffer.leaders + '\n\nModerators:\n-------------------- \n' + buffer.mods + '\n\nDrivers:\n--------------------\n' + buffer.drivers + '\n\nVoices:\n-------------------- \n' + buffer.voices + '\n\n\t\t\t\tTotal Staff Members: ' + numStaff);
 	}
-};	
+};
