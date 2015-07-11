@@ -344,7 +344,8 @@ exports.grouplist = [
 		ban: true,
 		modchat: true,
 		roomvoice: true,
-		forcerename: true,
+		redirect: true,
+		room<roomvoice>: true,
 		ip: true,
 		alts: '@u',
 		tournaments: true
@@ -353,10 +354,9 @@ exports.grouplist = [
 		symbol: '%',
 		id: "driver",
 		name: "Driver",
-		inherit: '+',
+		inherit: '$',
 		jurisdiction: 'u',
 		announce: true,
-		warn: true,
 		kick: true,
 		mute: true,
 		lock: true,
@@ -366,6 +366,7 @@ exports.grouplist = [
 		alts: '%u',
 		bypassblocks: 'u%@&~',
 		receiveauthmessages: true,
+		tournaments: true,
 		tournamentsmoderation: true,
 		jeopardy: true,
 		joinbattle: true
@@ -375,7 +376,6 @@ exports.grouplist = [
 		id: "operator",
 		name: "Operator",
 		inherit: '+',
-		broadcast: true,
 		warn: true
 	},
 	{
