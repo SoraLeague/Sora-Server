@@ -9,10 +9,10 @@ var Core = exports.Core = {
 		var file = JSON.parse(fs.readFileSync(fileName));
 		if (subItem) {
 			if (!file[item]) file[item] = {};
-			if (!options || !file[item].subItem) file[item].subItem = value;
-			else if (options === '+') file[item].subItem += value;
-			else if (options === '-') file[item].subItem -= value;
-			else file[item].subItem = value;
+			if (!options || !file[item].subItem) file[item][subItem] = value;
+			else if (options === '+') file[item][subItem] += value;
+			else if (options === '-') file[item][subItem] -= value;
+			else file[item][subItem] = value;
 		} else {
 			if (!options || !file[item]) file[item] = value;
 			else if (options === '+') file[item] += value;
