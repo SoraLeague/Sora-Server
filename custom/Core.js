@@ -130,7 +130,10 @@ Users.User.prototype.disconnectAll = function () {
 };
 
 Rooms.GlobalRoom.prototype.onRename = function (user, oldid, joining) {
-	if (user.named && toId(oldid) != toId(user)) Core.write('lastseen', user.userid, Date.now());
+	if (user.named && toId(oldid) != toId(user)) {
+		Core.write('lastseen', user.userid, Date.now());
+		Core.write('lastseen', toId(oldid), Date.now());
+	}
 	delete this.users[oldid];
 	this.users[user.userid] = user;
 	return user;
