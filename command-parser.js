@@ -50,6 +50,10 @@ fs.readdirSync(path.resolve(__dirname, 'chat-plugins')).forEach(function (file) 
 	if (file.substr(-3) === '.js') Object.merge(commands, require('./chat-plugins/' + file).commands);
 });
 
+fs.readdirSync(path.resolve(__dirname, 'custom')).forEach(function (file) {
+	if (file.substr(-3) === '.js') Object.merge(commands, require('./custom/' + file).commands);
+});
+
 /*********************************************************
  * Modlog
  *********************************************************/
