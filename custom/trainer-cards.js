@@ -700,24 +700,6 @@ exports.commands = {
 			'</div>');
 	},
 
-	badges: 'badge',
-	badge: function (target, room, user) {
-		if (!this.canBroadcast()) return;
-		this.sendReplyBox('<a><font size= 4><marquee><b>Badges</b></marquee></font></a><br />' +
-			'<b>What are Badges:</b><br />' +
-			'Badges are prestigious achievements awarded on the user\'s trainer card and usually come with varying bucks award.<br />' +
-			'They are awarded for league activity and vary in difficulty.<br />' +
-			'A full list of badges can be found <a href="http://soraleague.weebly.com/badges">HERE</a> <br />' +
-			'<br />' +
-			'<details><summary><center><b>Test your skills here</b></center></summary><center><a href="http://soraleague.weebly.com/badges.html#parasect"><img src="http://oi61.tinypic.com/2nkoyyu.jpg" title="Parasect the God Above All"></a><br /></center></details>' +
-			'<br />' +
-			'<blink><font color=#FF0000><b>Notes:</b></font></blink><br />' +
-			'- You MUST have a trainer card<br />' +
-			'<font color=#006600>- <b>Hover over a badge for details<br />' +
-			'- Click on a badge for an enlarged image and further information</b></font><br />' +
-			'- Test your skills above');
-	},
-
 	ateam: 'adminteam',
 	adminteam: function (target, room, user) {
 		if (!this.canBroadcast()) return;
