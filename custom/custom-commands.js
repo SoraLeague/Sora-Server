@@ -144,20 +144,17 @@ exports.commands = {
 		];
 		var randomColor = colors[Math.floor(Math.random() * colors.length)];
 		var poof = JSON.parse(fs.readFileSync('storage-files/poof.json'));
-		var message = poof[Math.floor(Math.random() * poof.length)];
-		if (message.indexOf('(user)') > -1) message.replace(/(user)/ig, user.name);
+		var message = toId(target) ? target : poof[Math.floor(Math.random() * poof.length)];
+		if (message.indexOf('(user)') > -1) message = message.replace(/\(user\)/ig, user.name);
 		else message = user.name + ' ' + message;
-		this.add('|html|<center><b><font color = "' + randomcolor + '">~~' + user.name + ' ' + message + '~~');
+		this.add('|html|<center><b><font color = "' + randomColor + '">~~ ' + message + ' ~~');
 		user.disconnectAll();
 	},
 
 	addpoof: function (target, room, user) {
 		if (!this.can('hotpatch') && !user.buypoof) return this.sendReply('You need to buy the ability to add a poof message from the shop!');
 		if (!target) return this.sendReply('/addpoof [message] - Adds a poof message into the list of possible poofs. No need to include any name at the start, just the message. Adding "(user)" into a poof message replaces "(user)" with the user\'s name.');
-		target = target.replace(/"/g, '\"');
-		if (toId(target.substring(0, 1))) {
-			target = target.substr(0, 1).toLowerCase() + target.substr(1);
-		}
+		target = target.replace(/"/g, '\"').trim();
 		if (!fs.existsSync('storage-files/poof.json')) fs.writeFile('storage-files/poof.json', '[]');
 		var poof = JSON.parse(fs.readFileSync('storage-files/poof.json'));
 		for (var i in poof) {
