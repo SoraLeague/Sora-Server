@@ -1,6 +1,8 @@
-custom-commands - Contains all extra commands/informational commands, etc.
-Shop - Contains shop commands. You probs shouldn't edit this unless you know what you're doing
-Core - Contains all the functions for varios things. Don't edit it. Evah.
-Poof - Contains poof commands. I might merge this with custom commands later
-Will make a trainer cards file soon
+To-do list:
+1) Finish Badge commands
+2) Add tournament bucks
+3) Add tournament elo
+4) Profiles
+I'm pretty sure there are more tiny things, but these are all the major things I can think of at the moment.
+If anyone's done fixing anything, edit this file so that we get to know, kay~?
 ~Silver
