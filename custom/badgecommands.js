@@ -5,7 +5,7 @@ var badgeList = {parasect:'Parasect', aegislash:'Aegislash', meowth:'Meowth', go
 
 exports.commands = {
     givebadge: function (target, room, user, connection, cmd) {
-        //if (user.userid !== 'frntierblade') return this.sendReply('Only Blade can give out badges');
+        if (user.userid !== 'frntierblade') return this.sendReply('Only Blade can give out badges');
         target = target.split(",");
         var badge = toId(target[0]);
         var user = target[1].trim();
