@@ -30,6 +30,15 @@ var Core = exports.Core = {
 		}
 		return file[item];
 	},
+	Delete: function (fileName, item, subItem) {
+		fileName = 'storage-files/' + fileName + '.json';
+		if (!fs.existsSync(fileName)) return;
+		var file = JSON.parse(fs.readFileSync(fileName));
+		if (subItem) {
+			if (file[item]) delete file[item][subItem];
+		} else delete file[item];
+		fs.writeFileSync(fileName, JSON.stringify(file, null, 1));
+	},
 	getLastSeen: function (user) {
 		user = toId(user);
 		var file = JSON.parse(fs.readFileSync('storage-files/lastseen.json'));

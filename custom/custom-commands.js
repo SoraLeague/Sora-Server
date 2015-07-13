@@ -153,7 +153,7 @@ exports.commands = {
 
 	addpoof: function (target, room, user) {
 		if (!this.can('hotpatch') && !user.buypoof) return this.sendReply('You need to buy the ability to add a poof message from the shop!');
-		if (!target) return this.sendReply('/addpoof [message] - Adds a poof message into the list of possible poofs. (No need to include any name at the start, just the message. Adding "(user)" into a poof message replaces "(user)" with the user\'s name.');
+		if (!target) return this.sendReply('/addpoof [message] - Adds a poof message into the list of possible poofs. No need to include any name at the start, just the message. Adding "(user)" into a poof message replaces "(user)" with the user\'s name.');
 		target = target.replace(/"/g, '\"');
 		if (toId(target.substring(0, 1))) {
 			target = target.substr(0, 1).toLowerCase() + target.substr(1);
