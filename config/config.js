@@ -345,7 +345,6 @@ exports.grouplist = [
 		modchat: true,
 		roomvoice: true,
 		redirect: true,
-		room<roomvoice>: true,
 		ip: true,
 		alts: '@u',
 		tournaments: true

@@ -5,7 +5,7 @@ var Core = exports.Core = {
 	write: function (fileName, item, value, options, subItem) {
 		//File SHOULD be a .JSON file. This is by far the best kind of file to store data in.
 		fileName = 'storage-files/' + fileName + '.json';
-		if (!existsSync(fileName)) fs.writeFileSync(fileName, '{}');
+		if (!fs.existsSync(fileName)) fs.writeFileSync(fileName, '{}');
 		var file = JSON.parse(fs.readFileSync(fileName));
 		if (subItem) {
 			if (!file[item]) file[item] = {};
@@ -45,7 +45,13 @@ var Core = exports.Core = {
 		var mins = Math.floor(seconds / 60);
 		var hours = Math.floor(mins / 60);
 		var days = Math.floor(hours / 24);
-		return format(days, 'day') + ', ' + format(hours % 24, 'hour') + ', ' + format(mins % 60, 'minute') + ', ' + format(seconds % 60, 'second');
+		
+		var total = [];
+		if (format(days, 'day')) total.push(format(days, 'day'));
+		if (format(hours % 24, 'hour')) total.push(format(hours % 24, 'hour'));
+		if (format(mins % 60, 'minute')) total.push(format(mins % 60, 'minute'));
+		if (!format(days, 'day')) total.push(format(seconds % 60, 'second'));
+		return total.join(', ');
 	}
 };
 

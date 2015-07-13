@@ -4,11 +4,24 @@ var shopclosed = false;
 
 exports.commands = {
 	
-	getbucks: function(target, room, user) {
+	getbucks: function (target, room, user) {
 		if (!this.canBroadcast()) return;
 		this.sendReplyBox('Please check out the Shop page in the link below to see methods of earning money:<br />' +
-			'- <a href="http://soraleague.weebly.com/shop.html">Shop</a><br />' +
-			'</div>');
+			'- <a href="http://soraleague.weebly.com/shop.html">Shop</a><br /></div>');
+	},
+	
+	atm: 'wallet',
+	money: 'wallet', 
+	cash: 'wallet', 
+	bucks: 'wallet',
+	purse: 'wallet', 
+	wallet: function (target, room, user) {
+		if (!this.canBroadcast()) return;
+		var User;
+		if (!toId(target)) User = user.name;
+		else User = Users.get(target) ? Users.get(target).name : target;
+		var money = Number(Core.read('money', toId(User))) || 'no';
+		this.sendReplyBox(User + ' has ' + money + ' bucks.');
 	},
 
 	shop: function(target, room, user) {
@@ -58,7 +71,8 @@ exports.commands = {
         var points = (Core.read('money', targetUser.userid) == 1) ? 'point' : 'points';
         targetUser.send('|popup|' + user.name + ' has given you ' + target + ' ' + points + '. You now have ' + Core.read('money', targetUser.userid) + ' ' + amt + '.');
         Rooms.rooms.staff.add(user.name + ' has given ' + targetUser.name + ' ' + target + ' ' + points + '. This user now has ' + Core.read('money', targetUser.userid) + ' ' + amt + '.');
-        return this.sendReply(targetUser.name + ' was given ' + Number(target) + ' ' + points + '. This user now has ' + Core.read('money', targetUser.userid) + ' ' + amt + '.');
+        Rooms.rooms.staff.update();
+		return this.sendReply(targetUser.name + ' was given ' + Number(target) + ' ' + points + '. This user now has ' + Core.read('money', targetUser.userid) + ' ' + amt + '.');
     },
     
     removebucks: 'remove',
@@ -76,11 +90,12 @@ exports.commands = {
 		if (isNaN(target)) return this.sendReply(target + " isn't a number, you egg.");
 		if (Core.read('money', targetUser.userid) < target) return this.sendReply('You can\'t take away more points than what ' + targetUser.name + ' already has!');
         Core.write('money', targetUser.userid, Number(target), '-');
-        var amt = (money.checkAmt(targetUser.userid, 'money') == 1) ? 'point' : 'points';
+        var amt = (Core.read('money', targetUser.userid) == 1) ? 'point' : 'points';
 		var points = (target == 1) ? 'point' : 'points';
-        targetUser.send('|popup|'+user.name+' has taken ' + target + ' away ' + points+' from you. You now have ' + Core.read('money', targetUser.userid) + ' '+total+'.');
-        Rooms.rooms.staff.add(user.name + ' has taken away ' + target + ' ' + points + ' from '+targetUser.name+'. This user now has ' + Core.read('money', targetUser.userid) + ' '+total+'.');
-        return this.sendReply('You have taken away '+ target + ' ' + points + ' from ' + targetUser.name + '. This user now has ' + Core.read('money', targetUser.userid) + ' ' + total + '.');
+        targetUser.send('|popup|'+user.name+' has taken ' + target + ' away ' + points+' from you. You now have ' + Core.read('money', targetUser.userid) + ' '+amt+'.');
+        Rooms.rooms.staff.add(user.name + ' has taken away ' + target + ' ' + points + ' from '+targetUser.name+'. This user now has ' + Core.read('money', targetUser.userid) + ' '+amt+'.');
+        Rooms.rooms.staff.update();
+		return this.sendReply('You have taken away '+ target + ' ' + points + ' from ' + targetUser.name + '. This user now has ' + Core.read('money', targetUser.userid) + ' ' + amt + '.');
     },
     
     buy: function(target, room, user) {
@@ -89,8 +104,7 @@ exports.commands = {
 
         if (target === 'symbol') {
             if (user.hassymbol || user.needssymbol) return this.sendReply("You've already bought a custom symbol!");
-            for (var i in Rooms.rooms)
-            	if (user.locked || Rooms.rooms[i].isMuted(user)) return this.sendReply("You cannot do this while unable to talk.");
+            if (user.locked) return this.sendReply("You cannot buy this while you're locked.");
             var price = 5;
             if (Core.read('money', user.userid) < price) return this.sendReply("You don't have enough money to buy a symbol.");
 
@@ -120,7 +134,7 @@ exports.commands = {
             this.sendReply("You have bought a chatroom for you to own.");
             this.sendReply("PM an admin to create your room and make you the roomowner.");
             for (var i in Users.users) {
-            	if (Users.users[i].can('hotpatch')) Users.users[i].send('|pm|~Server-Kun|'+user.name+' has bought a chatroom.')
+            	if (Users.users[i].can('hotpatch')) Users.users[i].send('|pm|~Server-Kun [Do Not Reply]|' + Users.users[i].userid + '|' + user.name + ' has bought a chatroom.')
             }
 
         } else if (target === 'card') {
@@ -131,7 +145,7 @@ exports.commands = {
             Rooms.rooms.staff.add(user.name + ' has bought a trainer card.');
             this.sendReply("You have bought a trainer card. PM an admin to add it.");
             for (var i in Users.users) {
-            	if (Users.users[i].can('hotpatch')) Users.users[i].send('|pm|~Server-Kun|'+user.name+' has bought a trainer card.')
+            	if (Users.users[i].can('hotpatch')) Users.users[i].send('|pm|~Server-Kun [Do Not Reply]|' + Users.users[i].userid + '|'+user.name+' has bought a trainer card.')
             }
 
         } else if (target === 'fix') {
@@ -167,7 +181,7 @@ exports.commands = {
         } else {
             return this.sendReply("That item isn't in the shop.");
         }
-        money.removeAmt(toId(user), "money", price);
+        Core.write("money", user.userid, price, '-');
     },
     
     setpotd: function(target, room, user) {
@@ -192,7 +206,7 @@ exports.commands = {
         if (target.length > 1) return this.sendReply('The symbol can only be one character long.');
         var notallowed = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '~', '#', '+', '%', '@', '&', '★'];
         for (var i = 0; i < notallowed.length; i++) {
-            if (target.indexOf(notallowed[i]) !== -1) return this.sendReply('For safety reasons, ' + target + ' cannot be used as a custom symbol.');
+            if (target.indexOf(notallowed[i]) !== -1) return this.sendReply('For reasons, ' + target + ' cannot be used as a custom symbol.');
         }
         user.getIdentity = function(roomid) {
             if (this.locked) {

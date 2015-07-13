@@ -1,9 +1,9 @@
 exports.commands = {
-    givebadge: function (target, room, user) {
-        if (user.userid !== 'frntierblade') return this.sendReply('Only Blade can give out badges');
+    givebadge: function (target, room, user, connection, cmd) {
+        //if (user.userid !== 'frntierblade') return this.sendReply('Only Blade can give out badges');
         target = target.split(",");
         var badge = toId(target[0]);
-        var user = target[1];
+        var user = target[1].trim();
         if (!badge || !toId(user)) return this.sendReply('/givebadge [badge name], [user] - Gives a specified user the specified badge.');
         if (!Users.get(user) && cmd !== 'forcegivebadge') return this.sendReply('The user \'' + user + '\' was not found. If you would still like to give this user a badge, use /forcegivebadge instead.');
         badge.replace(/badge/g, '');
@@ -17,8 +17,6 @@ exports.commands = {
             Users.get(user).send('|raw|Congratz! You have been awarded a badge!');
         }
         this.sendReply('You have successfully given ' + (Users.get(user) ? Users.get(user).name : name) + ' the ' + badgeList[badge] + ' badge.');
-    },
-    
-    
+    }
 };
         

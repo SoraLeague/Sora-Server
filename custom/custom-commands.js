@@ -182,9 +182,9 @@ exports.commands = {
 		if (!poofoff) return this.sendReply('Poofs have not been disabled.');
 		poofoff = false;
 		this.sendReply("Poofs have been enabled.");
-	}
+	},
 
-		sprite: function (target, room, user, connection, cmd) {
+	sprite: function (target, room, user, connection, cmd) {
 		if (!this.canBroadcast()) return;
 		if (!toId(target)) return this.sendReply('/sprite [Pokémon] - Allows you to view the sprite of a Pokémon');
 		target = target.toLowerCase().split(',');
