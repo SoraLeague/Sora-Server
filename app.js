@@ -87,6 +87,10 @@ try {
 	global.Config = require('./config/config.js');
 }
 
+global.reloadConfig = function () {
+	global.Config = require('./config/config.js');
+}
+
 if (Config.watchconfig) {
 	fs.watchFile(path.resolve(__dirname, 'config/config.js'), function (curr, prev) {
 		if (curr.mtime <= prev.mtime) return;
@@ -384,7 +388,7 @@ fs.readFile(path.resolve(__dirname, 'config/ipbans.txt'), function (err, data) {
 	}
 	Users.checkRangeBanned = Cidr.checker(rangebans);
 });
-
+global.CommandParser = require('./command-parser.js');
 global.Core = require('./custom/Core.js').Core;
 
 /*********************************************************

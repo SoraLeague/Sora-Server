@@ -655,10 +655,11 @@ exports.Formats = [
 				this.add('-start', source, 'typechange', type, '[from] Protean');
 			}
 		}
-	},
+	},     
 	{
 		name: "Super Staff Bros.",
 		section: "Other Metagames",
+		column: 2,
 
 		searchShow: false,
 		team: 'randomSeasonalStaff',
@@ -3659,10 +3660,10 @@ exports.Formats = [
 			}
 		}
 	},
+	
 	{
 		name: "CAP",
 		section: "Other Metagames",
-		column: 2,
 
 		searchShow: false,
 		ruleset: ['OU'],

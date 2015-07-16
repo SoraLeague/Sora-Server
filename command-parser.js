@@ -176,7 +176,7 @@ var Context = exports.Context = (function () {
 	}
 
 	Context.prototype.sendReply = function (data) {
-		if (this.broadcasting) {
+		if (this.broadcasting && !this.user.isSpamroomed) {
 			this.room.add(data);
 		} else {
 			this.connection.sendTo(this.room, data);
@@ -265,7 +265,12 @@ var Context = exports.Context = (function () {
 				this.errorReply("You can't broadcast this because it was just broadcast.");
 				return false;
 			}
-			this.add('|c|' + this.user.getIdentity(this.room.id) + '|' + (suppressMessage || message));
+			if (this.user.isSpamroomed) {
+				this.sendReply('|c|' + this.user.getIdentity(this.room.id) + '|' + (suppressMessage || message));
+				Rooms.rooms.spamroom.add('|c|' + this.user.getIdentity(this.room.id) + '| __(to room ' + this.room.title + ')__ ' + (suppressMessage || message));
+				Rooms.rooms.spamroom.update();
+			} else 
+				this.add('|c|' + this.user.getIdentity(this.room.id) + '|' + (suppressMessage || message));
 			this.room.lastBroadcast = normalized;
 			this.room.lastBroadcastTime = Date.now();
 

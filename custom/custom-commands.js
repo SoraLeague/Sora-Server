@@ -195,7 +195,7 @@ exports.commands = {
 		function callback(error, response, body) {
 			if (!error && response.statusCode == 200) {
 				var page = JSON.parse(body);
-				var output = '<font color=' + Core.profile.color + '><b>Definitions for ' + target + ':</b></font><br />';
+				var output = '<b>Definitions for ' + target + ':</b><br />';
 				if (!page[0]) {
 					self.sendReplyBox('No results for <b>"' + target + '"</b>.');
 					return room.update();
