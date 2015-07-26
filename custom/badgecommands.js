@@ -29,6 +29,7 @@ var badgeDetails = {
 	lucy: '15 Symbol defends',
 	noland: '30 Symbol defends',
 	meme: 'Dank memes',
+	porygonz: '<br /><a href="http://soraleague.weebly.com/badges.html#porygon"><img src="http://i.imgur.com/bJrRxB8.png" title="Broke the server while trying to repair it, good job mate"></a>'
 	smeargle: 'Created a work of art for Sora'
 };
 
