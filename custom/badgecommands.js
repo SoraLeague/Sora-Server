@@ -8,7 +8,7 @@ var badgeDetails = {
 	aegislash: 'Won a major league tournament',
 	meowth: 'Donated to the server',
 	golduck: 'Reached the Hall of Fame',
-	starly: '1 year on Sora',
+	starly: '<a href="http://soraleague.weebly.com/badges.html#starly"><img src="http://i.imgur.com/zaLhq1k.png" title="Starly Badge: One  Year on Sora"></a>',
 	staravia: '2 years on Sora',
 	staraptor: '3 years on Sora',
 	gym: 'Obtained all 18 Gym Badges',
@@ -29,7 +29,7 @@ var badgeDetails = {
 	lucy: '15 Symbol defends',
 	noland: '30 Symbol defends',
 	meme: 'Dank memes',
-	porygonz: '<br /><a href="http://soraleague.weebly.com/badges.html#porygon"><img src="http://i.imgur.com/bJrRxB8.png" title="Broke the server while trying to repair it, good job mate"></a>'
+	porygonz: '<br /><a href="http://soraleague.weebly.com/badges.html#porygon"><img src="http://i.imgur.com/bJrRxB8.png" title="Broke the server while trying to repair it, good job mate"></a>',
 	smeargle: 'Created a work of art for Sora'
 };
 
