@@ -6,9 +6,7 @@ var poofoff = false;
 exports.commands = {
 	//misc
 	
-	hide: 'hideauth',
-	hiderank: 'hideauth',
-	hideauth: function (target, room, user) {
+	hide: function (target, room, user) {
                 / add support for away
                 if (!this.can('lock')) return;
                 user.getIdentity = function () {
@@ -22,9 +20,7 @@ exports.commands = {
         this.sendReply('You have hidden your staff symbol.');
     },
 	
-	unhide: 'showauth',
-	showrank: 'showauth',
-	showauth: function (target, room, user) {
+	show: function (target, room, user) {
                 if (!this.can('lock')) return;
                 delete user.getIdentity
                 user.hiding = false;
