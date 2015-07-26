@@ -1,7 +1,7 @@
 var badgeList = {parasect:'Parasect', aegislash:'Aegislash', meowth:'Meowth', golduck:'Golduck', starly:'Starly', 
             staravia:'Staravia', starptor:'Staraptor', flannery:'Flannery', skyla:'Skyla', volkner:'Volkner', brock:'Brock', 
             bertha:'Bertha', koga:'Koga', caitlin:'Caitlin', brandon:'Brandon', lucy:'Lucy', noland:'Noland', smeargle:'Smeargle', 
-            porygonz:'<a href="http://soraleague.weebly.com/badges.html#porygon"><img src="http://i.imgur.com/bJrRxB8.png" title="Broke the server while trying to repair it, good job mate"></a>', egg:'Egg', meme:'ℳℯღℯ', gym:"Gym Badge Collector", e4:"Elite Four Conqueror", frontier:"Frontier Symbol Obtainer",
+            porygonz:'Porygon-Z', egg:'Egg', meme:'ℳℯღℯ', gym:"Gym Badge Collector", e4:"Elite Four Conqueror", frontier:"Frontier Symbol Obtainer",
 			gymrank:"Gym Leader Rank", e4rank:"Elite Four Rank", frontierrank:"Frontier Rank", efrontierrank:"Elite Frontier Rank"};
 var badgeDetails = {
 	parasect: 'Founder of Sora',
