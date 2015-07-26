@@ -627,14 +627,6 @@ exports.commands = {
 			'</div>');
 	},
 
-	sidemissions: 'sidemissions',
-	sidemissions: function (target, room, user) {
-		if (!this.canBroadcast()) return;
-		this.sendReplyBox('Here is a list of Sora League Side Missions:<br />' +
-			'- <a href="http://soraleague.weebly.com/side-missions.html">Sora League Side Missions</a><br />' +
-			'</div>');
-	},
-
 	quoteoftheday: 'qotd',
 	qotd: function (target, room, user) {
 		if (!this.canBroadcast()) return;
