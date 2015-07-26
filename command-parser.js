@@ -54,6 +54,10 @@ fs.readdirSync(path.resolve(__dirname, 'custom')).forEach(function (file) {
 	if (file.substr(-3) === '.js') Object.merge(commands, require('./custom/' + file).commands);
 });
 
+fs.readdirSync(path.resolve(__dirname, 'custom/Games')).forEach(function (file) {
+	if (file.substr(-3) === '.js') Object.merge(commands, require('./custom/Games/' + file).commands);
+});
+
 /*********************************************************
  * Modlog
  *********************************************************/
