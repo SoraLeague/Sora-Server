@@ -28,7 +28,7 @@ var Core = exports.Core = {
 		if (subItem) {
 			if (file[item]) return file[item][subItem];
 		}
-		return file[item];
+		return file[item] || 0;
 	},
 	Delete: function (fileName, item, subItem) {
 		fileName = 'storage-files/' + fileName + '.json';

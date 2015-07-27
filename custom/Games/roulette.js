@@ -47,7 +47,7 @@ var Roulette = (function () {
 			Core.write('money', i, this.players[i].bets, '+');
 		clearTimeout(this.timer);
 		this.room.add('|html|<b>' + user.name + ' has ended the current roulette.');
-		delete roulettes[room.id];
+		delete roulettes[this.room.id];
 	};
 	Roulette.prototype.spin = function () {
 		var random = Math.floor((Math.random() * 11) + 1);
