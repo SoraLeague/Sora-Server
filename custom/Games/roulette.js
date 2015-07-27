@@ -129,8 +129,8 @@ var cmds = {
             'The values of red and yellow are 4, blue and green 5, and black, 8. The cash reward is equal to the color\'s prize value multiplied by the number of bets you\'ve made, if the roulette lands on the color you\'ve bet on.');
 	},
 	
-	start: 'new',
-	'new': function (target, room, user) {
+	'new': 'start',
+	start: function (target, room, user) {
 		if (!this.can('broadcast', null, room)) return false;
 		if (roulettes[room.id]) return this.sendReply('There is already a game of roulette going on.');
 		roulettes[room.id] = new Roulette(room);

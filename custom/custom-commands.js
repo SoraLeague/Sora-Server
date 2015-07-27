@@ -7,7 +7,7 @@ exports.commands = {
 	//misc
 	
 	hide: function (target, room, user) {
-                / add support for away
+                // add support for away
                 if (!this.can('lock')) return;
                 user.getIdentity = function () {
                         var name = this.name + (this.away ? " - Ⓐⓦⓐⓨ" : "");
@@ -20,7 +20,7 @@ exports.commands = {
         this.sendReply('You have hidden your staff symbol.');
     },
 	
-	show: function (target, room, user) {
+	unhide: function (target, room, user) {
                 if (!this.can('lock')) return;
                 delete user.getIdentity
                 user.hiding = false;
