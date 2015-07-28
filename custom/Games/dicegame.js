@@ -25,13 +25,18 @@ var Dice = (function () {
 	}
 	
 	Dice.prototype.join = function (user, self) {
-		if (Core.read('money', user.userid) < this.reward) return this.sendReply('You don\'t have enough money for this game of dice.');
+		if (Core.read('money', user.userid) < this.reward) return self.sendReply('You don\'t have enough money for this game of dice.');
 		if (this.players.indexOf(user) > -1) return self.sendReply('You have already joined this game of dice.');
-		for (var i = 0; i < user.getAlts().length; i++) {
-			if (this.players.length && this.players[0].userid === user.getAlts()[i]) return self.sendReply('Your alt \'' + user.getAlts()[i] + '\' has already joined the roulette. Continue playing under that alt.');
-		}
-		for (i in user.prevNames) {
-			if (this.players.length && this.players[0].userid === i && i !== user.userid) return self.sendReply('Your alt \'' + user.prevNames[i] + '\' has already joined the roulette. Continue playing under that alt.');
+		var p1 = this.players[0];
+		if (this.players.length) {
+			for (var i = 0; i < user.getAlts().length; i++) {
+				if (p1.userid === user.getAlts()[i]) return self.sendReply('Your alt \'' + user.getAlts()[i] + '\' has already joined this game of dice.');
+			}
+			if (p1.getAlts().indexOf(user.userid) > -1) return self.sendReply('Your alt \'' + p1.name + '\' has already joined this game of dice.');
+			
+			for (i in user.prevNames) {
+				if (pl.userid === i && i !== user.userid) return self.sendReply('Your have alreadt joined this game of dice.');
+			}
 		}
 		this.players.push(user);
 		this.room.add(user.name + ' has joined the game!');
@@ -65,8 +70,8 @@ var Dice = (function () {
 		this.room.add('|html|<div class="infobox"><center><b>The dice game has been started!</b><br />' +
             'Rolling the dice...<br />' +
             '<img src = "' + diceImg(roll1) + '" align = "left"><img src = "' + diceImg(roll2) + '" align = "right"><br/>' +
-            '<b>' + p1.name + '</b> rolled ' + roll1 + '!<br />' +
-            '<b>' + p2.name + '</b> rolled ' + roll2 + '!<br />' +
+            '<b>' + p1.name + '</b> rolled ' + (roll1 + 1) + '!<br />' +
+            '<b>' + p2.name + '</b> rolled ' + (roll2 + 1) + '!<br />' +
 			'<b>' + winner + '</b> has won <b>' + this.reward + '</b> ' + buck + '!<br/>' + 
 			'Better luck next time, ' + loser + '!');
 		Core.write('money', toId(winner), this.reward, '+');
@@ -86,7 +91,7 @@ var Dice = (function () {
 var cmds = {
 	help: function (target, room, user) {
 		this.sendReplyBox('<b><center>Dice rules and commands</center></font></b><br />' +
-            '-/dicegame or /diceg <i>Amount</i> - Starts a game of dice in the room for the specified amount (1 by default). Must be ranked + or higher to use.<br />' +
+            '-/dicegame or /diceg <i>Amount</i> - Starts a game of dice in the room for the specified number of bucks (1 by default). Must be ranked + or higher to use.<br />' +
             '-/dicegame join or /play - Joins the game of dice. You cannot use this if you don\'t have the number of bucks the game is for. <br />' +
             '-/dicegame leave or /leavegame - Leaves the game of dice. <br />' +
             '-/dicegame end or /diceend - Shows the number of participants in the game.');

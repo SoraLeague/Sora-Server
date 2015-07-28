@@ -18,6 +18,15 @@ var Roulette = (function () {
 		}, 1000 * 60); //1 minute
 	}
 	Roulette.prototype.placeBet = function (user, color, self) {
+		for (var i = 0; i < user.getAlts().length; i++) {
+			if (this.players[user.getAlts()[i]]) return self.sendReply('Your alt \'' + user.getAlts()[i] + '\' has already joined the roulette. Continue playing under that alt.');
+		}
+		for (i in this.players) {
+			if (Users.get(i).getAlts().indexOf(user.userid) > -1) return self.sendReply('Your alt \'' + Users.get(i).name + '\' has already joined the roulette. Continue playing under that alt.');
+		}
+		for (i in user.prevNames) {
+			if (this.players[i] && i !== user.userid) return self.sendReply('Your alt \'' + user.prevNames[i] + '\' has already joined the roulette. Continue playing under that alt.');
+		}
 		if (!this.players[user.userid]) {
 			this.players[user.userid] = {};
 			this.players[user.userid].color = color;
@@ -144,12 +153,6 @@ var cmds = {
 	bet: function (target, room, user) {
 		if (!roulettes[room.id]) return this.sendReply('There is no roulette going on in this room right now.');
 		if (Core.read('money', user.userid) < 1) return this.sendReply("You don't have enough money to place bets.");
-		for (var i = 0; i < user.getAlts().length; i++) {
-			if (roulettes[room.id].players[user.getAlts()[i]]) return this.sendReply('Your alt \'' + user.getAlts()[i] + '\' has already joined the roulette. Continue playing under that alt.');
-		}
-		for (i in user.prevNames) {
-			if (roulettes[room.id].players[i] && i !== user.userid) return this.sendReply('Your alt \'' + user.prevNames[i] + '\' has already joined the roulette. Continue playing under that alt.');
-		}
         target = toId(target);
         if (!COLORS[target]) return this.sendReply(target + ' is not a valid color');
 		

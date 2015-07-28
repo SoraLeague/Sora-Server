@@ -1,4 +1,4 @@
-/*Hangman script, blah blah blah. Hope you guys like it. =)
+/*Hangman script, blah blah blah. Hope you guys like it. :)
 ~ SilverTactic (Siiilver)*/
  
 var hangman = exports.hangman = {};
