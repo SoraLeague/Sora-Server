@@ -2,19 +2,20 @@ const COLORS = {'red':1, 'blue':1, 'yellow':1, 'green':1, 'black':1};
 
 var roulettes = exports.roulettes = {};
 
-function checkAlts (user, object, self) {
-	for (var i = 0; i < user.getAlts().length; i++) {
-		if (object[user.getAlts()[i]]) return self.sendReply('Your alt \'' + user.getAlts()[i] + '\' has already joined the roulette. Continue playing under that alt.');
-	}
-	for (i in user.prevNames) {
-		if (object[i] && i !== user.userid) return self.sendReply('Your alt \'' + user.prevNames[i] + '\' has already joined the roulette. Continue playing under that alt.');
-	}
-}
 var Roulette = (function () {
 	function Roulette (room) {
 		this.room = room;
 		this.players = {};
-		this.timer = setTimeout(this.spin.bind(this), 1000 * 60); //1 minute
+		var that = this;
+		this.timer = setTimeout(function () {
+			if (Object.keys(that.players).length < 1) {
+				that.room.add('|raw|<b>The roulette has been ended due to the lack of players');
+				delete roulettes[that.room.id];
+				return;
+			}
+			that.spin();
+			that.room.update();
+		}, 1000 * 60); //1 minute
 	}
 	Roulette.prototype.placeBet = function (user, color, self) {
 		if (!this.players[user.userid]) {
@@ -143,7 +144,12 @@ var cmds = {
 	bet: function (target, room, user) {
 		if (!roulettes[room.id]) return this.sendReply('There is no roulette going on in this room right now.');
 		if (Core.read('money', user.userid) < 1) return this.sendReply("You don't have enough money to place bets.");
-		if (checkAlts(user, roulettes[room.id], this)) return;
+		for (var i = 0; i < user.getAlts().length; i++) {
+			if (roulettes[room.id].players[user.getAlts()[i]]) return this.sendReply('Your alt \'' + user.getAlts()[i] + '\' has already joined the roulette. Continue playing under that alt.');
+		}
+		for (i in user.prevNames) {
+			if (roulettes[room.id].players[i] && i !== user.userid) return this.sendReply('Your alt \'' + user.prevNames[i] + '\' has already joined the roulette. Continue playing under that alt.');
+		}
         target = toId(target);
         if (!COLORS[target]) return this.sendReply(target + ' is not a valid color');
 		
