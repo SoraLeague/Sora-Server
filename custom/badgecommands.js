@@ -7,7 +7,7 @@ var badgeDetails = {
 	parasect: 'Founder of Sora',
 	aegislash: '<img src="http://i.imgur.com/aJY3eKg.png" title="Winner of a major Sora tournament">',
 	meowth: '<img src="http://i.imgur.com/WmfgOXf.png" title="Server Donator">',
-	golduck: '<img src="http://oi62.tinypic.com/xgmjhc.jpg" title="Golduck the Meta Breaker: Reached the Hall of Fame">',
+	golduck: '<img src="http://i.imgur.com/tMLknqb.png" title="Golduck the Meta Breaker: Reached the Hall of Fame">',
 	starly: '<img src="http://i.imgur.com/zaLhq1k.png" title="Starly: One Year on Sora">',
 	staravia: '<img src="http://i.imgur.com/2UmjiLt.png" title="Staravia Badge: Two Years on Sora">',
 	staraptor: '<img src="http://i.imgur.com/5g3lvwi.png" title="Staraptor Badge: Three Years on Sora">',
