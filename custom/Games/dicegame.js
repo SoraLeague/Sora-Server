@@ -35,7 +35,7 @@ var Dice = (function () {
 			if (p1.getAlts().indexOf(user.userid) > -1) return self.sendReply('Your alt \'' + p1.name + '\' has already joined this game of dice.');
 			
 			for (i in user.prevNames) {
-				if (pl.userid === i && i !== user.userid) return self.sendReply('Your have alreadt joined this game of dice.');
+				if (pl.userid === i && i !== user.userid) return self.sendReply('Your have already joined this game of dice.');
 			}
 		}
 		this.players.push(user);
@@ -84,19 +84,20 @@ var Dice = (function () {
 	Dice.prototype.end = function (user) {
 		this.room.add('|html|<b>The game of dice has been ended by ' + user.name);
 		clearTimeout(this.timer);
+		delete dicegames[this.room.id];
 	};
 	return Dice;
 })();
 
 var cmds = {
+	'': 'help',
 	help: function (target, room, user) {
 		this.sendReplyBox('<b><center>Dice rules and commands</center></font></b><br />' +
-            '-/dicegame or /diceg <i>Amount</i> - Starts a game of dice in the room for the specified number of bucks (1 by default). Must be ranked + or higher to use.<br />' +
+            '-/diceon or /dicegame <i>Amount</i> - Starts a game of dice in the room for the specified number of bucks (1 by default). Must be ranked + or higher to use.<br />' +
             '-/dicegame join or /play - Joins the game of dice. You cannot use this if you don\'t have the number of bucks the game is for. <br />' +
             '-/dicegame leave or /leavegame - Leaves the game of dice. <br />' +
             '-/dicegame end or /diceend - Shows the number of participants in the game.');
 	},
-	'': 'start',
 	start: function (target, room, user) {
 		if (!this.can('broadcast', null, room)) return this.sendReply('You must be ranked + or higher to start a game of dice.');
 		if (dicegames[room.id]) return this.sendReply('There is already a game of dice going on in this room.');
@@ -131,6 +132,7 @@ var cmds = {
 exports.commands = {
 	diceg: 'dicegame',
 	dicegame: cmds,
+	diceon: cmds.start,
 	dicehelp: cmds.help,
 	diceon: cmds.start,
 	joindice: cmds.join,

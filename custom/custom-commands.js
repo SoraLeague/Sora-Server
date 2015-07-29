@@ -494,10 +494,10 @@ exports.commands = {
 		if (targetUser.blockChallenges && !user.can('bypassblocks', targetUser)) {
 			return this.popupReply("The user '" + this.targetUsername + "' is not accepting challenges right now.");
 		}
-		if (Config.modchat.pm) {
+		if (Config.pmmodchat) {
 			var userGroup = user.group;
-			if (Config.groups.bySymbol[userGroup].rank < Config.groups.bySymbol[Config.modchat.pm].rank) {
-				var groupName = Config.groups.bySymbol[Config.modchat.pm].name || Config.modchat.pm;
+			if (Config.groupsranking.indexOf(userGroup) < Config.groupsranking.indexOf(Config.pmmodchat)) {
+				var groupName = Config.groups[Config.pmmodchat].name || Config.pmmodchat;
 				this.popupReply("Because moderated chat is set, you must be of rank " + groupName + " or higher to challenge users.");
 				return false;
 			}
