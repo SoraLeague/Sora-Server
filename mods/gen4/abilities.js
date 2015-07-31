@@ -11,7 +11,21 @@ exports.BattleAbilities = {
 			}
 		}
 	},
+	"flowergift": {
+		inherit: true,
+		onAllyModifyAtk: function (atk) {
+			if (this.isWeather('sunnyday')) {
+				return this.chainModify(1.5);
+			}
+		},
+		onAllyModifySpD: function (spd) {
+			if (this.isWeather('sunnyday')) {
+				return this.chainModify(1.5);
+			}
+		}
+	},
 	"leafguard": {
+		inherit: true,
 		onSetStatus: function (status, target, source, effect) {
 			if (effect && effect.id === 'rest') {
 				return;
@@ -106,9 +120,9 @@ exports.BattleAbilities = {
 		onStart: function (pokemon) {
 			this.add('-ability', pokemon, 'Pressure');
 		},
-		onSourceDeductPP: function (pp, target, source) {
+		onDeductPP: function (target, source) {
 			if (target === source) return;
-			return pp + 1;
+			return 1;
 		},
 		id: "pressure",
 		name: "Pressure",
