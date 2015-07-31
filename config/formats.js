@@ -206,6 +206,41 @@ exports.Formats = [
 		banlist: ['Uber', 'Soul Dew', 'Gengarite', 'Kangaskhanite', 'Lucarionite', 'Mawilite', 'Salamencite']
 	},
 	{
+		name: "Big Top Arena",
+		section: "ORAS Singles",
+
+		ruleset: ['OU'],
+		banlist: ['Uber', 'Soul Dew', 'Gengarite', 'Kangaskhanite', 'Lucarionite', 'Mawilite', 'Salamencite'],
+		onBegin: function () {
+			this.add('-fieldstart', 'move: Big Top Arena');
+			this.add('-message', "Now presenting...!");
+		},
+		onModifyMove: function (move) {
+			var moves = {"strength":1, "woodhammer":1, 'dualchop':1, 'heatcrash':1, 'heavyslam':1, 'skydrop':1, 'bulldoze':1, 'iciclecrash':1, 'bodyslam':1, 
+				'stomp':1, 'gigaimpact':1, 'pound':1, 'smackdown':1, 'irontail':1, 'meteormash':1, 'crabhammer':1, 'dragonrush':1, 'bounce':1, 'earthquake':1,
+				'magnitude':1};
+			var abilities = {'sheerforce':1, 'guts':1, 'hugepower':1, 'purepower':1};
+			if ((move.type === "Fighting" || moves[move.id]) && move.category !== 'Status') {
+				var number = Math.floor(Math.random() * 18) + 8;
+				move.basePower *= (number * 0.1);
+				move.onTry = function (move) {
+					this.add('-message', "WHAMMO!");
+					if (number <= 10) this.add('-message', "...WEAK!");
+					else if (number <= 13) this.add('-message', "...OK!");
+					else if (number <= 18) this.add('-message', "...NICE!");
+					else if (number <= 22) this.add('-message', "...POWERFUL!");
+					else this.add('-message', "OVER 9000!!!");
+				};
+			}
+			if (moves.flags['sound']) {
+				move.basePower *= 1.5;
+				move.onTry = function (move) {
+					this.add('-message', "Loud and clear!");
+				};
+			}
+		}
+	},
+	{
 		name: "OU (no Mega)",
 		section: "ORAS Singles",
 

@@ -1,5 +1,5 @@
 // The server port - the port to run Pokemon Showdown under
-exports.port = 13000;
+exports.port = 8000;
 
 // proxyip - proxy IPs with trusted X-Forwarded-For headers
 //   This can be either false (meaning not to trust any proxies) or an array
@@ -153,9 +153,9 @@ exports.inactiveuserthreshold = 1000 * 60 * 60;
 //
 // Your server *must* be registered in order for your custom avatars to be
 // displayed in the client.
-exports.customavatars = {
-	//'userid': 'customavatar.png'
-	'onyxeagle': '057.gif',
+exports.customavatars = JSON.parse(require('fs').readFileSync('storage-files/customavatars.json'));
+
+	/*'onyxeagle': '057.gif',
 	  'chmpionbart': '100.gif',
 	  'champinnah': '113.png',
 	  'artistejeratt': '045.jpg',
@@ -221,7 +221,7 @@ exports.customavatars = {
 	  'gymldrmark': '117.png',
 	  'gymldrleo': '118.gif',
 	  'gymldrterror': '119.gif'
-};
+};*/
 
 // Tournament announcements
 // When tournaments are created in rooms listed below, they will be announced in

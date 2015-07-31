@@ -22,10 +22,10 @@ var Poll = (function () {
 		var options = '';
 		for (var i = 1; i < choices.length; i++) {
 			if (!choices[i].replace(/ /g, '')) return self.sendReply('A poll option cannot be blank.');
-			options += '<li><button name = "send" value = "/poll vote ' + choices[i] + '">' + choices[i] + '</button> ';
+			options += '<button name = "send" value = "/poll vote ' + choices[i] + '">' + choices[i] + '</button> ';
 		}
-		this.room.add('|html|<div class = "infobox"><center><font size = 3><b>' + question + '</b></font></center><br/>' +
-			'<font color = "gray"><i><b>Poll started by ' + user.name + '</b></i></font><br/>' +
+		this.room.add('|html|<div class = "infobox"><center><font size = 2><b>' + question + '</b></font></center><br/>' +
+			'<font color = "gray" size = 1><i><b>Poll started by ' + user.name + '</b></i></font><br/>' +
 			'<hr>' + options);
 	}
 
@@ -59,33 +59,33 @@ var Poll = (function () {
 	Poll.prototype.remind = function (user, broadcasting, self) {
 		var options = '';
 		for (var i in this.options) {
-			options += '<li><button name = "send" value = "/poll vote ' + this.options[i].name + '">' + this.options[i].name + '</button> ';
+			options += '<button name = "send" value = "/poll vote ' + this.options[i].name + '">' + this.options[i].name + '</button> ';
 		}
 		if (broadcasting) {
 			self.sendReply('|html|<div class = "infobox"><center><font size = 2><b>' + this.question + '</b></font></center><br/>' +
-				'<font color = "gray"><i><b>Poll reminded by ' + user.name + '</b></i></font><br/>' +
+				'<font color = "gray" size = 1><i><b>Poll reminded by ' + user.name + '</b></i></font><br/>' +
 				'<hr>' + options);
 		} else {
 			self.sendReply('|html|<div class = "infobox"><center><font size = 2><b>' + this.question + '</b></font></center><br/>' +
-				'<font color = "gray"><i><b>Poll started by ' + this.starter + '</b></i></font><br/>' +
+				'<font color = "gray" size = 1><i><b>Poll started by ' + this.starter + '</b></i></font><br/>' +
 				'<hr>' + options);
 		}
 	};
 
-	Poll.prototype.end = function (user, self) {
+	Poll.prototype.end = function (user) {
 		if (Object.keys(this.users).length < 2) {
 			clearTimeout(this.timer);
 			delete polls[this.room.id];
-			return self.add('|html|<b>The poll has been canceled due to the lack of voters.');
+			return this.room.add('|html|<b>The poll has been canceled due to the lack of voters.');
 		}
 		var total = '';
 		for (var i in this.options) {
 			if (this.options[i].count > 0)
 				total += '<li>' + this.options[i].name + ' - ' + this.options[i].count + ' (' + Math.round(((this.options[i].count) / Object.keys(this.users).length) * 100) + '%)';
 		}
-		this.add('|html|<div class = "infobox"><center><font size = 2><b>Results to "' + this.question + '"</b></font></center><br/>' +
-			'<font color = "gray"><i><b>Poll ended by ' + user.name + '</b></i></font><br/>' +
-			'<hr>' + total);
+		var text = '<div class = "infobox"><center><font size = 2><b>Results to "' + this.question + '"</b></font></center><br/>';
+		if (user) text += '<font color = "gray" size = 1><i><b>Poll ended by ' + user.name + '</b></i></font><br/>';
+		this.room.add('|html|' + text + '<hr>' + total);
 		clearTimeout(this.timer);
 		delete polls[this.room.id];
 	};

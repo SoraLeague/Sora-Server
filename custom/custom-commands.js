@@ -5,7 +5,6 @@ var poofoff = false;
 
 exports.commands = {
 	//misc
-	
 	hide: function (target, room, user) {
                 // add support for away
                 if (!this.can('lock')) return;

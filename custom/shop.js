@@ -1,5 +1,6 @@
 //This is the shop. Pretty self explanatory :P
-
+var fs = require('fs');
+var request = require('request');
 var shopclosed = false;
 
 exports.commands = {
@@ -64,7 +65,7 @@ exports.commands = {
         var targetUser = this.targetUser;
         if (!targetUser) return this.sendReply('User \'' + this.targetUsername + '\' not found.');
         if (!target) return this.sendReply('You need to mention the number of points you want to give ' + targetUser.name);
-        if (isNaN(target)) return this.sendReply(target + " isn't a number, you egg.");
+        if (isNaN(target)) return this.sendReply(target + " is not a valid number.");
         if (target < 1) return this.sendReply('You cannot give ' + targetUser.name + ' anything less than 1 point!');
         Core.write('money', targetUser.userid, Number(target), '+');
         var amt = (Number(target) == 1) ? 'point' : 'points';
@@ -87,7 +88,7 @@ exports.commands = {
         var targetUser = this.targetUser;
 		if (!targetUser) return this.sendReply('User ' + this.targetUsername + ' not found.');
 		if (!target) return this.sendReply('You need to mention the number of points you want to remove from ' + targetUser.name);
-		if (isNaN(target)) return this.sendReply(target + " isn't a number, you egg.");
+		if (isNaN(target)) return this.sendReply(target + " isn't a valid number.");
 		if (Core.read('money', targetUser.userid) < target) return this.sendReply('You can\'t take away more points than what ' + targetUser.name + ' already has!');
         Core.write('money', targetUser.userid, Number(target), '-');
         var amt = (Core.read('money', targetUser.userid) == 1) ? 'point' : 'points';
@@ -114,16 +115,16 @@ exports.commands = {
             user.needssymbol = true;
 
         } else if (target === 'avatar') {
-            if (user.hasavatar === true) return this.sendReply("You've just bought a custom avatar! Type in /customavatar [URL] to request it.");
+            if (user.hasavatar === true) return this.sendReply("You have already bought a custom avatar. Use /customavatar [URL] to set it.");
 	    	if (!Number(user.avatar)) return this.sendReply('You already have a custom avatar!');
             var price = 25;
             if (Core.read('money', user.userid) < price) return this.sendReply("You don't have enough money to buy a custom avatar.");
 
             room.add(user.name + ' bought a custom avatar!');
             Rooms.rooms.staff.add(user.name + ' has bought a custom avatar.');
-            this.sendReply("You have bought a custom avatar.");
-            this.sendReply("Type in /customavatar [url] to request a custom avatar. The file cannot be in the .GIF format.");
-            user.hasavatar = true;
+            this.sendReply("You have bought a custom avatar. Use /customavatar [url] to set it.");
+            this.sendReply("It is recommended that you use an image with dimensions 80 x 80, or your avatar may not show up properly.");
+            user.boughtAvatar = true;
 
         } else if (target === 'room') {
             var price = 80;
@@ -221,6 +222,40 @@ exports.commands = {
         this.sendReply('You have successfuly changed your symbol to ' + target + '!');
         user.hassymbol = true;
         user.needssymbol = false;
-    }
-    
+    },
+	
+	customavatar: 'setavatar',
+	setavatar: function (target, room, user, connection, cmd) {
+		if (!toId(target)) return this.sendReply('/setavatar URL - Sets a custom avatar.');
+		if (!user.boughtAvatar && !this.can('hotpatch')) return false;
+		target = target.trim();
+		var formatList = ['png', 'jpg', 'gif', 'bmp'];
+		var format = target.substr(-3);
+		if (formatList.indexOf(format) === -1) return this.sendReply('The format of your avatar is not supported. The allowed formats are ' + formatList.join(', ') + '.');
+		if (target.indexOf('https://') === 0) target = 'http://' + target.substr(8);
+		else if (target.indexOf('http://') !== 0) target = 'http://' + target;
+
+		var self = this;
+		request.get(target).on('error', function () {
+			return self.sendReply("The avatar you picked doesn\'t exist. Try picking a new avatar.");
+		}).on('response', function (response) {
+			if (response.statusCode == 404) return self.sendReply("The avatar you picked is unavailable. Try picking a new avatar.");
+			Core.write('customavatars', user.userid, user.userid + '.' + format);
+			user.avatar = Core.read('customavatars', user.userid);
+			self.sendReply('|html|Your new avatar has been set to<br/><img src = "' + target + '" width = 80 height = 80>');
+			response.pipe(fs.createWriteStream('config/avatars/' + user.userid + '.' + format));
+			reloadConfig();
+		});
+		user.boughtAvatar = false;
+	},
+
+	removeavatar: function (target, room, user, connection, cmd) {
+		if (typeof user.avatar === 'Number') return this.sendReply('You do not own a custom avatar.');
+		if (toId(target) !== 'confirm')
+			this.sendReply('WARNING: If you choose to delete your avatar now, it cannot be recovered later. If you\'re sure you want to do this, use \'/removeavatar confirm.\'');
+		Core.Delete('customavatars', user.userid);
+		fs.unlink('config/avatars/' + user.avatar);
+		user.avatar = 1;
+		this.sendReply('Your custom avatar has been successfully removed.');
+	}
 };

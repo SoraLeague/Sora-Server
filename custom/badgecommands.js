@@ -1,12 +1,12 @@
 var badgeList = {parasect:'Parasect', aegislash:'Aegislash', meowth:'Meowth', golduck:'Golduck', starly:'Starly', 
             staravia:'Staravia', starptor:'Staraptor', flannery:'Flannery', skyla:'Skyla', volkner:'Volkner', brock:'Brock', 
             bertha:'Bertha', koga:'Koga', caitlin:'Caitlin', brandon:'Brandon', lucy:'Lucy', noland:'Noland', smeargle:'Smeargle', 
-            porygonz:'Porygon-Z', egg:'Egg', meme:'ℳℯღℯ', gym:"Gym Badge Collector", be4:"Elite Four Conqueror", frontier:"Frontier Symbol Obtainer",
+            porygonz:'Porygon-Z', egg:'Egg', meme:'ℳℯღℯ', gym:"Gym Badge Collector", e4:"Elite Four Conqueror", frontier:"Frontier Symbol Obtainer",
 			gymrank:"Gym Leader Rank", e4rank:"Elite Four Rank", frontierrank:"Frontier Rank", efrontierrank:"Elite Frontier Rank"};
 var badgeDetails = {
 	parasect: 'Founder of Sora',
-	aegislash: '<img src="http://i.imgur.com/aJY3eKg.png" title="Winner of a major Sora tournament">',
-	meowth: '<img src="http://i.imgur.com/WmfgOXf.png" title="Server Donator">',
+	aegislash: '<img src="http://i.imgur.com/aJY3eKg.png" title="Aegislash: Winner of a major Sora tournament">',
+	meowth: '<img src="http://i.imgur.com/WmfgOXf.png" title="Meowth: Server Donator">',
 	golduck: '<img src="http://i.imgur.com/tMLknqb.png" title="Golduck the Meta Breaker: Reached the Hall of Fame">',
 	starly: '<img src="http://i.imgur.com/zaLhq1k.png" title="Starly: One Year on Sora">',
 	staravia: '<img src="http://i.imgur.com/2UmjiLt.png" title="Staravia Badge: Two Years on Sora">',
@@ -29,7 +29,7 @@ var badgeDetails = {
 	lucy: '<img src="http://i.imgur.com/djszmLN.png" title="Lucy Badge: 15 Symbol Defends">',
 	noland: '<img src="http://i.imgur.com/tNKAuzy.png" title="Noland Badge: 30 Symbol Defends">',
 	meme: '<img src="http://i.imgur.com/XWAudeE.gif" title="I\'m a dank memer">',
-	egg: '<img src="http://i.imgur.com/dLyGYK5.png" title="This user is an egg without trying">'
+	egg: '<img src="http://i.imgur.com/dLyGYK5.png" title="This user is an egg without trying">',
 	porygonz: '<img src="http://i.imgur.com/bJrRxB8.png" title="Porygon-Z: Broke the server while trying to repair it, good job mate">',
 	smeargle: '<img src="http://i.imgur.com/A8h3FJN.png" title="Smeargle the Creator: Created a work of art for Sora">'
 };
