@@ -727,6 +727,22 @@ Tournament = (function () {
 			generator: this.generator.name,
 			bracketData: this.getBracketData()
 		}));
+		var tourSize = this.generator.getUsers().length;
+		if (this.room.isOfficial && tourSize >= 4) {
+			var results = this.generator.getResults().map(usersToNames);
+			var winner = results[0], runnerUp;
+			if (results[1]) runnerUp = results[1];
+			var winMoney = Math.round(tourSize/4);
+			var bucks1 = (winMoney === 1 ? 'buck' : 'bucks');
+			var runnerMoney = Math.round(winMoney/2);
+			var bucks2 = (runnerMoney === 1 ? 'buck' : 'bucks');
+			this.room.add('|raw|<strong>' + Tools.escapeHTML(winner) + ' has also won ' + winMoney + ' ' + bucks1 + ' for winning the tournament!</strong>');
+			Core.write('money', toId(winner), winMoney, '+');
+			if (runnerUp && runnerMoney) {
+				this.room.add('|raw|<strong>' + Tools.escapeHTML(runnerUp) + ' has won ' + runnerMoney + ' ' + bucks2 + ' as a runner-up prize!</strong>');
+				Core.write('money', toId(runnerUp), runnerMoney, '+');
+			}
+		}
 		this.isEnded = true;
 		delete exports.tournaments[toId(this.room.id)];
 	};
