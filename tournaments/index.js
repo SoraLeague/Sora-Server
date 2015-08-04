@@ -730,6 +730,7 @@ Tournament = (function () {
 		var tourSize = this.generator.getUsers().length;
 		if (this.room.isOfficial && tourSize >= 4) {
 			var results = this.generator.getResults().map(usersToNames);
+			console.log(this.generator.getResults().map(usersToNames));
 			var winner = results[0], runnerUp;
 			if (results[1]) runnerUp = results[1];
 			var winMoney = Math.round(tourSize/4);

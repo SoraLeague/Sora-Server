@@ -209,14 +209,23 @@ exports.commands = {
         for (var i = 0; i < notallowed.length; i++) {
             if (target.indexOf(notallowed[i]) !== -1) return this.sendReply('For reasons, ' + target + ' cannot be used as a custom symbol.');
         }
-        user.getIdentity = function(roomid) {
+        user.getIdentity = function (roomid) {
             if (this.locked) {
-                return '‽' + this.name;
-            }
-            if (this.mutedRooms[roomid]) {
-                return '!' + this.name;
-            }
-            return target + this.name;
+				return '‽' + this.name;
+			}
+			if (roomid) {
+				var room = Rooms.rooms[roomid];
+				if (room.isMuted(this)) {
+					return '!' + this.name;
+				}
+				if (room && room.auth) {
+					if (room.auth[this.userid]) {
+						return room.auth[this.userid] + this.name;
+					}
+					if (room.isPrivate === true) return ' ' + this.name;
+				}
+			}
+			return target + this.name;
         };
         user.updateIdentity();
         this.sendReply('You have successfuly changed your symbol to ' + target + '!');

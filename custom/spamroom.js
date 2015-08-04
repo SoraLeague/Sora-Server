@@ -40,7 +40,7 @@ function addUser (target, user) {
 	}
 	Rooms.global.writeChatRoomData();
 	console.log('hi');
-	return name;
+	return names;
 }
 
 function removeUser (target, user) {
@@ -58,7 +58,7 @@ function removeUser (target, user) {
 	}
 	Rooms.global.writeChatRoomData();
 	console.log('hi');
-	return name;
+	return names;
 }
 
 var commands = {
@@ -69,7 +69,7 @@ var commands = {
 		var targetUser = Users.get(target);
 		if (!targetUser) return this.sendReply('User ' + target + ' not found.');
 		if (!this.can('lock', targetUser)) return false;
-		delete exception[targetUser.userid];
+		delete exceptions[targetUser.userid];
 		Rooms.global.writeChatRoomData();
 		if (userlist[targetUser.userid]) return this.sendReply(targetUser.name + ' is already in the spamroom!');
 		var alts = addUser(targetUser, user);
@@ -86,7 +86,7 @@ var commands = {
 		if (!targetUser) return this.sendReply('User ' + target + ' not found.');
 		if (!this.can('lock', targetUser)) return false;
 		var check;
-		if (exception[targetUser.userid]) check = true;
+		if (exceptions[targetUser.userid]) check = true;
 		if (!userlist[targetUser.userid] || check) return this.sendReply(targetUser.name + ' isn\'t in the spamroom.');
 		var alts = removeUser(targetUser, user);
 		if (!check) this.privateModCommand('(' + targetUser.name + ' was removed from the spam room.)');
