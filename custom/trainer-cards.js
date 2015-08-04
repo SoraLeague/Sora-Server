@@ -1,4 +1,4 @@
-function lastSeen(user) {
+function seen(user) {
 	user = toId(user);
 	if (Users.get(user) && Users.get(user).connected) return '';
 	return '<b>Last Seen:</b> ' + Core.getLastSeen(user).split(', ')[0];
@@ -12,8 +12,8 @@ exports.commands = {
 		var total = '<table><tr><th>User</th><th>Last Seen</th></tr>';
 		var list = ['∆Champiön Nöah∆', '∆Chаmpion Bart∆', '∆Frontierhead∆ Risu', 'OnyxEagle', '∆Fröntier∆Blade☯', '∆E4 Abadon∆', 'Bamdee', 'ArtisteJeratt', 'NeithCass'];
 		for (var i = 0; i < list.length; i++) {
-			var lastseen = Users.get(list[i]) && Users.get(list[i]).connected ? '<font color = "green">Online</font>' : Core.profile.lastSeen(false, toId(list[i])).split('&nbsp;')[2];
-			if (lastseen === 'Never') lastseen = '<font color = "red">Never</font>';
+			var seen = Users.get(list[i]) && Users.get(list[i]).connected ? '<font color = "green">Online</font>' : Core.profile.lastSeen(false, toId(list[i])).split('&nbsp;')[2];
+			if (seen === 'Never') lastseen = '<font color = "red">Never</font>';
 
 			total += '<tr><td>' + list[i] + '</td><td><center>' + lastseen + '</center></td>';
 		}
@@ -21,8 +21,8 @@ exports.commands = {
 		var total = '<table><tr><th>User</th><th>Last Seen</th></tr>';
 		var list = ['∆E4 H∆', '∆E4 Edge∆', '∆Frontier Asch∆', '∆Frontier∆ Srewop', '∆Fröntier∆Blade☯', '∆Frontier∆ Tempest', '∆Frontier Zachary∆', '∆Frontier Meows∆'];
 		for (var i = 0; i < list.length; i++) {
-			var lastseen = Users.get(list[i]) && Users.get(list[i]).connected ? '<font color = "green">Online</font>' : Core.profile.lastSeen(false, toId(list[i])).split('&nbsp;')[2];
-			if (lastseen === 'Never') lastseen = '<font color = "red">Never</font>';
+			var seen = Users.get(list[i]) && Users.get(list[i]).connected ? '<font color = "green">Online</font>' : Core.profile.lastSeen(false, toId(list[i])).split('&nbsp;')[2];
+			if (seen === 'Never') lastseen = '<font color = "red">Never</font>';
 
 			total += '<tr><td>' + list[i] + '</td><td><center>' + lastseen + '</center></td>';
 		}
@@ -32,8 +32,8 @@ exports.commands = {
 			'∆Gym Ldr Leaf∆', '∆Gym Ldr Mark∆', '∆Gym Ldr Dårküs∆', '∆Gym Ldr Core∆', '∆Gym Ldr Dranzar∆', '∆Gym Ldr Indeter∆', '∆Gym Ldr Banshee∆', '∆Gym Ldr Dexter∆', '∆Gym Ldr Waffles∆', '∆Gym Ldr Taco∆'
 		];
 		for (var i = 0; i < list.length; i++) {
-			var lastseen = Users.get(list[i]) && Users.get(list[i]).connected ? '<font color = "green">Online</font>' : Core.profile.lastSeen(false, toId(list[i])).split('&nbsp;')[2];
-			if (lastseen === 'Never') lastseen = '<font color = "red">Never</font>';
+			var seen = Users.get(list[i]) && Users.get(list[i]).connected ? '<font color = "green">Online</font>' : Core.profile.lastSeen(false, toId(list[i])).split('&nbsp;')[2];
+			if (seen === 'Never') lastseen = '<font color = "red">Never</font>';
 
 			total += '<tr><td>' + list[i] + '</td><td><center>' + lastseen + '</center></td>';
 		}
