@@ -17,7 +17,7 @@ var badgeDetails = {
 	bertha: '<img src="http://i.imgur.com/MDcdCka.png" title="Bertha: 5 E4 Defends">',
 	koga: '<img src="http://i.imgur.com/2eC21HT.png" title="Koga: 10 E4 Defends">',
 	caitlin: '<img src="http://i.imgur.com/fbbyoaR.png" title="Caitlin Badge: 20  E4 Defends">',
-	flannery: '<img src="http://i.imgur.com/e0ScjBhf.png" title="Flannery Badge: 10 Badge Defends">',
+	flannery: '<img src="http://i.imgur.com/0ScjBhf.png" title="Flannery Badge: 10 Badge Defends">',
 	skyla: '<img src="http://i.imgur.com/HMGmJ2d.png" title="Skyla Badge: 20 Badge Defends">',
 	volkner: '<img src="http://i.imgur.com/Vobc91V.png" title="Volkner Badge: 35 Badge Defends">',
 	brock: '<img src="http://i.imgur.com/fsyWAdn.gif" title="Brock Badge: 50 Badge Defends">',
@@ -56,12 +56,13 @@ var comm = {
 	help: function (target, room, user) {
 		if (!this.canBroadcast()) return;
 		this.sendReplyBox('<strong>Badge commands (Can only be used by Frontier Blade and ~):</strong><br />' +
-		'- /badgeaward or /givebadge <i>User</i>, <i>Badge Name</i> - Gives the specified badge to the specified user <br />' +
+		'- /badge give or /givebadge <i>User</i>, <i>Badge Name</i> - Gives the specified badge to the specified user <br />' +
 		'- /badge remove or /takebadge <i>User</i>, <i>Badge Name</i> - Removes the specified badge from the specified user <br />' +
 		'- /badge removeall or /removeallbadges <i>User</i> - Removes all of the specified user\'s badges <br />' +
 		'- /badges view or /badgecase <i>User</i> - Shows all the badges owned by the user, or the specified user<br />');
 	},
 	
+	forcegive: 'give',
 	award: 'give',
     give: function (target, room, user, connection, cmd) {
         if (user.userid !== 'frntierblade' && !this.can('hotpatch')) return this.sendReply('Only Frontier Blade and Admins can give badges.');
@@ -69,15 +70,15 @@ var comm = {
 		var targetUser = target[0].trim();
         var badge = toId(target[1]);
         if (!badge || !toId(targetUser)) return this.sendReply('/badge ' + cmd + ' [user], [badge name] - Gives a specified user the specified badge.');
-        if (!Users.get(targetUser) && cmd !== 'forcegivebadge') return this.sendReply('The user \'' + targetUser + '\' was not found. If you would still like to give this user a badge, use /forcegivebadge instead.');
+        if (!Users.get(targetUser) && cmd !== 'forcegive') return this.sendReply('The user \'' + targetUser + '\' was not found. If you would still like to give this user a badge, use /forcegivebadge or /badge forcegive instead.');
         badge.replace(/badge/g, '');
         
         if (!(badge in badgeList)) return this.sendReply('That is not a valid badge.');
         Core.write('badges', toId(targetUser), badgeDetails[badge], undefined, badge);
-        if (Users.get(targetUser) && Users.get(targetUser).connected) {
+        if (Users.get(targetUser) && Users.get(targetUser).connected && cmd !== 'forcegive') {
             Users.get(targetUser).send('|raw|Congratz! You have been awarded the ' + badgeList[badge] + ' Badge!');
         }
-        this.sendReply('You have successfully given ' + (Users.get(targetUser) ? Users.get(user).name : name) + ' the ' + badgeList[badge] + ' Badge.');
+        this.sendReply('You have successfully given ' + (Users.get(targetUser) ? Users.get(targetUser).name : targetUser) + ' the ' + badgeList[badge] + ' Badge.');
     },
 	
 	remove: 'take',
@@ -115,6 +116,22 @@ var comm = {
 		}
 	},
 	
+	/*move: 'transfer',
+	transfer: function (target, room, user, connection, cmd) {
+		if (user.userid !== 'frntierblade' && !this.can('hotpatch')) return this.sendReply('Only Frontier Blade and Admins can remove badges.');
+        if (!toId(target)) return this.sendReply('/badge ' + cmd + ' [user] - Transfers all of one user\'s badges to another.');
+		var name = Users.get(target) ? Users.get(target).name : target.trim();
+		if (!Core.read('badges', toId(target))) return this.sendReply("User " + name + " doesn't have any badges.");
+		if (!user.confirm) {
+			user.confirm = true;
+			this.sendReply('WARNING: You are about to delete ALL of ' + name + '\'s badges. If you\'re sure you want to do this, use this command again.');
+		} else {
+			Core.Delete('badges', toId(target));
+			this.sendReply('You have successfully removed all badges from ' + name + '.');
+			user.confirm = false;
+		}
+	},*/
+	
 	display: 'show', 
 	view: 'show',
 	show: function (target, room, user, connection, cmd) {
@@ -135,12 +152,15 @@ var comm = {
 };
         
 exports.commands = {
+	badge: 'badges',
+	badges: comm,
 	givebadge: comm.give,
+	forcegivebadge: function (target, room, user) {
+		this.parse('/badge forcegive');
+	},
 	takebadge: comm.take,
 	removebadge: comm.take,
 	removeallbadges: comm.takeall,
 	badgecase: comm.show,
-	viewbadges: comm.show,
-	badge: 'badges',
-	badges: comm
+	viewbadges: comm.show
 };

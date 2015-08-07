@@ -6,7 +6,8 @@ exports.Formats = [
 	 {
 		name: "League Battle",
 		section: "Sora Exclusive",
-        column: 4,
+        column: 1,
+		
 		searchShow: false,
 		ruleset: ['Pokemon', 'Standard', 'Baton Pass Clause', 'Swagger Clause', 'Monotype Exception Clause', 'Team Preview'],
 		banlist: ['Arceus', 'Blaziken', 'Darkrai', 'Deoxys', 'Deoxys-Attack', 'Dialga', 'Giratina', 'Giratina-Origin', 'Groudon', 'Ho-Oh',
@@ -185,6 +186,7 @@ exports.Formats = [
 	{
 		name: "Random Battle",
 		section: "ORAS Singles",
+		column: 2,
 
 		team: 'random',
 		ruleset: ['PotD', 'Pokemon', 'Sleep Clause Mod', 'HP Percentage Mod', 'Cancel Mod']
@@ -401,6 +403,7 @@ exports.Formats = [
 	{
 		name: "Random Doubles Battle",
 		section: "ORAS Doubles",
+		column: 2,
 
 		gameType: 'doubles',
 		team: 'randomDoubles',
@@ -579,6 +582,7 @@ exports.Formats = [
 			"&bullet; <a href=\"https://www.smogon.com/forums/threads/3540390/\">Smogon Triples Viability Ranking</a>"
 		],
 		section: "ORAS Triples",
+		column: 2,
 
 		gameType: 'triples',
 		team: 'randomDoubles',
@@ -639,7 +643,7 @@ exports.Formats = [
 		name: "No Status",
 		desc: ["&bullet; <a href=\"https://www.smogon.com/forums/threads/3542555/\">No Status</a>"],
 		section: "OM of the Month",
-		column: 2,
+		column: 3,
 
 		ruleset: ['Pokemon', 'Standard', 'Team Preview'],
 		banlist: ['Aegislash', 'Arceus', 'Blaziken', 'Darkrai', 'Deoxys', 'Deoxys-Attack', 'Deoxys-Speed', 'Dialga', 'Genesect', 'Giratina', 'Giratina-Origin', 'Greninja', 'Groudon',
@@ -920,7 +924,7 @@ exports.Formats = [
 	{
 		name: "CAP",
 		section: "Other Metagames",
-		column: 2,
+		column: 3,
 
 		ruleset: ['OU'],
 		banlist: ['Allow CAP']
@@ -1260,7 +1264,7 @@ exports.Formats = [
 	{
 		name: "Protean Palace",
 		desc: ["&bullet; <a href=\"https://www.smogon.com/forums/threads/3496299/\">Protean Palace</a>"],
-		section: "OM of the Month",
+		section: "Other Metagames",
 
 		ruleset: ['OU'],
 		banlist: [],
@@ -1409,7 +1413,7 @@ exports.Formats = [
 		name: "[Gen 5] OU",
 		desc: ["&bullet; <a href=\"https://www.smogon.com/forums/threads/3509218/#post-5522693\">BW Resources</a>"],
 		section: "BW2 Singles",
-		column: 3,
+		column: 4,
 
 		mod: 'gen5',
 		ruleset: ['Pokemon', 'Standard', 'Evasion Abilities Clause', 'Team Preview'],
@@ -1498,7 +1502,7 @@ exports.Formats = [
 	{
 		name: "[Gen 5] Doubles OU",
 		section: 'BW2 Doubles',
-		column: 3,
+		column: 4,
 
 		mod: 'gen5',
 		gameType: 'doubles',
@@ -1547,7 +1551,7 @@ exports.Formats = [
 		name: "[Gen 4] OU",
 		desc: ["&bullet; <a href=\"https://www.smogon.com/forums/threads/3509218/#post-5522692\">DPP Resources</a>"],
 		section: "Past Generations",
-		column: 3,
+		column: 4,
 
 		mod: 'gen4',
 		ruleset: ['Pokemon', 'Standard'],

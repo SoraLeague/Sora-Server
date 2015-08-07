@@ -1,7 +1,17 @@
-function seen(user) {
+var badgeList = JSON.parse(require('fs').readFileSync('storage-files/badges.json'));
+function seen (user) {
 	user = toId(user);
 	if (Users.get(user) && Users.get(user).connected) return '';
 	return '<b>Last Seen:</b> ' + Core.getLastSeen(user).split(', ')[0];
+}
+function getBadges (user) {
+	user = toId(user);
+	if (!badgeList[user] || Object.keys(badgeList[user]).length < 3) return '';
+	var total = '<details><summary><b>Badges:</b> (Click here to open)</summary>';
+	for (var i in badgeList[user]) {
+		total += badgeList[user][i];
+	};
+	return total + '</details>';
 }
 
 exports.commands = {
@@ -12,19 +22,19 @@ exports.commands = {
 		var total = '<table><tr><th>User</th><th>Last Seen</th></tr>';
 		var list = ['∆Champiön Nöah∆', '∆Chаmpion Bart∆', '∆Frontierhead∆ Risu', 'OnyxEagle', '∆Fröntier∆Blade☯', '∆E4 Abadon∆', 'Bamdee', 'ArtisteJeratt', 'NeithCass'];
 		for (var i = 0; i < list.length; i++) {
-			var seen = Users.get(list[i]) && Users.get(list[i]).connected ? '<font color = "green">Online</font>' : Core.profile.lastSeen(false, toId(list[i])).split('&nbsp;')[2];
-			if (seen === 'Never') lastseen = '<font color = "red">Never</font>';
+			var Seen = Users.get(list[i]) && Users.get(list[i]).connected ? '<font color = "green">Online</font>' : seen(list[i]).substr(18);
+			if (Seen === 'never') Seen = '<font color = "red">Never</font>';
 
-			total += '<tr><td>' + list[i] + '</td><td><center>' + lastseen + '</center></td>';
+			total += '<tr><td>' + list[i] + '</td><td><center>' + Seen + '</center></td>';
 		}
 		this.sendReplyBox('<center><b>Admin Team</b><br />' + total + '</table></center>');
 		var total = '<table><tr><th>User</th><th>Last Seen</th></tr>';
 		var list = ['∆E4 H∆', '∆E4 Edge∆', '∆Frontier Asch∆', '∆Frontier∆ Srewop', '∆Fröntier∆Blade☯', '∆Frontier∆ Tempest', '∆Frontier Zachary∆', '∆Frontier Meows∆'];
 		for (var i = 0; i < list.length; i++) {
-			var seen = Users.get(list[i]) && Users.get(list[i]).connected ? '<font color = "green">Online</font>' : Core.profile.lastSeen(false, toId(list[i])).split('&nbsp;')[2];
-			if (seen === 'Never') lastseen = '<font color = "red">Never</font>';
+			var Seen = Users.get(list[i]) && Users.get(list[i]).connected ? '<font color = "green">Online</font>' : seen(list[i]).substr(18);
+			if (Seen === 'never') Seen = '<font color = "red">Never</font>';
 
-			total += '<tr><td>' + list[i] + '</td><td><center>' + lastseen + '</center></td>';
+			total += '<tr><td>' + list[i] + '</td><td><center>' + Seen + '</center></td>';
 		}
 		this.sendReplyBox('<details><summary><b>Elite 4\'s and Frontiers</b></summary><center>' + total + '</table></details></center>');
 		var total = '<table><tr><th>User</th><th>Last Seen</th></tr>';
@@ -32,10 +42,10 @@ exports.commands = {
 			'∆Gym Ldr Leaf∆', '∆Gym Ldr Mark∆', '∆Gym Ldr Dårküs∆', '∆Gym Ldr Core∆', '∆Gym Ldr Dranzar∆', '∆Gym Ldr Indeter∆', '∆Gym Ldr Banshee∆', '∆Gym Ldr Dexter∆', '∆Gym Ldr Waffles∆', '∆Gym Ldr Taco∆'
 		];
 		for (var i = 0; i < list.length; i++) {
-			var seen = Users.get(list[i]) && Users.get(list[i]).connected ? '<font color = "green">Online</font>' : Core.profile.lastSeen(false, toId(list[i])).split('&nbsp;')[2];
-			if (seen === 'Never') lastseen = '<font color = "red">Never</font>';
+			var Seen = Users.get(list[i]) && Users.get(list[i]).connected ? '<font color = "green">Online</font>' : seen(list[i]).substr(18);
+			if (Seen === 'never') Seen = '<font color = "red">Never</font>';
 
-			total += '<tr><td>' + list[i] + '</td><td><center>' + lastseen + '</center></td>';
+			total += '<tr><td>' + list[i] + '</td><td><center>' + Seen + '</center></td>';
 		}
 		this.sendReplyBox('<details><summary><b>Gym Leaders</b></summary><center>' + total + '</table></details></center>');
 	},
@@ -43,6 +53,7 @@ exports.commands = {
 	/////////////////////
 	//Admin Team
 	////////////////////
+
 
 	bart: function (target, room, user) {
 		if (!this.canBroadcast()) return;
@@ -106,10 +117,9 @@ exports.commands = {
 			'<b>Type: <font color =d83c08>Bug</font></b><br />' +
 			'<b>Ace:</b> None <br />' +
 			'<b>Battle Rules:</b> <br/>' +
-			'-No Hazard<br />' +
-			seen('e4h') + '<br/>' +
-			'<details><summary><b>Badges: (Click here to open)</b></summary><br />' +
-			'<a href="http://soraleague.weebly.com/badges.html#badges"><img src="http://i.imgur.com/tnkW9J9.png" title="Badge Collector: Defeat all 18 Gym Leaders"></a><a href="http://soraleague.weebly.com/badges.html#e4win"><img src="http://i.imgur.com/y21ENWF.png" title="E4 Conqueror: Cleared the Elite Four"></a><a href="http://soraleague.weebly.com/badges.html#starly"><img src="http://i.imgur.com/zaLhq1k.png" title="Starly Badge: One  Year on Sora"></a><a href="http://soraleague.weebly.com/badges.html#porygon"><img src="http://i.imgur.com/bJrRxB8.png" title="Broke the server while trying to repair it, good job mate"></a><a href="http://soraleague.weebly.com/badges.html#ldr"><img src="http://i.imgur.com/ELFPzW8.png" title="Achieved Gym Leader Status"></a><a href="http://soraleague.weebly.com/badges.html#flannery"><img src="http://i.imgur.com/0ScjBhf.png" title="Flannery Badge: 10 Badge Defends"></a></details> <br />');
+			'-No Hazards<br />' +
+			seen('e4h') + 
+			getBadges('e4h'));
 	},
 
 	edge: function (target, room, user) {
@@ -119,7 +129,9 @@ exports.commands = {
 			'<b>Type: <font color = 7ab6ff>Flying</font></b><br />' +
 			'<b>Ace:</b> Mega Charizard-X<br />' +
 			'<b>Battle Rules:</b><br />' +
-			'-No Hazards<br />' + seen('e4edge'));
+			'-No Hazards<br />' + 
+			seen('e4edge') +
+			getBadges('e4edge'));
 	},
 
 	/*sube4: function(target, room, user) {
@@ -242,7 +254,7 @@ exports.commands = {
 		this.sendReplyBox('Gym Ldr <b>Dexter</b><br />'+
 			  '<i>"One can conquer impossible odds with determination and zeal."</i> <br />'+
 			  '<b>Type: <font color = 65b510>Bug</font></b><br />'+
-			  '<b>Ace:</b> Yanmega <br />' + lastSeen('gymldrdexter') + '<br />');
+			  '<b>Ace:</b> Yanmega <br />' + seen('gymldrdexter') + getBadges('gymldrdexter'));
 	},
 
 	dark: 'darkus',
@@ -265,7 +277,7 @@ exports.commands = {
 		this.sendReplyBox('Gym Ldr <b>Lou</b><br />' +
 			'<i>"Dragon mono + Outrage = win"</i> <br />' +
 			'<b>Type: <font color = 230077>Dragon</font> </b><br />' +
-			'<b>Ace:</b> Latias<br />' + seen('gymldrlou'));
+			'<b>Ace:</b> Latias<br />' + seen('gymldrlou') + getBadges('gymldrlou'));
 	},
 
 
@@ -287,12 +299,12 @@ exports.commands = {
 	},
 
 	fighting: 'banshee',
-        banshee: function(target, room, user) {
+    banshee: function(target, room, user) {
 		if (!this.canBroadcast()) return;
 		this.sendReplyBox('Gym Ldr <b>Banshee</b><br />'+
 			'<i>"Fight with fists of steel for your goals."</i> <br />'+
 			'<b>Type: <font color = d83c08>Fighting</font></b><br />'+
-			'<b>Ace:</b> Lucario <br />' + lastSeen('gymldrbanshee') + '<br />');
+			'<b>Ace:</b> Lucario <br />' + seen('gymldrbanshee') + getBadges('gymldrbanshee'));
         },
 
 
@@ -302,7 +314,7 @@ exports.commands = {
 		this.sendReplyBox('Gym Ldr <b>Waffles</b><br />'+
 	              '<i>"Don\'t waffle out of the situation"</i> <br />'+
 	              '<b>Type: <font color = FF0000>Fire</font></b><br />'+
-	              '<b>Ace: Infernape</b> <br />'  + lastSeen('gymldrwaffles') + '<br />');
+	              '<b>Ace: Infernape</b> <br />'  + seen('gymldrwaffles') + getBadges('gymldrwaffles'));
 	},
 
 	flying: 'indeter',
@@ -311,7 +323,7 @@ exports.commands = {
 		this.sendReplyBox('Gym Ldr <b>Indeter</b><br />' +
 			'<i>"And - I\'m off."</i> <br />' +
 			'<b>Type: <font color = 7ab6ff>Flying</font></b><br />' +
-			'<b>Ace:</b> Gliscor<br />' + seen('gymldrindeter'));
+			'<b>Ace:</b> Gliscor<br />' + seen('gymldrindeter') + getBadges('gymldrindeter'));
 	},
 
 	ghost: 'connor',
@@ -321,17 +333,17 @@ exports.commands = {
 			'Leader Ranking: <font color = 5dff00><b>4th</font></b> <br />' +
 			'<i>"The Further is a dark realm, filled with the tortured souls of the dead. It is a place not meant for the living."</i> <br />' +
 			'<b>Type: <font color = 7814e2>Ghost</font></b><br />' +
-			'<b>Ace:</b> Gengar<br />' + seen('gymldrconnor'));
+			'<b>Ace:</b> Gengar<br />' + seen('gymldrconnor') + getBadges('gymldrconnor'));
 	},
 
 
 	grass: 'dranzar',
-        dranzar: function(target, room, user) {
-		if (!this.canBroadcast()) return;
-		this.sendReplyBox('Gym Ldr <b>Dranzar</b><br />'+
+    dranzar: function(target, room, user) {
+	if (!this.canBroadcast()) return;
+	this.sendReplyBox('Gym Ldr <b>Dranzar</b><br />'+
 			'<i>"The grass is always greener on my side."</i> <br />'+
 			'<b>Type: <font color = 006b0a>Grass</font></b> <br />'+ 
-			'<b>Ace:</b> Mega Venusaur <br />' + lastSeen('gymldrdranzar') + '<br />' );
+			'<b>Ace:</b> Mega Venusaur <br />' + seen('gymldrdranzar') + getBadges('gymldrdranzar'));
 	},
 
 
@@ -340,7 +352,7 @@ exports.commands = {
 		this.sendReplyBox('Gym Ldr <b>???</b><br />' +
 			'<i>"???"</i> <br />' +
 			'<b>Type: <font color = 5b3a00>Ground</font></b><br />' +
-			'<b>Ace:</b> <br />' + seen('') + '<br />');
+			'<b>Ace:</b> <br />' + seen(''));
 	},
 
 	ice: 'mark',
@@ -350,20 +362,18 @@ exports.commands = {
 			'<i>"Hard work pays off in the end."</i> <br />' +
 			'<b>Type: <font color = 00e0ac>Ice</font></b><br />' +
 			'<b>Ace:</b> Don\'t Do Drugs (Mega Glalie)<br />' +
-			seen('gymldrmark') + '<br/>' +
-			'<details><summary><b>Badges: (Click here to open)</b></summary><br />' +
-			'<a href="http://soraleague.weebly.com/badges.html#ldr"><img src="http://i.imgur.com/ELFPzW8.png" title="Achieved Gym Leader Status"></a></details><br />');
+			seen('gymldrmark') + getBadges('gymldrmark'));
 	},
 
 	normal: 'taco',
-        taco: function(target, room, user) {
-		if (!this.canBroadcast()) return;
-		this.sendReplyBox('Gym Ldr <b>Taco</b><br />'+
-		         '<i>"Dont underestimate normals"</i> <br />'+
-	              	 '<b>Type: <font color = ffa5d5>Normal</font></b><br />'+
-			 '<b>Ace:</b> Lopunny<br />' + lastSeen('gymldrtaco') + '<br />'+
-			 '<a><img src="http://play.pokemonshowdown.com/sprites/xyani/lopunny-mega.gif"></a> <br />');
-        },
+    taco: function(target, room, user) {
+	if (!this.canBroadcast()) return;
+	this.sendReplyBox('Gym Ldr <b>Taco</b><br />'+
+		'<i>"Dont underestimate normals"</i> <br />'+
+	    '<b>Type: <font color = ffa5d5>Normal</font></b><br />'+
+		'<b>Ace:</b> Lopunny<br />' + seen('gymldrtaco') + '<br />'+
+		'<a><img src="http://play.pokemonshowdown.com/sprites/xyani/lopunny-mega.gif"></a>' + getBadges('gymldrtaco'));
+    },
 
 	poison: 'poppy',
 	poppy: function (target, room, user) {
@@ -372,7 +382,7 @@ exports.commands = {
 			'Leader Ranking: <font color = 00ff87><b>6th</font></b> <br />' +
 			'<i>"It\'s you and me against the world, you\'ll see!" - Xeniathan! Destroyer of Worlds</i><br />' +
 			'<b>Type: <font color = aa00ff>Poison</font></b><br />' +
-			'<b>Ace:</b> Box Ghost (Gengar)<br />' + seen('gymldrpoppy'));
+			'<b>Ace:</b> Box Ghost (Gengar)<br />' + seen('gymldrpoppy') + getBadges('gymldrpoppy'));
 	},
 
 	psychic: 'leaf',
@@ -383,9 +393,7 @@ exports.commands = {
 			'<i>"The pattern repeats, will your flaws also?"</i> <br />' +
 			'<b>Type: <font color = ff00b6>Psychic</font></b><br />' +
 			'<b>Ace:</b> Medicham <br />' +
-			seen('gymldrleaf') + '<br />' +
-			'<details><summary><b>Badges: (Click here to open)</b></summary><br />' +
-			'<a href="http://soraleague.weebly.com/badges.html#ldr"><img src="http://i.imgur.com/ELFPzW8.png" title="Achieved Gym Leader Status"></a><a href="http://soraleague.weebly.com/badges.html#frontier"><img src="http://i.imgur.com/7jbhEJC.png" title="Achieved Frontier Status"></a><a href="http://soraleague.weebly.com/badges.html#flannery"><img src="http://i.imgur.com/0ScjBhf.png" title="Flannery Badge: 10 Badge Defends"></a><a href="http://soraleague.weebly.com/badges.html#skyla"><img src="http://i.imgur.com/HMGmJ2d.png" title="Skyla Badge: 20 Badge Defends"></a><a href="http://soraleague.weebly.com/badges.html#starly"><img src="http://i.imgur.com/zaLhq1k.png" title="Starly Badge: One  Year on Sora"></a></details> <br />');
+			seen('gymldrleaf') + getBadges('gymldrleaf'));
 	},
 
 	rock: 'core',
@@ -395,7 +403,7 @@ exports.commands = {
 			'Leader Ranking: <font color = 9dff00><b>3rd</font></b> <br />' +
 			'<i>"There\'s always a chance for a comeback if you leave yourself open"</i> <br />' +
 			'<b>Type: <font color = 472e10>Rock</font></b><br />' +
-			'<b>Ace:</b> Archeops<br />' + seen('gymldrcore'));
+			'<b>Ace:</b> Archeops<br />' + seen('gymldrcore') + getBadges('gymldrcore'));
 	},
 
 	steel: 'floatzel',
@@ -406,7 +414,8 @@ exports.commands = {
 			'<b>Type: <font color = 5e6664>Steel</font></b> <br />' +
 			'<b>Ace:</b> Jirachi <br />' +
 			seen('gymldrfloatzel') + '<br />' +
-			'<img src="http://play.pokemonshowdown.com/sprites/xyani-shiny/beldum.gif"><img src="http://play.pokemonshowdown.com/sprites/xyani-shiny/aron.gif"><img src="http://play.pokemonshowdown.com/sprites/xyani/metagross-mega.gif"><img src="http://play.pokemonshowdown.com/sprites/xyani-shiny/aron.gif"><img src="http://play.pokemonshowdown.com/sprites/xyani-shiny/beldum.gif">');
+			'<img src="http://play.pokemonshowdown.com/sprites/xyani-shiny/beldum.gif"><img src="http://play.pokemonshowdown.com/sprites/xyani-shiny/aron.gif"><img src="http://play.pokemonshowdown.com/sprites/xyani/metagross-mega.gif"><img src="http://play.pokemonshowdown.com/sprites/xyani-shiny/aron.gif"><img src="http://play.pokemonshowdown.com/sprites/xyani-shiny/beldum.gif">' +
+			getBadges('gymldrfloatzel'));
 
 	},
 
@@ -418,9 +427,7 @@ exports.commands = {
 			'<i>"Better get out of the water because the waves are coming for you."</i> <br />' +
 			'<b>Type: <font color = 0745ff>Water</font></b><br />' +
 			'<b>Ace:</b> Sharpedo<br />' +
-			seen('gymldrterror') + '<br />' +
-			'<details><summary><b>Badges: (Click here to open)</b></summary><br />' +
-			'<a href="http://soraleague.weebly.com/badges.html#ldr"><img src="http://i.imgur.com/ELFPzW8.png" title="Achieved Gym Leader Status"></a><a href="http://soraleague.weebly.com/badges.html#e4win"><img src="http://i.imgur.com/y21ENWF.png" title="E4 Conqueror: Cleared the Elite Four"></a><a href="http://soraleague.weebly.com/badges.html#starly"><img src="http://i.imgur.com/zaLhq1k.png" title="Starly Badge: One  Year on Sora"></a></details> <br />');
+			seen('gymldrterror') + getBadges('gymldrterror'));
 	},
 
 	/////////////
@@ -569,25 +576,25 @@ exports.commands = {
 	//Music Cards
 	//////////////
 	feelingit: function (target, room, user) {
-        	if (!this.canBroadcast()) return;
-        	this.sendReplyBox('<div class="infobox" style="cursor: url(&quot;http://i.imgur.com/c4qM0iM.gif&quot;) , auto" target="_blank"><table width="100%" border="0" style="border: 0px ; background-image: url(&quot;http://files.gamebanana.com/img/ss/wips/4ffc9f6bed5e2.jpg&quot;) ; background-size: cover" target="_blank"><tbody><tr target="_blank"><td target="_blank"><br \>' +
-        	                  '<br \><center><font size=3 color=#FF9900><b>You Will Know Our Names</b> - <i>Xenoblade Chronicles</i></font><br \>' +
-        	                  '<audio src="http://www.ssbwiki.com/images/f/f5/Victory%21_%28Shulk%29.ogg" controls="" style="width: 100% ; border: 2px solid #00CC00 ; background-color: #00000a" target="_blank"></audio></center><br \><br \>');
-        },
-        
-        easymoney: function (target, room, user) {
-        	if (!this.canBroadcast()) return;
-        	this.sendReplyBox('<div class="infobox" target="_blank"><table width="100%" border="0" style="border: 0px ; background-image: url(&quot;http://i.imgur.com/orlVvMg.jpg&quot;) ; background-size: cover" target="_blank"><tbody><tr target="_blank"><td target="_blank"><br \>' +
-        	                  '<br \><center><font size=3 color=#FF9900><b>Easy Money</b> - <i>Bizzaro Flame</i></font><br \>' +
-        	                  '<audio src="https://dl.pushbulletusercontent.com/qrAveUFTyNQlmvq3HEtlqSmBiuQeUaaQ/Easy%20Money.mp3" controls="" loop style="width: 100% ; border: 2px solid #00CC00 ; background-color: #00000a" target="_blank"></audio></center><br \><br \><br /><br /><br /><br /><br /><br /><br /><br />');
-        },
-        
-        afraud: function (target, room, user) {
-        	if (!this.canBroadcast()) return;
-        	this.sendReplyBox('<div class="infobox" target="_blank"><table width="100%" border="0" style="border: 0px ; background-image: url(&quot;http://i.imgur.com/jBfZq5A.jpg&quot;) ; background-size: cover" target="_blank"><tbody><tr target="_blank"><td target="_blank"><br \><br /><br /><br /><br /><br /><br /><br /><br />' +
-        	                  '<br \><center><font size=3 color=#00FF40><b>A Fraud</b> - <i>Izzaro Flame</i></font><br \>' +
-        	                  '<audio src="https://dl.pushbulletusercontent.com/Pl3dDtxvFMbdAn6IZQHAF6gxFluLoAhA/A%20Fraud%20-%20%20A%20Big%20Fraud.mp3" controls="" loop style="width: 100% ; border: 2px solid #58FAF4 ; background-color: #00000a" target="_blank"></audio></center><br \><br \>');
-        },
+		if (!this.canBroadcast()) return;
+		this.sendReplyBox('<div class="infobox" style="cursor: url(&quot;http://i.imgur.com/c4qM0iM.gif&quot;) , auto" target="_blank"><table width="100%" border="0" style="border: 0px ; background-image: url(&quot;http://files.gamebanana.com/img/ss/wips/4ffc9f6bed5e2.jpg&quot;) ; background-size: cover" target="_blank"><tbody><tr target="_blank"><td target="_blank"><br \>' +
+			'<br \><center><font size=3 color=#FF9900><b>You Will Know Our Names</b> - <i>Xenoblade Chronicles</i></font><br \>' +
+			'<audio src="http://www.ssbwiki.com/images/f/f5/Victory%21_%28Shulk%29.ogg" controls="" style="width: 100% ; border: 2px solid #00CC00 ; background-color: #00000a" target="_blank"></audio></center><br \><br \>');
+	},
+
+	easymoney: function (target, room, user) {
+		if (!this.canBroadcast()) return;
+		this.sendReplyBox('<div class="infobox" target="_blank"><table width="100%" border="0" style="border: 0px ; background-image: url(&quot;http://i.imgur.com/orlVvMg.jpg&quot;) ; background-size: cover" target="_blank"><tbody><tr target="_blank"><td target="_blank"><br \>' +
+			'<br \><center><font size=3 color=#FF9900><b>Easy Money</b> - <i>Bizzaro Flame</i></font><br \>' +
+			'<audio src="https://dl.pushbulletusercontent.com/qrAveUFTyNQlmvq3HEtlqSmBiuQeUaaQ/Easy%20Money.mp3" controls="" loop style="width: 100% ; border: 2px solid #00CC00 ; background-color: #00000a" target="_blank"></audio></center><br \><br \><br /><br /><br /><br /><br /><br /><br /><br />');
+	},
+
+	afraud: function (target, room, user) {
+		if (!this.canBroadcast()) return;
+		this.sendReplyBox('<div class="infobox" target="_blank"><table width="100%" border="0" style="border: 0px ; background-image: url(&quot;http://i.imgur.com/jBfZq5A.jpg&quot;) ; background-size: cover" target="_blank"><tbody><tr target="_blank"><td target="_blank"><br \><br /><br /><br /><br /><br /><br /><br /><br />' +
+			'<br \><center><font size=3 color=#00FF40><b>A Fraud</b> - <i>Izzaro Flame</i></font><br \>' +
+			'<audio src="https://dl.pushbulletusercontent.com/Pl3dDtxvFMbdAn6IZQHAF6gxFluLoAhA/A%20Fraud%20-%20%20A%20Big%20Fraud.mp3" controls="" loop style="width: 100% ; border: 2px solid #58FAF4 ; background-color: #00000a" target="_blank"></audio></center><br \><br \>');
+	},
 	
 	//////////
 	//Priomons Cards
@@ -700,11 +707,11 @@ exports.commands = {
 		this.sendReplyBox('<a><font size= 4><center><b><font color = 075ff7>The Admin Team</font></b></center></a><br />' +
 			'FAQ <br />' +
 			'<b>Who are we?</b> The Admin team are a group of senior members who make most of the major league decisions and organize most major league events. <br />' +
-			'<b>Who\'s in the Admin Team?</b> The Admin Team\'s active members consist of: <mark>Champion Noah, Champion Bart, OnyxEagle, Artiste Jeratt, FrontierHead Risu, Neith, Coach Bloodfist, E4 Abadon, Bamdee and Frontier Blade.</mark> <br />' +
+			'<b>Who\'s in the Admin Team?</b> The Admin Team\'s active members consist of: <mark>Champion Noah, Champion Bart, OnyxEagle, Artiste Jeratt, FrontierHead Risu, Neith, Coach Bloodfist, Coach Abadon, Bamdee and Frontier Blade.</mark> <br />' +
 			'<b>What exactly do you guys do?</b> The Admin Team handle or oversee all matters from disputes in the League, to League Challenge Registration <br />' +
 			'<b>How does one join the Admin team?</b> The Admin Team usually invites a select few senior members who\'ve shown to be mature and capable of handling responsibility. <br />' +
 			' <br />' +
-			'<center> All Admin team Members will be identifiable by having this badge on their cards:<center> <br />' +
+			'<center> All Admin team Members can be identified by their userlist highlight and by having this symbol on their badges:<center> <br />' +
 			'<center><img src="http://oi62.tinypic.com/14cfyh0.jpg"></center> <br />');
 	}
 };

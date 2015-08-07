@@ -729,10 +729,14 @@ Tournament = (function () {
 		}));
 		var tourSize = this.generator.getUsers().length;
 		if (this.room.isOfficial && tourSize >= 4) {
-			var results = this.generator.getResults().map(usersToNames);
+			var results = this.generator.getResults().map(usersToNames).toString();
 			console.log(this.generator.getResults().map(usersToNames));
-			var winner = results[0], runnerUp;
-			if (results[1]) runnerUp = results[1];
+			var winner, runnerUp;
+			if (results.indexOf(',') > -1) {
+				results = results.split(',');
+				winner = results[0];
+				runnerUp = results[1];
+			} else winner = results;
 			var winMoney = Math.round(tourSize/4);
 			var bucks1 = (winMoney === 1 ? 'buck' : 'bucks');
 			var runnerMoney = Math.round(winMoney/2);

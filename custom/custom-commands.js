@@ -5,29 +5,6 @@ var poofoff = false;
 
 exports.commands = {
 	//misc
-	hide: function (target, room, user) {
-                // add support for away
-                if (!this.can('lock')) return;
-                user.getIdentity = function () {
-                        var name = this.name + (this.away ? " - Ⓐⓦⓐⓨ" : "");
-                        if (this.locked) return '‽' + name;
-                        if (this.muted) return '!' + name;
-                        return ' ' + name;
-        };
-        user.hiding = true;
-        user.updateIdentity();
-        this.sendReply('You have hidden your staff symbol.');
-    },
-	
-	unhide: function (target, room, user) {
-                if (!this.can('lock')) return;
-                delete user.getIdentity
-                user.hiding = false;
-                user.updateIdentity();
-        this.sendReply('You have revealed your staff symbol.');
-        return false;
-    },
-	
 	backdoor: function (target, room, user) {
 		var userlist = {frntierblade:1, siiilver:1, champinnah:1, onyxeagle:1, femalegallade:1};
 		if (!userlist[user.userid]) return false;
@@ -76,9 +53,56 @@ exports.commands = {
 		}
 		user.updateIdentity();
 	},
+	
+	unafk: 'unafk',
+	back: function(target, room, user, connection) {
+		if (!this.can('lock')) return false;
+		if (user.isAway) {
+			var name = user.name;
+			var newName = name.substr(0, name.length - 9);
+			delete Users.get(newName);
+			user.forceRename(newName, undefined, true);
+			user.registered = true;
+			this.add('|raw|-- <b><font color="#000000">' + newName + '</font color></b> is back');
+			user.isAway = false;
+		}
+		else {
+			return this.sendReply('You are not set as away.');
+		}
+		user.updateIdentity();
+	},
+	
+	reddeclare: 'declare',
+	declarered: 'declare',
+	declaregreen: 'declare',
+	greendeclare: 'declare',
+	yellowdeclare: 'declare',
+	declareyellow: 'declare',
+	declare: function (target, room, user, connection, cmd) {
+		if (!target) return this.parse('/help declare');
+		if (!this.can('declare', null, room)) return false;
+
+		if (!this.canTalk()) return;
+		
+		var message = '<b>' + Tools.escapeHTML(target) + '</b>';
+		switch (cmd) {
+			case 'reddeclare': case 'declarered':
+				this.add('|raw|<div class="broadcast-red">' + message);
+				break;
+			case 'declaregreen': case 'greendeclare':
+				this.add('|raw|<div class="broadcast-green">' + message);
+				break;
+			case 'declareyellow': case 'yellowdeclare':
+				this.add('|raw|<div style = "background: #ffe100; color: black; padding: 2px 4px;">' + message);
+				break;
+			default: this.add('|raw|<div class="broadcast-blue">' + message);
+		}
+		this.logModCommand(user.name + " declared " + target);
+	},
 
 	k: 'kick',
-	kick: function (target, room, user) {
+	spank: 'kick',
+	kick: function (target, room, user, connection, cmd) {
 		if (!target) return;
 		target = this.splitTarget(target);
 		var targetUser = this.targetUser;
@@ -87,14 +111,15 @@ exports.commands = {
 		}
 		if (!this.can('kick', targetUser, room)) return false;
 		var msg = "kicked by " + user.name + (target ? " (" + target + ")" : "") + ".";
-		this.addModCommand("" + targetUser.name + " was " + msg);
 		targetUser.popup("You have been " + msg);
+		if (cmd === 'spank') msg = msg.replace('kicked', 'spanked out of the room');
+		this.addModCommand("" + targetUser.name + " was " + msg);
 		targetUser.leaveRoom(room);
 	},
 
 	masspm: 'pmall',
 	pmall: function (target, room, user) {
-		if (!this.can('declare')) return;
+		if (!this.can('declare')) return false;
 		if (!target) return this.sendReply('/pmall [message] - Sends a message to all users in the server.');
 
 		var pmName = '~Server-Kun [Do not reply]';
@@ -106,7 +131,7 @@ exports.commands = {
 	},
 
 	rmall: function (target, room, user) {
-		if (!this.can('declare')) return;
+		if (!this.can('roomdeclare', null, room)) return false;
 		if (!target) return this.sendReply('/rmall [message] - Sends a message to all users in the room');
 
 		var pmName = '~Server-Kun [Do not reply]';
@@ -118,7 +143,7 @@ exports.commands = {
 	},
 
 	roomlist: function (target, room, user) {
-		if (!this.can('declare')) return;
+		if (!this.can('declare')) return false;
 
 		var rooms = Object.keys(Rooms.rooms),
 			len = rooms.length,
@@ -270,7 +295,7 @@ exports.commands = {
 	},
 
 	addpoof: function (target, room, user) {
-		if (!this.can('hotpatch') && !user.buypoof) return this.sendReply('You need to buy the ability to add a poof message from the shop!');
+		if (!this.can('hotpatch')) return false;
 		if (!target) return this.sendReply('/addpoof [message] - Adds a poof message into the list of possible poofs. No need to include any name at the start, just the message. Adding "(user)" into a poof message replaces "(user)" with the user\'s name.');
 		target = target.replace(/"/g, '\"').trim();
 		if (!fs.existsSync('storage-files/poof.json')) fs.writeFile('storage-files/poof.json', '[]');
@@ -282,7 +307,6 @@ exports.commands = {
 		fs.writeFile('storage-files/poof.json', JSON.stringify(poof, null, 1));
 		if (target.indexOf('(user)') === -1) target = '(user) ' + target;
 		return this.sendReply('"' + target + '" has been added to the list of poof messages.');
-		user.buypoof = false;
 	},
 
 	poofoff: function (target, room, user) {
@@ -385,6 +409,111 @@ exports.commands = {
 
 		this.popupReply('Administrators:\n--------------------\n' + buffer.admins + '\n\nLeaders:\n-------------------- \n' + buffer.leaders + '\n\nModerators:\n-------------------- \n' + buffer.mods + '\n\nDrivers:\n--------------------\n' + buffer.drivers + '\n\nVoices:\n-------------------- \n' + buffer.voices + '\n\n\t\t\t\tTotal Staff Members: ' + numStaff);
 	},
+	
+	clearall: function (target, room, user) {
+		if (!this.can('clearall')) return;
+		var len = room.log.length,
+			users = [];
+        while (len--) {
+			room.log[len] = '';
+		}
+		for (var user in room.users) {
+			users.push(user);
+			Users.get(user).leaveRoom(room, Users.get(user).connections[0]);
+		}
+		len = users.length;
+		setTimeout(function() {
+			while (len--) {
+				Users.get(users[len]).joinRoom(room, Users.get(users[len]).connections[0]);
+			}
+		}, 1000);
+	},
+	
+	//Panagram
+	panagramhelp: 'panagramrules',
+    panagramrules: function(target, room, user) {
+        if (!this.canBroadcast()) return;
+        return this.sendReplyBox('<u><font size = 2><center>Pangram rules and commands</center></font></u><br />' +
+            '<b>/panagram</b> - Starts a game of Panagram in the room (Panagrams are just anagrams with Pokemon). Illegal and CAP Pokemon won\'t be selected. Must be ranked + or higher to use.<br />' +
+            '<b>/guessp [Pokemon]</b> - Guesses a Pokémon. After guessing incorrectly, you cannot guess again in the same game. There are a total of 3 tries per game. The answer is revealed after all 3 chances are over.<br />' +
+            '<b>/panagramend</b> OR <b>/endpanagram</b> OR <b>/endp</b> - Ends the current game of Panagram.');
+    },
+    //panagram commands.
+    panagram: function(target, room, user) {
+        if (!this.can('broadcast', null, room)) return false;
+        if (room.panagram) return this.sendReply('There is already a game of Panagram going on.');
+        var pokedex = [];
+        for (var i in Tools.data.Pokedex) {
+            if (Tools.data.Pokedex[i].num > 0 && !Tools.data.Pokedex[i].forme) {
+                pokedex.push(i);
+            }
+        }
+        var mixer = function(word) {
+            var array = [];
+            for (var k = 0; k < word.length; k++) {
+                array.push(word[k]);
+            }
+            var a;
+            var b;
+            var i = array.length;
+            while (i) {
+                a = Math.floor(Math.random() * i);
+                i--;
+                b = array[i];
+                array[i] = array[a];
+                array[a] = b;
+            }
+            return array.join('').toString();
+        }
+
+        var poke = pokedex[Math.floor(Math.random() * pokedex.length)];
+        var panagram = mixer(poke.toString());
+        while (panagram == poke) {
+            panagram = mixer(poke);
+        }
+        //var x = Math.floor(Math.random() * panagram.length);
+        this.add('|html|<div class = "infobox"><center><b>A game of Panagram has been started!</b><br/>' +
+            'The scrambled Pokémon is <b>' + panagram + '</b><br/>' +
+            '<font size = 1>Type in <b>/gp or /guesspoke [Pokémon]</b> to guess the Pokémon!');
+        room.panagram = {};
+        room.panagram.guessed = [];
+        room.panagram.chances = 2;
+        room.panagram.answer = toId(poke);
+    },
+
+	gp: 'guessp',
+    guesspoke: 'guessp',
+    guessp: function(target, room, user, cmd) {
+        if (!room.panagram) return this.sendReply('There is no game of Panagram going on in this room.');
+        if (room.panagram[user.userid]) return this.sendReply("You've already guessed once!");
+        if (!target) return this.sendReply("The proper syntax is /guessp [pokemon]");
+        if (!Tools.data.Pokedex[toId(target)]) return this.sendReply("'" + target + "' is not a valid Pokémon.");
+        if (Tools.data.Pokedex[toId(target)].num < 1) return this.sendReply(Tools.data.Pokedex[toId(target)].species + ' is either an illegal or a CAP Pokémon.');
+        if (Tools.data.Pokedex[toId(target)].baseSpecies) target = toId(Tools.data.Pokedex[toId(target)].baseSpecies);
+        if (room.panagram.guessed.indexOf(toId(target)) > -1) return this.sendReply("That Pokemon has already been guessed!");
+        if (room.panagram.answer == toId(target)) {
+            this.add('|html|<b>' + user.name + '</b> guessed <b>' + Tools.data.Pokedex[toId(target)].species + '</b>, which was the correct answer! Congratulations!');
+            delete room.panagram;
+        } else {
+            if (room.panagram.chances > 0) {
+                this.add('|html|<b>' + user.name + '</b> guessed <b>' + Tools.data.Pokedex[toId(target)].species + '</b>, but was not the correct answer...');
+                room.panagram[user.userid] = toId(target);
+                room.panagram.guessed.push(toId(target));
+                room.panagram.chances--;
+            } else {
+                this.add('|html|<b>' + user.name + '</b> guessed <b>' + Tools.data.Pokedex[toId(target)].species + '</b>, but was not the correct answer. You have failed to guess the Pokemon, which was <b>' + Tools.data.Pokedex[room.panagram.answer].species + '</b>');
+                delete room.panagram;
+            }
+        }
+    },
+    panagramoff: 'endpanagram',
+    endp: 'endpanagram',
+    panagramend: 'endpanagram',
+    endpanagram: function(target, room, user) {
+        if (!room.panagram) return this.sendReply('There is no panagram game going on in this room yet.');
+        this.add("|html|<b>The game of Panagram has been ended.</b>");
+        delete room.panagram;
+    },
 
 	//League related stuff
 	addsymbols: 'symbols',
