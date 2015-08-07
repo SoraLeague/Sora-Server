@@ -1,10 +1,6 @@
 To-do list:
-1) Finish Badge commands (Finished)
-2) Add tournament bucks
-3) Add tournament elo/tournament ranks
-4) Profiles
-5) Games (Finished)
-6) Spamroom (Finished)
-I'm pretty sure there are more tiny things, but these are all the major things I can think of at the moment.
-If anyone's done fixing anything, edit this file so that we get to know, kay~?
-~Silver
+1) Tournament elo
+2) New css
+3) Test transferbucks
+4) Tournament elo
+Yep, we're pretty much done!
