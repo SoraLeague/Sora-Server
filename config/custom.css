@@ -1,0 +1,222 @@
+/*Light blue- #b2e1ff,#97d5fc Normal blue- #007fff Dark Blue:#003972*/
+.header {
+	background-image:url("http://i59.tinypic.com/w19xfk.jpg");
+	background-repeat:no-repeat
+}
+body {
+	background-image:url("http://i.imgur.com/rlbo1UK.png");
+	background-repeat:no-repeat;
+	background-position:center
+}
+.header .logo {
+	opacity: 0;
+}
+/*li[id *= "champinnah"] button.userbutton.username:hover, li[id *= "frntierblade"] button.userbutton.username:hover, li[id *= "chmpionbart"] button.userbutton.username:hover, li[id *= "femalegallade"] button.userbutton.username:hover, li[id *= "onyxeagle"] button.userbutton.username:hover, li[id *= "artistejeratt"] button.userbutton.username:hover, li[id *= "coachabadon"] button.userbutton.username:hover, li[id *= "coachbloodfist"] button.userbutton.username:hover, li[id *= "neithcass"] button.userbutton.username:hover, li[id *= "bamdee"] button.userbutton.username:hover {
+    background: rgb(252,183,63);
+}*/
+
+li#lobby-userlist-user-champinnah, li#lobby-userlist-user-frntierblade, li#lobby-userlist-user-chmpionbart, li#lobby-userlist-user-femalegallade, li#lobby-userlist-user-onyxeagle, li#lobby-userlist-user-artistejeratt, li#lobby-userlist-user-coachabadon, li#lobby-userlist-user-coachbloodfist, li#lobby-userlist-user-neithcass, li#lobby-userlist-user-bamdee, li#lobby-userlist-user-frontierheadrisu {
+    background: url("http://i1171.photobucket.com/albums/r545/Brahak/adminteamthing_zpspbese1su.png");
+}
+/*
+.roomlist a.ilink {
+  color: #b2e1ff;
+  text-shadow: 1px 1px #000;
+  background: #007fff
+}
+.roomlist a.ilink:hover {
+  color: #ffffff;
+  padding: 4px;
+  text-shadow: 1px 1px #000;
+  background: #007fff
+}
+.pm-window h3 {
+      color: #FFFFFF;
+        background: #003972;
+      border-color: #007fff
+    }
+.pm-window h3:hover {
+      color: #b2e1ff;
+        background: #003972;
+      border-color: #007fff
+    }
+      
+.pm-window.focused h3 {
+      color: #FFFFFF;
+        background: #000;
+      border-color: #007fff
+    }
+.pm-window.focused h3:hover {
+      color: #b2e1ff;
+        background: #000;
+      border-color: #007fff
+    }
+.tournament-bracket {
+  background: #333333 url("http://i1171.photobucket.com/albums/r545/Brahak/checks_zpsry5renpb.png");
+    color: #FFFFFF
+  }
+.tournament-wrapper {
+  background: #000;
+      color: #b2e1ff
+  }
+.tournament-status, .tournament-toggle {
+  color: #FFFFFF;
+  background: #003972
+}
+.ps-popup {
+  background: #b2e1ff url("http://i1171.photobucket.com/albums/r545/Brahak/checks_zpsry5renpb.png");
+  border-radius: 0px;
+  border: 2px solid;
+  border-color: #003972
+}
+.pm-log-add, .highlighted {
+  background: #b2e1ff
+ }
+.pm-log {
+  background: #97d5fc
+}
+.ps-room.ps-room-light.scrollable {
+		color: #b2e1ff;
+		background:#000 url("http://i1171.photobucket.com/albums/r545/Brahak/checks_zpsry5renpb.png")
+}
+.teamchartbox {
+  	color: #b2e1ff;
+	background:#003972
+}
+.teambuilder-results li.result span.col {
+  color: #007fff;
+}
+.message li.result span.col {
+  color: #000;
+}
+.roomlist {
+  color: #b2e1ff
+  }
+.highlighted {
+  background: #97d5fc
+}
+a.closebutton, a.minimizebutton {
+  color: #007fff;
+  background: none;
+}
+li#lobby-userlist-users {
+  color: #FFFFFF
+}
+button {
+  	background: #000000;
+  	color: #007fff;
+  	border: 1px solid;
+}
+button:hover {
+  	background: #444444;
+  	color: #007fff;
+  	border: 1px solid;
+}
+button.userbutton.username {
+  	text-shadow: 1px 1px #000000
+}
+ul.userlist {
+  background: #007fff url("http://i1171.photobucket.com/albums/r545/Brahak/thing_zpshzc5tm3u.png") no-repeat;
+}
+body {
+	background-image:url("http://oi58.tinypic.com/27zxjs6.jpg");
+	background-repeat:no-repeat;
+	background-position:center
+}
+a.button.cur, .maintabbarbottom {
+  background: #000000;
+  border: 1px solid;
+  border-color: #007fff
+}*/
+.chat-log {
+	font-size:8pt;
+	font-family:Arial;
+	background:url("http://i61.tinypic.com/2i0cj08.jpg") no-repeat scroll center;
+	color:#000;
+	overflow:auto
+}/*
+.tabbar a.button, .tabbar a.button.cur, a.button.cur.closable, a.button.cur.closable:hover {
+  background: url("http://i1171.photobucket.com/albums/r545/Brahak/thing2_zpsrt7nw9no.png");
+  color: #007fff;
+  border: 1px solid;
+  border-color: #007fff;
+  text-shadow: 2px 2px #000000
+}
+.tabbar a.button.cur:hover {
+  	background: #000000;
+     color: #007fff;
+  border: 1px solid;
+  border-color: #007fff
+        }
+.tabbar a.button:hover {
+  background: #333333;
+  color: #007fff;
+  border: 1px solid;
+  border-color: #007fff
+}
+i.icon-home, i.icon-cog, i.icon-volumeup {
+  color: #007fff;
+  background: none
+}
+.menugroup .formatselect, .menugroup .teamselect {
+  	border-radius: 0px;
+    border: 1px solid;
+    color: #007fff;
+    border-color: #007fff;
+    background: #000000;
+    }
+.menugroup .preselected {
+  	border-radius: 0px;
+    color: #FFFFFF;
+    background: #003972;
+    opacity: .9
+    }
+.menugroup .button {
+	background: #000000;
+    opacity: 1;
+  	color: #007fff;
+  	border-color: #007fff;
+  	border-radius: 0px;
+    padding: 2px;
+  	border: 1px solid;
+}
+button.big.button.disabled, button.big.button.disabled:hover, .menugroup .button:hover {
+	background:#333333;
+  	color: #007fff;
+  	border-color: #007fff;
+  	border-radius: 0px;
+  	border: 1px solid;
+}*/
+.sunnydayweather {
+	background:#FEB url("//play.pokemonshowdown.com/fx/weather-sunnyday.jpg") no-repeat scroll left top;
+	color:#641;
+	text-shadow:1px 1px 0 #fff,1px -1px 0 #fff,-1px 1px 0 #fff,-1px -1px 0 #fff
+}
+.rainweather,.raindanceweather {
+	background:#9BF url("//play.pokemonshowdown.com/fx/weather-raindance.jpg") no-repeat scroll left top;
+	color:#04B;
+	text-shadow:1px 1px 0 #fff,1px -1px 0 #fff,-1px 1px 0 #fff,-1px -1px 0 #fff
+}
+.sandstormweather {
+	background:#E6E0AC url("//play.pokemonshowdown.com/fx/weather-sandstorm.png") no-repeat scroll left top;
+	color:#543;
+	text-shadow:1px 1px 0 #fff,1px -1px 0 #fff,-1px 1px 0 #fff,-1px -1px 0 #fff
+}
+.hailweather {
+	background:#ADE url("//play.pokemonshowdown.com/fx/weather-hail.png") no-repeat scroll left top;
+	color:#145;
+	text-shadow:1px 1px 0 #fff,1px -1px 0 #fff,-1px 1px 0 #fff,-1px -1px 0 #fff
+}
+.acidrainweather,.contaminateweather {
+	background:#a64ca6 url("http://i44.tinypic.com/2w71ziv.jpg") no-repeat scroll left top;
+	color:#400040;
+	text-shadow:1px 1px 0 #fff,1px -1px 0 #fff,-1px 1px 0 #fff,-1px -1px 0 #fff
+}
+.pseudoweather {
+	background:#DAE url("//play.pokemonshowdown.com/fx/weather-trickroom.png") no-repeat scroll left top;
+	color:#615;
+	text-shadow: 1px 1px 0 #fff,1px -1px 0 #fff,-1px 1px 0 #fff,-1px -1px 0 #fff
+}
+.yellowboxed {
+	background-color: #ABAB21 ;
+}
