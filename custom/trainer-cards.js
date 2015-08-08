@@ -572,6 +572,11 @@ exports.commands = {
 			'- Ex-Balanced Hackmons Frontier of Yagagadrazeel<br />' +
 			'<img src="http://play.pokemonshowdown.com/sprites/xyani-shiny/greninja.gif"><img src="http://play.pokemonshowdown.com/sprites/xyani/ferrothorn.gif"><img src="http://play.pokemonshowdown.com/sprites/xyani-shiny/sharpedo.gif"><img src="http://play.pokemonshowdown.com/sprites/xyani/garchomp.gif">');
 	},
+	
+	test: function (target, room, user) {
+		if (!this.canBroadcast()) return;
+		this.sendReplyBox('<b>Test</b>');
+	},
 	////////////
 	//Music Cards
 	//////////////
