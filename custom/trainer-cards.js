@@ -2,7 +2,7 @@ var badgeList = JSON.parse(require('fs').readFileSync('storage-files/badges.json
 function seen (user) {
 	user = toId(user);
 	if (Users.get(user) && Users.get(user).connected) return '';
-	return '<b>Last Seen:</b> ' + Core.getLastSeen(user).split(', ')[0];
+	return '<b>Last Seen:</b> ' + Core.getLastSeen(user).split(', ')[0] + ' ago';
 }
 function getBadges (user) {
 	user = toId(user);
@@ -29,7 +29,7 @@ exports.commands = {
 		}
 		this.sendReplyBox('<center><b>Admin Team</b><br />' + total + '</table></center>');
 		var total = '<table><tr><th>User</th><th>Last Seen</th></tr>';
-		var list = ['∆E4 H∆', '∆E4 Edge∆', '∆Frontier Asch∆', '∆Frontier∆ Srewop', '∆Fröntier∆Blade☯', '∆Frontier∆ Tempest', '∆Frontier Zachary∆', '∆Frontier Meows∆'];
+		var list = ['∆E4 Edge∆', '∆E4 Terror∆', '∆E4 Leaf∆', '∆E4 H∆', '∆Frontier Asch∆', '∆Frontier∆ Srewop', '∆Fröntier∆Blade☯', '∆Frontier∆ Tempest', '∆Frontier Zachary∆', '∆Frontier Meows∆'];
 		for (var i = 0; i < list.length; i++) {
 			var Seen = Users.get(list[i]) && Users.get(list[i]).connected ? '<font color = "green">Online</font>' : seen(list[i]).substr(18);
 			if (Seen === 'never') Seen = '<font color = "red">Never</font>';
@@ -38,8 +38,8 @@ exports.commands = {
 		}
 		this.sendReplyBox('<details><summary><b>Elite 4\'s and Frontiers</b></summary><center>' + total + '</table></details></center>');
 		var total = '<table><tr><th>User</th><th>Last Seen</th></tr>';
-		var list = ['∆Gym Ldr Lou∆', '∆Gym Ldr Connor∆', '∆Gym Ldr Terror∆', '∆Gym Ldr Floatzel∆', '∆Gym Ldr Poppy∆',
-			'∆Gym Ldr Leaf∆', '∆Gym Ldr Mark∆', '∆Gym Ldr Dårküs∆', '∆Gym Ldr Core∆', '∆Gym Ldr Dranzar∆', '∆Gym Ldr Indeter∆', '∆Gym Ldr Banshee∆', '∆Gym Ldr Dexter∆', '∆Gym Ldr Waffles∆', '∆Gym Ldr Taco∆'
+		var list = ['∆Gym Ldr Lou∆', '∆Gym Ldr Connor∆', '∆Gym Ldr Floatzel∆', '∆Gym Ldr Poppy∆',
+			'∆Gym Ldr Mark∆', '∆Gym Ldr Dårküs∆', '∆Gym Ldr Core∆', '∆Gym Ldr Dranzar∆', '∆Gym Ldr Indeter∆', '∆Gym Ldr Banshee∆', '∆Gym Ldr Dexter∆', '∆Gym Ldr Waffles∆', '∆Gym Ldr Taco∆'
 		];
 		for (var i = 0; i < list.length; i++) {
 			var Seen = Users.get(list[i]) && Users.get(list[i]).connected ? '<font color = "green">Online</font>' : seen(list[i]).substr(18);
@@ -134,6 +134,30 @@ exports.commands = {
 			getBadges('e4edge'));
 	},
 
+	leaf: function (target, room, user) {
+		if (!this.canBroadcast()) return;
+		this.sendReplyBox('E4 <b>Leaf</b><br />' +
+			'<i>"The pattern repeats, will your flaws too?"</i> <br />' +
+			'<b>Type: <font color = ff00b6>Psychic</font></b><br />' +
+			'<b>Ace:</b> Medicham<br />' +
+			'<b>Battle Rules:</b><br />' +
+			'-None<br />' + 
+			seen('e4leaf') +
+			'<audio src="https://dl.pushbulletusercontent.com/nfP9iY95TAbBnLzJf1cAbLG7qegceAan/Last%20Decision%20%28%20Remastered%20And%20Extended%20%29.mp3" controls="" style="width: 100% ; border: 2px solid #700000 ; background-color: #000000" target="_blank"></audio>' +
+			getBadges('e4leaf'));
+	},
+	
+	terror: function (target, room, user) {
+		if (!this.canBroadcast()) return;
+		this.sendReplyBox('E4 <b>Terror</b><br />' +
+			'<i>"Better get out of the water because the waves are coming for you."</i> <br />' +
+			'<b>Type: <font color = 0745ff>Water</font></b><br />' +
+			'<b>Ace:</b> No idea<br />' +
+			'<b>Battle Rules:</b><br />' +
+			'-None<br />' + 
+			seen('e4terror') +
+			getBadges('e4terror'));
+	},
 	/*sube4: function(target, room, user) {
 		if (!this.canBroadcast()) return;
 		this.sendReplyBox('<center>Sub E4 Position: <b><font color = FF0000>Offline</font></b></center><br />'+
@@ -384,16 +408,13 @@ exports.commands = {
 			'<b>Type: <font color = aa00ff>Poison</font></b><br />' +
 			'<b>Ace:</b> Box Ghost (Gengar)<br />' + seen('gymldrpoppy') + getBadges('gymldrpoppy'));
 	},
-
-	psychic: 'leaf',
-	leaf: function (target, room, user) {
+	
+	psychic: function (target, room, user) {
 		if (!this.canBroadcast()) return;
-		this.sendReplyBox('Gym Ldr <b>Leaf</b><br />' +
-			'Leader Ranking: <font color =FF0000><b>1st</font></b> <br />' +
-			'<i>"The pattern repeats, will your flaws also?"</i> <br />' +
+		this.sendReplyBox('Gym Ldr <b>???</b><br />' +
+			'<i>"???"</i> <br />' +
 			'<b>Type: <font color = ff00b6>Psychic</font></b><br />' +
-			'<b>Ace:</b> Medicham <br />' +
-			seen('gymldrleaf') + getBadges('gymldrleaf'));
+			'<b>Ace:</b> <br />' + seen(''));
 	},
 
 	rock: 'core',

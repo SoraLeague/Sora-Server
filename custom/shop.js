@@ -117,6 +117,7 @@ exports.commands = {
         target = this.splitTarget(target);
         var targetUser = this.targetUser;
 		if (!targetUser) return this.sendReply('User ' + this.targetUsername + ' not found.');
+		if (targetUser.userid === user.userid) return this.sendReply('You can\'t transfer bucks to yourself!');
 		if (!toId(target)) return this.sendReply('You need to specify the number of bucks you want to transfer to ' + targetUser.name);
 		if (isNaN(target)) return this.sendReply(target + " isn't a valid number.");
 		if (Core.read('money', user.userid) < target) return this.sendReply('You can\'t give ' + targetUser.name + ' more than what you have!');

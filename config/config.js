@@ -304,7 +304,6 @@ exports.grouplist = [
 		jurisdiction: '@u',
 		promote: 'u',
 		forcewin: true,
-		declare: true,
 		modchatall: true,
 		rangeban: true,
 		potd: true,
@@ -348,7 +347,6 @@ exports.grouplist = [
 		redirect: true,
 		ip: true,
 		alts: '@u',
-		tournaments: true
 	},
 	{
 		symbol: '%',
@@ -383,7 +381,8 @@ exports.grouplist = [
 		id: "voice",
 		name: "Voice",
 		inherit: ' ',
-		broadcast: true
+		broadcast: true,
+		tournaments: true
 	},
 	{
 		symbol: ' ',
