@@ -183,3 +183,47 @@ Users.prototype.chat = function (message, room, connection) {
 		ResourceMonitor.activeIp = null;
 	}
 };
+
+Users.User.prototype.resetName = function () {
+		Core.write('lastseen', this.userid, Date.now());
+		var name = 'Guest ' + this.guestNum;
+		var userid = toId(name);
+		if (this.userid === userid) return;
+
+		var i = 0;
+		while (Users.users[userid] && Users.users[userid] !== this) {
+			this.guestNum++;
+			name = 'Guest ' + this.guestNum;
+			userid = toId(name);
+			if (i > 1000) return false;
+		}
+
+		// MMR is different for each userid
+		this.mmrCache = {};
+		Rooms.global.cancelSearch(this);
+
+		if (this.named) this.prevNames[this.userid] = this.name;
+		delete Users.prevUsers[userid];
+		Users.prevUsers[this.userid] = userid;
+
+		this.name = name;
+		var oldid = this.userid;
+		delete Users.users[oldid];
+		this.userid = userid;
+		Users.users[this.userid] = this;
+		this.registered = false;
+		this.group = Config.groupsranking[0];
+		this.isStaff = false;
+		this.isSysop = false;
+
+		for (var i = 0; i < this.connections.length; i++) {
+			// console.log('' + name + ' renaming: connection ' + i + ' of ' + this.connections.length);
+			var initdata = '|updateuser|' + this.name + '|' + (false ? '1' : '0') + '|' + this.avatar;
+			this.connections[i].send(initdata);
+		}
+		this.named = false;
+		for (var i in this.roomCount) {
+			Rooms.get(i, 'lobby').onRename(this, oldid, false);
+		}
+		return true;
+};
