@@ -28,7 +28,6 @@ var commands = exports.commands = {
 	},
 
 	auth: 'authority',
-	stafflist: 'authority',
 	globalauth: 'authority',
 	authlist: 'authority',
 	authority: function (target, room, user, connection) {
