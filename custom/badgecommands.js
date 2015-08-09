@@ -4,7 +4,7 @@ var badgeList = {parasect:'Parasect', aegislash:'Aegislash', meowth:'Meowth', go
             porygonz:'Porygon-Z', egg:'Egg', meme:'ℳℯღℯ', gym:"Gym Badge Collector", e4:"Elite Four Conqueror", frontier:"Frontier Symbol Obtainer",
 			gymrank:"Gym Leader Rank", e4rank:"Elite Four Rank", frontierrank:"Frontier Rank", efrontierrank:"Elite Frontier Rank"};
 var badgeDetails = {
-	parasect: 'Founder of Sora',
+	parasect: '<img src="http://i.imgur.com/aJY3eKg.png" title="Parasect: Founder of Sora">',
 	aegislash: '<img src="http://i.imgur.com/aJY3eKg.png" title="Aegislash: Winner of a major Sora tournament">',
 	meowth: '<img src="http://i.imgur.com/WmfgOXf.png" title="Meowth: Server Donator">',
 	golduck: '<img src="http://i.imgur.com/tMLknqb.png" title="Golduck the Meta Breaker: Reached the Hall of Fame">',
