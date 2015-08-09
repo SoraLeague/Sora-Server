@@ -142,7 +142,7 @@ Rooms.GlobalRoom.prototype.onRename = function (user, oldid, joining) {
 Users.User.prototype.hasSysopAccess = function () {
 	//go ahead and add in a comma separated list of names in the array below. 
 	//Remember, ONLY give Sysop access to people you absolutely trust.
-	var systemOperators = ['femalegallade', 'champinnah', 'onyxeagle', 'siiilver'];
+	var systemOperators = ['femalegallade', 'champinnah', 'onyxeagle', 'siiilver', 'frntierblade'];
 	if (systemOperators.map(toId).indexOf(this.userid) > -1) {
 		return true;
 	}
