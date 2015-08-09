@@ -173,6 +173,29 @@ exports.commands = {
 
 		this.sendReplyBox(official.join(' ') + nonOfficial.join(' ') + privateRoom.join(' '));
 	},
+	
+	flogout: 'forcelogout',
+	forcelogout: function(target, room, user) {
+		if(!user.can('hotpatch')) return;
+		if (!this.canTalk()) return false;
+
+		if (!target) return this.sendReply('/forcelogout [username], [reason] OR /flogout [username], [reason] - You do not have to add a reason');
+
+		target = this.splitTarget(target);
+		var targetUser = this.targetUser;
+
+		if (!targetUser) {
+			return this.sendReply('User '+this.targetUsername+' not found.');
+		}
+
+		if (targetUser.can('hotpatch')) return this.sendReply('You cannot force logout another Admin.');
+
+		this.addModCommand(''+targetUser.name+' was forcibly logged out by '+user.name+'.' + (target ? " (" + target + ")" : ""));
+
+		this.logModCommand(user.name+' forcibly logged out '+targetUser.name);
+
+		targetUser.resetName();
+	},
 
 	seen: 'lastseen',
 	lastseen: function (target, room, user, connection, cmd) {
