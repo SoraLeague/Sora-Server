@@ -1758,10 +1758,6 @@ var commands = {
 	opensourcehelp: ["/opensource - Links to PS's source code repository.",
 		"!opensource - Show everyone that information. Requires: + % @ # & ~"],
 
-	staff: function (target, room, user) {
-		if (!this.canBroadcast()) return;
-		this.sendReplyBox("<a href=\"https://www.smogon.com/sim/staff_list\">Pok&eacute;mon Showdown Staff List</a>");
-	},
 
 	forums: function (target, room, user) {
 		if (!this.canBroadcast()) return;
