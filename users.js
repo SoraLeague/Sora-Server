@@ -732,8 +732,8 @@ User = (function () {
 	};
 	var bannedNameStartChars = {'~':1, '&':1, '@':1, '%':1, '+':1, '-':1, '!':1, '?':1, '#':1, ' ':1, '{':1, '}':1};
 	User.prototype.filterName = function (name) {
-		if (Config.namefilter) {
-			name = Config.namefilter(name);
+		if (Config.nameFilter) {
+			name = Config.nameFilter(name);
 		}
 		name = toName(name);
 		while (bannedNameStartChars[name.charAt(0)]) {
