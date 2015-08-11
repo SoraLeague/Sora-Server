@@ -730,12 +730,15 @@ User = (function () {
 			Rooms.get(i, 'lobby').onUpdateIdentity(this);
 		}
 	};
+	var bannedNameStartChars = {'~':1, '&':1, '@':1, '%':1, '+':1, '-':1, '!':1, '?':1, '#':1, ' ':1, '{':1, '}':1};
 	User.prototype.filterName = function (name) {
 		if (Config.namefilter) {
 			name = Config.namefilter(name, this);
 		}
 		name = Tools.getName(name);
-		name = name.replace(/^[^A-Za-z0-9]+/, "");
+		while (bannedNameStartChars[name.charAt(0)]) {
++   			name = name.substr(1);
++   		}
 		return name;
 	};
 	/**
