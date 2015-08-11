@@ -23,52 +23,37 @@ exports.commands = {
     },
     
 	afk: 'away',
+	dinner: 'away',
 	dindins: 'away',
 	busy: 'away',
 	away: function (target, room, user, connection, cmd) {
-		if (!this.can('lock')) return false;
-		if (!user.isAway) {
-			var awayMessage, awayName = user.name;
-			switch (cmd) {
-			case 'dindins':
-				awayMessage = 'is now having din dins.';
-				awayName += ' - ⒹⓘⓝⒹⓘⓝⓢ';
-				break;
-			case 'busy':
-				awayMessage = 'is now busy.';
-				awayName += ' - ⒷⓊⓈⓎ  ';
-				break;
-			default:
-				awayMessage = 'is now away.';
-				awayName += ' - ⒶⒻⓀ   ';
-			}
-			var originalName = user.name;
-			delete Users.get(awayName);
-			user.forceRename(awayName, undefined, true);
-			this.add('|raw|-- <b><font color="#000000">' + originalName + '</font color></b> ' + awayMessage + ' ' + (target ? " (" + target + ")" : ""));
-			user.isAway = true;
-			user.blockChallenges = true;
-		} else {
-			return this.sendReply('You are already set as away, type /back if you are now back');
-		}
+		if (user.isAway) return this.parse('/back');
+		var Names = {dindins: ' - ⒹⓘⓝⒹⓘⓝⓢ', dinner: ' - ⒹⓘⓝⒹⓘⓝⓢ', busy: '- ⒷⓊⓈⓎ'};
+		var Messages = {dindins: 'is now having dindins', dinner: 'is now having dinner', busy: 'is now busy'};
+		
+		user.awayName = Names[cmd] || '- ⒶⒻⓀ';
+		var awayMessage = Messages[cmd] || 'is now away';
+		target = target.escapeHTML();
+		var name = user.name;
+		
+		if (user.isStaff) this.add('|raw|-- <b><font color="#000000">' + name + '</font></b> ' + awayMessage + '. ' + (target ? " (" + target + ")" : ""));
+		else this.sendReply('You are now away.');
+		for (var i in Names) name = name.replace(RegExp(Names[i], 'g'), '');
+		user.forceRename(name + user.awayName, undefined, true);
+		user.isAway = true;
+		user.blockChallenges = true;
 		user.updateIdentity();
 	},
 	
 	unafk: 'unafk',
 	back: function(target, room, user, connection) {
-		if (!this.can('lock')) return false;
-		if (user.isAway) {
-			var name = user.name;
-			var newName = name.substr(0, name.length - 9);
-			delete Users.get(newName);
-			user.forceRename(newName, undefined, true);
-			user.registered = true;
-			this.add('|raw|-- <b><font color="#000000">' + newName + '</font color></b> is back');
-			user.isAway = false;
-		}
-		else {
-			return this.sendReply('You are not set as away.');
-		}
+		if (!user.isAway) return this.sendReply('You are not set as away.');
+		var name = user.name.replace(RegExp(user.awayName, 'g'), '');
+		user.forceRename(name, undefined, true);
+		if (user.isStaff) this.add('|raw|-- <b><font color="#000000">' + user.name + '</font></b> is back.');
+		user.isAway = false;
+		delete user.awayName;
+		user.blockChallenges = false;
 		user.updateIdentity();
 	},
 	

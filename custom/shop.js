@@ -5,7 +5,7 @@ var request = require('request');
 function addLog (message) {
 	if (!global.moneyLog) global.moneyLog = '';
 	var d = new Date();
-	global.moneyLog += '<small>[' + (d.getYear() + 1900) + '-' + (d.getMonth() + 1) + '-' + d.getDay() + ' ' + d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds() + ']</small> ';
+	global.moneyLog += '<small>[' + d.format('{yyyy}-{MM}-{dd} {hh}:{mm}:{ss} {tt}') + ']</small> ';
 	global.moneyLog += message + '<br/>';
 }
 

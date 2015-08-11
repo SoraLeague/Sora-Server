@@ -1669,7 +1669,8 @@ var ChatRoom = (function () {
 			var entry = '|J|' + user.getIdentity(this.id);
 			this.reportJoin(entry);
 		}
-
+		user.updateIdentity();
+		
 		return user;
 	};
 	ChatRoom.prototype.onRename = function (user, oldid, joining) {
