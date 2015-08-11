@@ -944,7 +944,9 @@ module.exports = (function () {
 				maybeData['Battle' + dataType] = {}; // Fall back to an empty object
 			}
 			var BattleData = maybeData['Battle' + dataType];
-			if (!BattleData || typeof BattleData !== 'object') throw new TypeError("Exported property `Battle" + dataType + "`from `" + './data/' + dataFiles[dataType] + "` must be an object except `null`.");
+			if (!BattleData || typeof BattleData !== 'object') {
+				if (dataType === 'Statuses') BattleData = require('./data/statuses.js').BattleStatuses;
+			}
 			if (BattleData !== data[dataType]) data[dataType] = Object.merge(BattleData, data[dataType]);
 		});
 		if (this.isBase) {

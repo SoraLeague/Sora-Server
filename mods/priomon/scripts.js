@@ -150,7 +150,6 @@ exports.BattleScripts = {
                 this.modData('Learnsets', 'skiddo').learnset.sapblast = ['5M'];
                 this.modData('Learnsets', 'gogoat').learnset.sapblast = ['5M'];
                 this.modData('Learnsets', 'shaymin').learnset.sapblast = ['5M'];
-                this.modData('Learnsets', 'shayminsky').learnset.sapblast = ['5M'];
                 this.modData('Learnsets', 'leafeon').learnset.sapblast = ['5M'];
                 this.modData('Learnsets', 'sewaddle').learnset.sapblast = ['5M'];
                 this.modData('Learnsets', 'swadloon').learnset.sapblast = ['5M'];
