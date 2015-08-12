@@ -3,7 +3,7 @@
  
 var hangman = exports.hangman = {};
  
-function hasGuessedWord(user, object) {
+function hasGuessedWord (user, object) {
         for (var i in object)
                 if ((object[i] === Users.get(user).userid || !Users.get(user).getAlts().map(toId).indexOf(object[i]) > -1) && i.length > 1) return true;
         return false;
