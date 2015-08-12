@@ -17,7 +17,7 @@ function loadAvatars () {
 	for (var i = 0; i < avatarList.length; i++) {
 		var name = path.basename(avatarList[i], path.extname(avatarList[i]));
 		if (Config.customavatars[name] || formatList.indexOf(path.extname(avatarList[i])) === -1) continue;
-		for (var j in Config.customavatars) if (Config.customavatars[j] === avatarList[i]) continue;
+		if (Number(i)) continue;
 		Config.customavatars[name] = avatarList[i];
 	}
 }
