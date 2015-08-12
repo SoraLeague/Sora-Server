@@ -440,8 +440,7 @@ exports.commands = {
 
 	},
 
-	water: 'terror',
-	terror: function (target, room, user) {
+	water: function (target, room, user) {
 		if (!this.canBroadcast()) return;
 		this.sendReplyBox('Gym Ldr <b>???</b> <br />' +
 			'<i>"???"</i> <br />' +
