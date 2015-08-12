@@ -153,9 +153,8 @@ exports.inactiveuserthreshold = 1000 * 60 * 60;
 //
 // Your server *must* be registered in order for your custom avatars to be
 // displayed in the client.
-exports.customavatars = JSON.parse(require('fs').readFileSync('storage-files/customavatars.json'));
-
-	/*'onyxeagle': '057.gif',
+exports.customavatars = {
+	'onyxeagle': '057.gif',
 	  'chmpionbart': '100.gif',
 	  'champinnah': '113.png',
 	  'artistejeratt': '045.jpg',
@@ -170,7 +169,6 @@ exports.customavatars = JSON.parse(require('fs').readFileSync('storage-files/cus
 	  'gymldrsnowking': '082.gif',
 	  'gymldrkrenon': '017.gif',
 	  'frontierasch': '108.gif',
-	  'kingarani': '019.png',
 	  'gymldrlynne': '020.png',
 	  'trollfacejpg': '021.png',
 	  'hooh': '022.gif',
@@ -222,7 +220,7 @@ exports.customavatars = JSON.parse(require('fs').readFileSync('storage-files/cus
 	  'gymldrleo': '118.gif',
 	  'gymldrterror': '119.gif',
 	  'drianmalcolm': '121.jpg'
-};*/
+};
 
 // Tournament announcements
 // When tournaments are created in rooms listed below, they will be announced in

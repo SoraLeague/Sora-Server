@@ -1,12 +1,39 @@
 //This is the shop. Pretty self explanatory :P
 var fs = require('fs');
 var request = require('request');
+var path = require('path');
 
 function addLog (message) {
 	if (!global.moneyLog) global.moneyLog = '';
 	var d = new Date();
 	global.moneyLog += '<small>[' + d.format('{yyyy}-{MM}-{dd} {hh}:{mm}:{ss} {tt}') + ']</small> ';
 	global.moneyLog += message + '<br/>';
+}
+
+//Avatar reloading
+function loadAvatars () {
+	var formatList = ['.png', '.gif', '.bmp', '.jpeg', '.jpg'];
+	var avatarList = fs.readdirSync('config/avatars');
+	for (var i = 0; i < avatarList.length; i++) {
+		var name = path.basename(avatarList[i], path.extname(avatarList[i]));
+		if (Config.customavatars[name] || formatList.indexOf(path.extname(avatarList[i])) === -1) continue;
+		for (var j in Config.customavatars) if (Config.customavatars[j] === avatarList[i]) continue;
+		Config.customavatars[name] = avatarList[i];
+	}
+}
+loadAvatars();
+
+if (Config.watchconfig) {
+	fs.watchFile(path.resolve(__dirname, 'config/config.js'), function (curr, prev) {
+		if (curr.mtime <= prev.mtime) return;
+		try {
+			delete require.cache[require.resolve('./config/config.js')];
+			global.Config = require('./config/config.js');
+			if (global.Users) Users.cacheGroupData();
+			console.log('Reloaded config/config.js');
+			loadAvatars();
+		} catch (e) {}
+	});
 }
 
 exports.commands = {
@@ -265,8 +292,8 @@ exports.commands = {
 		if (!user.boughtAvatar && !this.can('hotpatch')) return false;
 		if (typeof user.avatar === 'string') fs.unlink('config/avatars/' + user.avatar);
 		target = target.trim();
-		var formatList = ['png', 'jpg', 'gif', 'bmp'];
-		var format = target.substr(-3);
+		var formatList = ['.png', '.jpg', '.gif', '.bmp', '.jpeg'];
+		var format = path.extname(target);
 		if (formatList.indexOf(format) === -1) return this.sendReply('The format of your avatar is not supported. The allowed formats are ' + formatList.join(', ') + '.');
 		if (target.indexOf('https://') === 0) target = 'http://' + target.substr(8);
 		else if (target.indexOf('http://') !== 0) target = 'http://' + target;
@@ -276,11 +303,9 @@ exports.commands = {
 			return self.sendReply("The avatar you picked doesn\'t exist. Try picking a new avatar.");
 		}).on('response', function (response) {
 			if (response.statusCode == 404) return self.sendReply("The avatar you picked is unavailable. Try picking a new avatar.");
-			Core.write('customavatars', user.userid, user.userid + '.' + format);
-			user.avatar = Core.read('customavatars', user.userid);
+			Config.customavatars[user.userid] = user.avatar = user.userid + format;
 			self.sendReply('|html|Your new avatar has been set to<br/><img src = "' + target + '" width = 80 height = 80>');
-			response.pipe(fs.createWriteStream('config/avatars/' + user.userid + '.' + format));
-			reloadConfig();
+			response.pipe(fs.createWriteStream('config/avatars/' + user.userid + format));
 		});
 		user.boughtAvatar = false;
 	},
@@ -289,7 +314,7 @@ exports.commands = {
 		if (typeof user.avatar === 'Number') return this.sendReply('You do not own a custom avatar.');
 		if (toId(target) !== 'confirm')
 			this.sendReply('WARNING: If you choose to delete your avatar now, it cannot be recovered later. If you\'re sure you want to do this, use \'/removeavatar confirm.\'');
-		Core.Delete('customavatars', user.userid);
+		delete Config.customavatars[user.userid];
 		fs.unlink('config/avatars/' + user.avatar);
 		user.avatar = 1;
 		this.sendReply('Your custom avatar has been successfully removed.');
