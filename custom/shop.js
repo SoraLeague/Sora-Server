@@ -303,7 +303,8 @@ exports.commands = {
 			return self.sendReply("The avatar you picked doesn\'t exist. Try picking a new avatar.");
 		}).on('response', function (response) {
 			if (response.statusCode == 404) return self.sendReply("The avatar you picked is unavailable. Try picking a new avatar.");
-			Config.customavatars[user.userid] = user.avatar = user.userid + format;
+			user.avatar = user.userid + format;
+			Config.customavatars[user.userid] = user.avatar;
 			self.sendReply('|html|Your new avatar has been set to<br/><img src = "' + target + '" width = 80 height = 80>');
 			response.pipe(fs.createWriteStream('config/avatars/' + user.userid + format));
 		});
