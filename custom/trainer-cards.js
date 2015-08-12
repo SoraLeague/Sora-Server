@@ -443,12 +443,10 @@ exports.commands = {
 	water: 'terror',
 	terror: function (target, room, user) {
 		if (!this.canBroadcast()) return;
-		this.sendReplyBox('Gym Ldr <b>Terror</b> <br />' +
-			'Leader Ranking: <font color = 00ce0d><b>5th</font></b> <br />' +
-			'<i>"Better get out of the water because the waves are coming for you."</i> <br />' +
+		this.sendReplyBox('Gym Ldr <b>???</b> <br />' +
+			'<i>"???"</i> <br />' +
 			'<b>Type: <font color = 0745ff>Water</font></b><br />' +
-			'<b>Ace:</b> Sharpedo<br />' +
-			seen('gymldrterror') + getBadges('gymldrterror'));
+			'<b>Ace:</b> ???');
 	},
 
 	/////////////
