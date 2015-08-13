@@ -66,22 +66,22 @@ var Roulette = (function () {
 		var winners = [];
         if (random <= 3) {
             color = 'red';
-            payout = 4;
+            payout = 3;
         } else if (random <= 6) {
             color = 'yellow';
-            payout = 4;
+            payout = 3;
         } else if (random <= 8) {
             color = 'blue';
-            payout = 5;
+            payout = 4;
         } else if (random <= 10) {
             color = 'green';
-            payout = 5;
+            payout = 4;
         } else if (random <= 11) {
             color = 'black';
-            payout = 8;
+            payout = 7;
         } else {
             color = 'red';
-			payout = 4;
+			payout = 3;
         }
 	
 		for (var i in this.players) {
@@ -109,6 +109,10 @@ var Roulette = (function () {
                 '<center>The roulette landed on <font color = "' + color + '"><b>' + color + '<b>!</font><br />' +
                 '<center>The winners are:<br/>' +
                 '<center>' + winlist);
+			}
+			winners.forEach(function (user) {
+				user = Users.get(user);
+				Core.write('money', user.userid, payout, '+');
 			}
 		}
 		clearTimeout(this.timer);
